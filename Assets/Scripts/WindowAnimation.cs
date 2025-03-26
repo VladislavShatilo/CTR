@@ -27,23 +27,41 @@ public class WindowAnimation : MonoBehaviour
     }
     [SerializeField] private Image TransitionImage;
     [SerializeField] private Menu[] menus;
-    [SerializeField] private Vector3 lowPosition;
-    [SerializeField] private Vector3 highPosition;
-    [SerializeField] private Vector3 visiblePosition;
+     private Vector3 lowPosition;
+     private Vector3 highPosition;
+    private Vector3 visiblePosition;
     [SerializeField] private float duration = 0.5f;
 
     private void Start()
     {
+        float screenHeight = Screen.height * 1.5f;
+        Debug.Log(screenHeight);
+        lowPosition = new Vector3(0, -screenHeight, 0);
+        highPosition = new Vector3(0, screenHeight, 0);
+        Debug.Log(lowPosition + " " + highPosition);
+
+        if (menus.Length > 0)
+        {
+            float elementHeight = menus[0].menu.rect.height;
+            Debug.Log(elementHeight);
+            if (elementHeight > Screen.height)
+            {
+                lowPosition = new Vector3(0, -screenHeight * 1.5f, 0);
+                highPosition = new Vector3(0, screenHeight * 1.5f, 0);
+                Debug.Log(lowPosition + " " + highPosition);
+
+            }
+        }
         TransitionImage.gameObject.SetActive(false);
         foreach (var menu in menus)
         {
             menu.menu.anchoredPosition = lowPosition;
         }
         UIArcadeController controller = UIArcadeController.Instance;
-        controller.SettingInMenuOnButton.onClick.AddListener(delegate { ToggleMenuOn("Settings"); });
-        controller.SettingInMenuCloseButton.onClick.AddListener(delegate { ToggleMenuOff("Settings",0); });
-        controller.InfoInMenuOnButton.onClick.AddListener(delegate { ToggleMenuOn("AboutGameWindow"); });
-        controller.InfoInMenuCloseButton.onClick.AddListener(delegate { ToggleMenuOff("AboutGameWindow",0); });
+        controller.SettingInMenuOnButton.onClick.AddListener(delegate { ToggleMenuOn("SettingsWindow"); });
+        controller.SettingInMenuCloseButton.onClick.AddListener(delegate { ToggleMenuOff("SettingsWindow", 0); });
+        controller.InfoInMenuOnButton.onClick.AddListener(delegate { ToggleMenuOn("InfoGameWindow"); });
+        controller.InfoInMenuCloseButton.onClick.AddListener(delegate { ToggleMenuOff("InfoGameWindow", 0); });
         controller.PauseInGameOnButton.onClick.AddListener(delegate { ToggleMenuOn("PauseWindow"); });
         controller.PauseContinueButton.onClick.AddListener(delegate { ToggleMenuOff("PauseWindow",(int)PauseOptions.Continue); });
         controller.PauseRestartButton.onClick.AddListener(delegate { ToggleMenuOff("PauseWindow", (int)PauseOptions.Restart); });

@@ -41,6 +41,20 @@ public class WindowAnimation2 : MonoBehaviour
 
     private void Start()
     {
+        float screenHeight = Screen.height * 1.5f;
+        lowPosition = new Vector3(0, -screenHeight, 0);
+        highPosition = new Vector3(0, screenHeight, 0);
+
+        if (menus.Length > 0)
+        {
+            float elementWidth = menus[0].menu.rect.width;
+            if (elementWidth > Screen.width)
+            {
+                lowPosition = new Vector3(0, -screenHeight * 1.5f, 0);
+                highPosition = new Vector3(0, screenHeight * 1.5f, 0);
+
+            }
+        }
         TransitionImage.gameObject.SetActive(false);
         foreach (var menu in menus)
         {

@@ -9,7 +9,7 @@ public class OpenColorMenu : MonoBehaviour
 {
     [SerializeField] private RectTransform[] canvases; // массив из 3 кнопок
     [SerializeField] private float transitionTime = 0.5f;
-        [SerializeField] private Button OpenColorButton;
+    [SerializeField] private Button OpenColorButton;
     [SerializeField] private Button CloseColorButton;
 
     private int currentIndex = 0;
@@ -23,9 +23,20 @@ public class OpenColorMenu : MonoBehaviour
         OpenColorButton.onClick.AddListener(delegate { SlideRight(); });
         CloseColorButton.onClick.AddListener(delegate { SlideLeft(); });
 
-        float screenWidth = Screen.width;
+
+        float screenWidth = Screen.width * 1.5f;
         offLeft = new Vector2(-screenWidth, 0);
         offRight = new Vector2(screenWidth, 0);
+
+        if (canvases.Length > 0)
+        {
+            float elementWidth = canvases[0].rect.width;
+            if (elementWidth > Screen.width)
+            {
+                offLeft = new Vector2(-elementWidth * 1.5f, 0);
+                offRight = new Vector2(elementWidth * 1.5f, 0);
+            }
+        }
         // Ставим все кнопки вне экрана, кроме активной
         for (int i = 0; i < canvases.Length; i++)
         {

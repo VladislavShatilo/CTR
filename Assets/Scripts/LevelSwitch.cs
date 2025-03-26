@@ -28,10 +28,19 @@ public class LevelSwitch : MonoBehaviour
         NextSeasonButton.onClick.AddListener(delegate { SlideRight(); });
         BackSeasonButton.onClick.AddListener(delegate { SlideLeft(); });
 
-        float screenWidth = Screen.width;
+        float screenWidth = Screen.width * 1.5f;
         offLeft = new Vector2(-screenWidth, 0);
         offRight = new Vector2(screenWidth, 0);
         BGimage.color = BGColors[currentIndex];
+        if (buttonsGroups.Length > 0)
+        {
+            float elementWidth = buttonsGroups[0].rect.width;
+            if (elementWidth > Screen.width)
+            {
+                offLeft = new Vector2(-elementWidth * 1.5f, 0);
+                offRight = new Vector2(elementWidth * 1.5f, 0);
+            }
+        }
 
         for (int i = 0; i < buttonsGroups.Length; i++)
         {
