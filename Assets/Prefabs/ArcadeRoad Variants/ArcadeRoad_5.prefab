@@ -972,7 +972,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: e759276dab71f9042b238c7264ef05d8, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: df144ef87c35ae649a0ee923443c9157, type: 2}
+      objectReference: {fileID: 2100000, guid: 4b1f7ae02fa5f234fb6f1fe3c3354a72, type: 2}
     - target: {fileID: -7511558181221131132, guid: e759276dab71f9042b238c7264ef05d8, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
@@ -1172,7 +1172,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 96c05e9937a78ca479211db0602c36eb, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: 5b56d96473be00e4ba9fdb4c525f31fd, type: 2}
+      objectReference: {fileID: 2100000, guid: 4b1f7ae02fa5f234fb6f1fe3c3354a72, type: 2}
     - target: {fileID: 919132149155446097, guid: 96c05e9937a78ca479211db0602c36eb, type: 3}
       propertyPath: m_Name
       value: box_obstacle
@@ -3053,7 +3053,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: e759276dab71f9042b238c7264ef05d8, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: df144ef87c35ae649a0ee923443c9157, type: 2}
+      objectReference: {fileID: 2100000, guid: 4b1f7ae02fa5f234fb6f1fe3c3354a72, type: 2}
     - target: {fileID: -7511558181221131132, guid: e759276dab71f9042b238c7264ef05d8, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
