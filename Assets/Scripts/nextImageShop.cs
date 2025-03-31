@@ -35,7 +35,7 @@ public class CarShop : MonoBehaviour
     void Awake()
     {
         selectedCarIndex = Storage.Instance.SelectedCar;
-        carRenderer = new Renderer[14];
+        carRenderer = new Renderer[13];
         for (int i = 0; i < carRenderer.Length; i++)
         {
             carRenderer[i] = cars[i].GetComponent<Renderer>();

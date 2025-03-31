@@ -57,11 +57,7 @@ public class mainManager : MonoBehaviour
         carRenderer[Storage.Instance.SelectedCar].materials = materials;
         //YandexGame.NewLeaderboardScores("Record", Storage.Instance.score);
     }
-    private void Update()
-    {
-        Debug.Log(Storage.Instance.SelectedColor.Length);
-
-    }
+   
 
     public void AddOneCoinInLevel(int count)
     {
