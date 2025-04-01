@@ -82,4 +82,9 @@ public class mainManager : MonoBehaviour
         Storage.Instance.Save();
     }
 
+    public void LoadShop()
+    {
+
+    }
+
 }

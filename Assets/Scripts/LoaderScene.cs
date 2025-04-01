@@ -16,6 +16,44 @@ public class BackToMainMenu : MonoBehaviour
         trans.SetActive(true);
         StartCoroutine(trans.GetComponent<SmoothTransition>().StartCor());
     }
+
+    public void LoadLevelMenu()
+    {
+        StartCoroutine(LoadLevelMenuCor());
+    }
+
+    public void LoadShop()
+    {
+        StartCoroutine(LoadShopCor());
+    }
+
+    public void LoadScenebByName(string nameScene)
+    {
+        StartCoroutine(LoadScenebByNameCor(nameScene));
+    }
+
+    public IEnumerator LoadLevelMenuCor()
+    {
+        Transition();
+        yield return new WaitForSeconds(0.7f);
+        SceneAddressManager.Instance.LoadScene("LevelMenu");
+    }
+
+    public IEnumerator LoadShopCor()
+    {
+        Transition();
+        yield return new WaitForSeconds(0.7f);
+        SceneAddressManager.Instance.LoadScene("Shop");
+    }
+
+    private IEnumerator LoadScenebByNameCor(string nameScene)
+    {
+        Transition();
+        yield return new WaitForSeconds(0.7f);
+        SceneAddressManager.Instance.LoadScene(nameScene);
+    }
+
+
     public void nextLevel()
     {
         SceneManager.LoadScene((int.Parse(SceneManager.GetActiveScene().name) + 1).ToString());
@@ -25,20 +63,14 @@ public class BackToMainMenu : MonoBehaviour
         StartCoroutine(loadMainMenu());
     }
 
-    public void loadLevelsMenu1()
-    {
-        StartCoroutine(loadLevelsMenu());
-    }
+   
 
     public void Arcade1()
     {
         StartCoroutine(Arcade());
     }
 
-    public void shop1()
-    {
-        StartCoroutine(shop());
-    }
+   
 
     public IEnumerator loadMainMenu()
     {
@@ -48,12 +80,7 @@ public class BackToMainMenu : MonoBehaviour
     }
 
 
-    public IEnumerator loadLevelsMenu()
-    {
-        Transition();
-        yield return new WaitForSeconds(0.7f);
-        SceneManager.LoadScene("LevelMenu");
-    }
+    
 
     public IEnumerator Arcade()
     {
@@ -61,54 +88,12 @@ public class BackToMainMenu : MonoBehaviour
         yield return new WaitForSeconds(0.7f);
         SceneManager.LoadScene("Arcade");
     }
-    public IEnumerator shop()
-    {
-        Transition();
-        yield return new WaitForSeconds(0.7f);
-        SceneManager.LoadScene("shop");
-    }
- 
+   
 
-    public void loadMainMenu2()
-    {
-        SceneManager.LoadScene(0);
-    }
 
-    public void loadIntaractiveMainMenu()
-    {
-        SceneManager.LoadScene("MainMenuNew");
-    }
 
-    public void loadLevelsMenu2()
-    {
-        SceneManager.LoadScene("LevelMenu");
-    }
-
-    public void Arcade2()
-    {
-        SceneManager.LoadScene("Arcade");
-    }
-
-    public void shop2()
-    {
-        SceneManager.LoadScene("shop");
-    }
-
-    public void dollarShop2()
-    {
-        SceneManager.LoadScene("DollarShop");
-    }
-
-    public void loadLevelScene(string nameScene)
-    {
-        StartCoroutine(LoadLevelSceneCor(nameScene));
-    }
-    private IEnumerator LoadLevelSceneCor(string nameScene)
-    {
-        Transition();
-        yield return new WaitForSeconds(0.7f);
-        SceneManager.LoadScene(nameScene);
-    }
+  
+    
     public void Rastart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -144,7 +129,7 @@ public class BackToMainMenu : MonoBehaviour
             Storage.Instance.activeSeason = 5;
         }
         Storage.Instance.Save();
-        loadLevelsMenu1();
+        LoadLevelMenu();
 
     }
 }

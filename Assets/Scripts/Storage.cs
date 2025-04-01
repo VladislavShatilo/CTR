@@ -7,6 +7,7 @@ using UnityEngine;
 public class Storage : MonoBehaviour
 {
     public static Storage Instance { get; private set; }
+    public string nameActiveScene = "Arcade";
     public const int  carCount = 13;
     public int money; 
     public int stars;

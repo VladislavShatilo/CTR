@@ -31,6 +31,8 @@ public class UIController : MonoBehaviour
     [SerializeField] private Button pauseResumeButton;
 
     [Header("Win Window UI")]
+    [SerializeField] private GameObject winWindowGO;
+    [SerializeField] private Image [] starOnWinWindowImages;
     [SerializeField] private Button nextWinButton;
     [SerializeField] private Button restartWinButton;
     [SerializeField] private Button menuWinButton;
@@ -108,4 +110,7 @@ public class UIController : MonoBehaviour
     public Button MenuWinButton => menuWinButton;
     public TextMeshProUGUI FinalPowerWinText => finalPowerWinText;
     public TextMeshProUGUI LevelCoinsWinText => levelCoinsWinText;
+    public GameObject WinWindow => winWindowGO;
+    public Image[] StarOnWinWindowImages => starOnWinWindowImages;
+
 }

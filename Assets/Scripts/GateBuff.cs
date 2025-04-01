@@ -12,6 +12,7 @@ public class gate : MonoBehaviour
 
     void Start()
     {
+        
         powerText = UIController.Instance.PowerText;
        
     }

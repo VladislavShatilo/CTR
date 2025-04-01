@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7018336026290055028}
   - component: {fileID: 114524845405608450}
   - component: {fileID: 7273365525910134982}
+  - component: {fileID: 7233050500819316465}
   m_Layer: 0
   m_Name: ObstacleNight
   m_TagString: Untagged
@@ -26,7 +27,6 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 360531969714775911}
-  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 9, z: 53}
   m_LocalScale: {x: 17.193, y: 17.193, z: 17.193}
@@ -34,6 +34,7 @@ Transform:
   m_Children:
   - {fileID: 4799600990788440410}
   m_Father: {fileID: 0}
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7018336026290055028
 MeshFilter:
@@ -106,6 +107,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.7432214, y: 0.5159762, z: 0.7630133}
   m_Center: {x: 0.004601466, y: -0.24201192, z: 0.004388577}
+--- !u!114 &7233050500819316465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 360531969714775911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2eb03bad1092a04e833265d16f3f133, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4976797368041322161
 PrefabInstance:
   m_ObjectHideFlags: 0

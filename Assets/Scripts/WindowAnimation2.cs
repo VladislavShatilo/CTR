@@ -2,7 +2,6 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class WindowAnimation2 : MonoBehaviour
@@ -41,6 +40,7 @@ public class WindowAnimation2 : MonoBehaviour
 
     private void Start()
     {
+      
         float screenHeight = Screen.height * 1.5f;
         lowPosition = new Vector3(0, -screenHeight, 0);
         highPosition = new Vector3(0, screenHeight, 0);
@@ -136,7 +136,7 @@ public class WindowAnimation2 : MonoBehaviour
                 ChangeSceneTransition("LevelMenu");
                 break;
             case (int)PauseOptions.Restart:
-                ChangeSceneTransition(SceneManager.GetActiveScene().name);
+                ChangeSceneTransition(Storage.Instance.nameActiveScene);
                 break;
             case (int)PauseOptions.Resume:
                 FindObjectOfType<Gamemanager>().PauseFunction(false);
@@ -149,10 +149,10 @@ public class WindowAnimation2 : MonoBehaviour
         switch (action)
         {
             case (int)WinOptions.Next:
-                ChangeSceneTransition((int.Parse(SceneManager.GetActiveScene().name) + 1).ToString());
+                ChangeSceneTransition((int.Parse(Storage.Instance.nameActiveScene) + 1).ToString());
                 break;
             case (int)WinOptions.Restart:
-                ChangeSceneTransition(SceneManager.GetActiveScene().name);
+                ChangeSceneTransition(Storage.Instance.nameActiveScene);
                 break;
             case (int)WinOptions.Menu:
                 ChangeSceneTransition("LevelMenu");
@@ -168,7 +168,7 @@ public class WindowAnimation2 : MonoBehaviour
         {        
             case (int)LoseOptions.Restart:
                 Debug.Log("132");
-                ChangeSceneTransition(SceneManager.GetActiveScene().name);
+                ChangeSceneTransition(Storage.Instance.nameActiveScene);
                 break;
             case (int)LoseOptions.Menu:
                 ChangeSceneTransition("LevelMenu");
@@ -188,6 +188,6 @@ public class WindowAnimation2 : MonoBehaviour
         var Smooth = TransitionImage.GetComponent<SmoothTransition>();        
         StartCoroutine(Smooth.StartCor());       
         yield return new WaitForSeconds(0.7f);
-        SceneManager.LoadScene(sceneName);
+        SceneAddressManager.Instance.LoadScene(sceneName);
     }
 }

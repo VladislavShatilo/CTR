@@ -10,12 +10,11 @@ public class FinalBuff : MonoBehaviour
 {
     public float powerForLevel = 60f;
 
-    [SerializeField] private Gamemanager gameManager;
-    [SerializeField] private GameObject finalWindowGO;
     [SerializeField] private ParticleSystem[] confettiEffectParticles;
-    [SerializeField] private Image[] starImages;
+    
     [SerializeField] private Sprite goodStarSprite;
 
+    private Image[] starImages;
     private TextMeshProUGUI currentPowerText;
     private TextMeshProUGUI coinsInLevel;
     private float durationInSeconds = 1f;
@@ -24,6 +23,7 @@ public class FinalBuff : MonoBehaviour
 
     void Start()
     {
+        starImages = UIController.Instance.StarOnWinWindowImages; 
         coinsInLevel = UIController.Instance.LevelCoinsWinText;
         currentPowerText = UIController.Instance.PowerText;
         enabled = false;
@@ -44,7 +44,7 @@ public class FinalBuff : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
       
-        finalWindowGO.SetActive(true);
+        UIController.Instance.WinWindow.gameObject.SetActive(true);
         FindObjectOfType<WindowAnimation2>().ToggleMenuOn("FinalWindow");
         coinsInLevel.gameObject.SetActive(true);
 
@@ -112,16 +112,29 @@ public class FinalBuff : MonoBehaviour
         UIController.Instance.MenuWinButton.gameObject.SetActive(true);
         UIController.Instance.RestartWinButton.gameObject.SetActive(true);
         UIController.Instance.NextWinButton.gameObject.SetActive(true);
-
+        if((int.Parse(Storage.Instance.nameActiveScene) == 12 || 
+            int.Parse(Storage.Instance.nameActiveScene) == 24 ||
+            int.Parse(Storage.Instance.nameActiveScene) == 36) &&
+           Storage.Instance.stars < seasonStars[getNumberOfSeason()]) 
+        {
+            UIController.Instance.NextWinButton.enabled = false;
+        }
     }
 
+    private int[] seasonStars = new[] { 25, 52 };
+
+    int getNumberOfSeason()
+    {
+        return int.Parse(SceneManager.GetActiveScene().name) / 12 - 1;
+    }
+   
     private void OnTriggerEnter(Collider other)
     {
         if (other.attachedRigidbody.GetComponent<PlayerMove>())
         {
             enabled = true;
             PlayerMove.Instance.enabled = false;
-            gameManager.StopCamera();
+            FindObjectOfType<Gamemanager>().StopCamera();
             for(int i= 0;i<confettiEffectParticles.Length; i++)
             {
                 confettiEffectParticles[i].Play();
