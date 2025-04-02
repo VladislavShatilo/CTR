@@ -1,2 +1,2 @@
 Build path: C:/xampp/htdocs/GameCTR
-Build number: 22
+Build number: 28

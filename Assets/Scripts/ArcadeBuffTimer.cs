@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +11,7 @@ public class ArcadeBuffTimer : MonoBehaviour
 
     public bool isTimerActive = false;
 
-    private TextMeshProUGUI timerText;
+    private Text timerText;
     private Image buffImage;
     private float currentTime = 0f;
     private bool isCountingDown = false;
@@ -20,7 +19,7 @@ public class ArcadeBuffTimer : MonoBehaviour
 
     void Start()
     {
-        timerText = GetComponentInChildren<TextMeshProUGUI>();
+        timerText = GetComponentInChildren<Text>();
         buffImage = GetComponentInChildren<Image>();
         EnableTimer(false);
 

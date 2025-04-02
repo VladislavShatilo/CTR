@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,7 +17,7 @@ public class GateScript : MonoBehaviour
     [SerializeField] GameObject planeTop;
     [SerializeField] GameObject planeDown;
     [SerializeField] Material[] gateMaterial;
-    [SerializeField] TextMeshProUGUI textSpeed;
+    [SerializeField] Text textSpeed;
 
     public void updateVisual(int gatePower)
     {

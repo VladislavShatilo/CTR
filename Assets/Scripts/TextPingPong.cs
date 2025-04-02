@@ -1,18 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-[RequireComponent(typeof(TextMeshProUGUI))]
+[RequireComponent(typeof(Text))]
 public class TextPingPong : MonoBehaviour
 {
     [SerializeField] private float pulseSpeed = 1.0f;
     [SerializeField] private float minSize = 1.0f;
     [SerializeField] private float maxSize = 1.5f;
-    private TextMeshProUGUI text;
+    private Text text;
     void Start()
     {
-        text = GetComponent<TextMeshProUGUI>();
+        text = GetComponent<Text>();
     }
 
     void Update()

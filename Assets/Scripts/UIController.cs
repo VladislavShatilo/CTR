@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,18 +9,18 @@ public class UIController : MonoBehaviour
 
     [Header("Play Menu UI")]
     [SerializeField] private Button playButton;
-    [SerializeField] private TextMeshProUGUI tapToPlayText;
+    [SerializeField] private Text tapToPlayText;
     [SerializeField] private Button pauseButton;
     [SerializeField] private Image levelBGImage;
-    [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private Text levelText;
     [SerializeField] private Image powerBGImage;
-    [SerializeField] private TextMeshProUGUI powerText;
+    [SerializeField] private Text powerText;
     [SerializeField] private Image powerImage;
     [SerializeField] private Button mainLevelMenuButton;
 
     [Header("Lose Window UI")]
     [SerializeField] private GameObject loseWindowGO;
-    [SerializeField] private TextMeshProUGUI losePowerTextOnWindow;
+    [SerializeField] private Text losePowerTextOnWindow;
     [SerializeField] private Button restartLoseButton;
     [SerializeField] private Button menuLoseButton;
 
@@ -36,8 +35,8 @@ public class UIController : MonoBehaviour
     [SerializeField] private Button nextWinButton;
     [SerializeField] private Button restartWinButton;
     [SerializeField] private Button menuWinButton;
-    [SerializeField] private TextMeshProUGUI finalPowerWinText;
-    [SerializeField] private TextMeshProUGUI levelCoinsWinText;
+    [SerializeField] private Text finalPowerWinText;
+    [SerializeField] private Text levelCoinsWinText;
 
     void Awake()
     {
@@ -87,17 +86,12 @@ public class UIController : MonoBehaviour
     }
 
     public Button PlayButton => playButton;
-    public TextMeshProUGUI TapToPlayText => tapToPlayText;
+    public Text TapToPlayText => tapToPlayText;
     public Button PauseButton => pauseButton;
-    public Image LevelBGImage => levelBGImage;
-    public TextMeshProUGUI LevelText => levelText;
-    public Image PowerBGImage => powerBGImage;
-    public TextMeshProUGUI PowerText => powerText;
+    public Text LevelText => levelText;
+    public Text PowerText => powerText;
     public Image PowerImage => powerImage;
-    public Button MainLevelMenuButton => mainLevelMenuButton;
-
-    public GameObject LoseWindowGO => loseWindowGO;
-    public TextMeshProUGUI LosePowerTextOnWindow => losePowerTextOnWindow;
+    public Button MainLevelMenuButton => mainLevelMenuButton;  
     public Button RestartLoseButton => restartLoseButton;
     public Button MenuLoseButton => menuLoseButton;
 
@@ -108,8 +102,8 @@ public class UIController : MonoBehaviour
     public Button NextWinButton => nextWinButton;
     public Button RestartWinButton => restartWinButton;
     public Button MenuWinButton => menuWinButton;
-    public TextMeshProUGUI FinalPowerWinText => finalPowerWinText;
-    public TextMeshProUGUI LevelCoinsWinText => levelCoinsWinText;
+    public Text FinalPowerWinText => finalPowerWinText;
+    public Text LevelCoinsWinText => levelCoinsWinText;
     public GameObject WinWindow => winWindowGO;
     public Image[] StarOnWinWindowImages => starOnWinWindowImages;
 

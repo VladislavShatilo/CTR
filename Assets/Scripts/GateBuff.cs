@@ -1,14 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class gate : MonoBehaviour
 {
     [SerializeField] private GameObject pointGateEffect;
     [SerializeField] private int power;
     [SerializeField] private GateScript gate1;
-    private TextMeshProUGUI powerText;
+    private Text powerText;
 
     void Start()
     {

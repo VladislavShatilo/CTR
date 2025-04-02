@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,12 +8,11 @@ public class StarManager : MonoBehaviour
     [SerializeField] private Button[] levels;
     [SerializeField] private Sprite star, blackStar;
     [SerializeField] private int starsCount = 0;
-    [SerializeField] private TextMeshProUGUI[] starsToUnlock;
+    [SerializeField] private Text[] starsToUnlock;
     [SerializeField] private GameObject[] lockLevel;
     [SerializeField] private Button[] levelsG;
-    [SerializeField] private TextMeshProUGUI[] starsToUnlockG;
+    [SerializeField] private Text[] starsToUnlockG;
     [SerializeField] private GameObject[] lockLevelG;
-    [SerializeField] private GameObject[] seasonsG;
     private  int [] starsToUnlockNum = new int[2] {25,52};
 
 

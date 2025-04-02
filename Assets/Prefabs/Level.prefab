@@ -69,7 +69,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallPower: 35
-  textWallPower: {fileID: 2346762912514667860}
+  textWallPower: {fileID: 0}
   bricksEffect: {fileID: 0}
 --- !u!1 &4101311218833540858
 GameObject:
@@ -489,6 +489,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4646056133623728355, guid: 0c46ce9591ecf9449850761257a1c1ee, type: 3}
+      propertyPath: m_Text
+      value: -89
+      objectReference: {fileID: 0}
     - target: {fileID: 5620129299066989462, guid: 0c46ce9591ecf9449850761257a1c1ee, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -609,6 +613,10 @@ PrefabInstance:
     - target: {fileID: 1221954540412299636, guid: 0c46ce9591ecf9449850761257a1c1ee, type: 3}
       propertyPath: m_Color.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4646056133623728355, guid: 0c46ce9591ecf9449850761257a1c1ee, type: 3}
+      propertyPath: m_Text
+      value: -16
       objectReference: {fileID: 0}
     - target: {fileID: 5620129299066989462, guid: 0c46ce9591ecf9449850761257a1c1ee, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -731,6 +739,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4646056133623728355, guid: 0c46ce9591ecf9449850761257a1c1ee, type: 3}
+      propertyPath: m_Text
+      value: -52
+      objectReference: {fileID: 0}
     - target: {fileID: 5620129299066989462, guid: 0c46ce9591ecf9449850761257a1c1ee, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -852,6 +864,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.08196458
       objectReference: {fileID: 0}
+    - target: {fileID: 4646056133623728355, guid: 0c46ce9591ecf9449850761257a1c1ee, type: 3}
+      propertyPath: m_Text
+      value: +502
+      objectReference: {fileID: 0}
     - target: {fileID: 7348148273518208532, guid: 0c46ce9591ecf9449850761257a1c1ee, type: 3}
       propertyPath: m_text
       value: +502
@@ -952,6 +968,10 @@ PrefabInstance:
     - target: {fileID: 666050614550073965, guid: 0c46ce9591ecf9449850761257a1c1ee, type: 3}
       propertyPath: power
       value: 81
+      objectReference: {fileID: 0}
+    - target: {fileID: 4646056133623728355, guid: 0c46ce9591ecf9449850761257a1c1ee, type: 3}
+      propertyPath: m_Text
+      value: +81
       objectReference: {fileID: 0}
     - target: {fileID: 7348148273518208532, guid: 0c46ce9591ecf9449850761257a1c1ee, type: 3}
       propertyPath: m_text

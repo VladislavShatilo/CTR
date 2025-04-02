@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,8 +11,8 @@ public class CarShop : MonoBehaviour
     public Button selectButton;
     public Button unlockButton;
     public Button colorButton;
-    public TextMeshProUGUI priceText;
-    public TextMeshProUGUI money;
+    public Text priceText;
+    public Text moneyText;
     public int selectedCarIndex = 0;
     public string[] carPrices;
 
@@ -26,10 +25,10 @@ public class CarShop : MonoBehaviour
     [SerializeField] GameObject block;
     [SerializeField] GameObject NoMoneyWindow;
     [SerializeField] GameObject NoSeasonWindow;
-    [SerializeField] TextMeshProUGUI noMoneyTxt;
+    [SerializeField] Text noMoneyTxt;
 
     [SerializeField] float[] carMultiplier;
-    [SerializeField] TextMeshProUGUI carMultiplierText;
+    [SerializeField] Text carMultiplierText;
     
 
     void Awake()
@@ -103,7 +102,7 @@ public class CarShop : MonoBehaviour
         else
         {
             int moneyNeeded = int.Parse(carPrices[selectedCarIndex]) - Storage.Instance.money;
-            noMoneyTxt.text = moneyNeeded.ToString("N0");
+            noMoneyTxt.text = "NOT ENOUGH MONEY\n" + moneyNeeded.ToString("N0")+ " NEEDED";
             NoMoneyWindow.SetActive(true);
         }
 
@@ -149,8 +148,8 @@ public class CarShop : MonoBehaviour
 
         }
 
-        carMultiplierText.text =  carMultiplier[selectedCarIndex].ToString();
-        money.text = Storage.Instance.money.ToString("N0");
+        carMultiplierText.text =  "x "+carMultiplier[selectedCarIndex].ToString();
+        moneyText.text = Storage.Instance.money.ToString("N0");
         if (!carPrices[selectedCarIndex].StartsWith("Season"))
         {
             priceText.text = int.Parse(carPrices[selectedCarIndex]).ToString("N0");

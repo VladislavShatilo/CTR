@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -15,8 +14,8 @@ public class FinalBuff : MonoBehaviour
     [SerializeField] private Sprite goodStarSprite;
 
     private Image[] starImages;
-    private TextMeshProUGUI currentPowerText;
-    private TextMeshProUGUI coinsInLevel;
+    private Text currentPowerText;
+    private Text coinsInLevel;
     private float durationInSeconds = 1f;
     private float timer;
     private int starsEarned = 0;

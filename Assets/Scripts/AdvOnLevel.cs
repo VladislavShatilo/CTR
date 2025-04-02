@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class AdvOnLevel : MonoBehaviour
 {
     public Button ad1;
-    public TextMeshProUGUI money;
+   
     // Start is called before the first frame update
     void Start()
     {
@@ -37,7 +37,7 @@ public class AdvOnLevel : MonoBehaviour
         coins += 400;
        // PlayerPrefs.SetInt("AllMoney", coins);
         Storage.Instance.money = coins;
-        money.text =( 400 + int.Parse(money.text)).ToString();
+       // money.text =( 400 + int.Parse(money.text)).ToString();
         Storage.Instance.Save();
 
     }

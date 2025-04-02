@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class BackToMainMenu : MonoBehaviour
 {
-
+   
     [SerializeField] GameObject trans;
 
     private void Transition()

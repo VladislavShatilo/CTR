@@ -1,20 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class wallBreak : MonoBehaviour
 {
     [SerializeField] int wallPower;
-    [SerializeField] TextMeshProUGUI textWallPower;
+    [SerializeField] Text textWallPower;
     [SerializeField] GameObject bricksEffect;
-    private TextMeshProUGUI powerText;
+    private Text powerText;
 
     private void OnValidate()
     {
-        textWallPower.text = wallPower.ToString();
+        if (textWallPower != null)
+        {
+            textWallPower.text = wallPower.ToString();
+        }
+       
     }
     private void OnTriggerEnter(Collider other)
     {

@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,7 +11,7 @@ public class mainManager : MonoBehaviour
     [SerializeField] public GameObject[] cars;
     [SerializeField] private Material[] carMaterials;
 
-    private TextMeshProUGUI moneyInGame;
+    private Text moneyInGame;
     private Renderer[] carRenderer;
     private float deltaTime;
     private int countOfCoinsInLevels;

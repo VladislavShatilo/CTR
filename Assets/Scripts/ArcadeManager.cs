@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
+    using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ArcadeManager : MonoBehaviour
 {
@@ -12,7 +12,7 @@ public class ArcadeManager : MonoBehaviour
     [SerializeField] private GameObject cityBackgroundGO;
 
     private CameraMovementArcade cameraMovement;
-    private TextMeshProUGUI countDownText;
+    private Text countDownText;
     private ArcadePlayerMovement arcadePlayerMovement;
     private RoadGenerator roadGenerator;
 
