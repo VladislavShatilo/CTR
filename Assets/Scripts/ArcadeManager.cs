@@ -89,6 +89,11 @@ public class ArcadeManager : MonoBehaviour
 
     public void StartArcadeFromMenu()
     {
+        StartCoroutine(StartArcadeFromMenuCor());
+    }
+
+    private IEnumerator StartArcadeFromMenuCor()
+    {
         roadGeneratorGO.SetActive(true);
         UIArcadeController.Instance.InGameCanvas.gameObject.SetActive(true);
         arcadePlayerMovement.enabled = true;
@@ -96,6 +101,7 @@ public class ArcadeManager : MonoBehaviour
 
         cameraMovement.enabled = false;
         UIArcadeController.Instance.MenuCanvas.gameObject.SetActive(false);
+        yield return new WaitForSeconds(0.25f);
         cityBackgroundGO.SetActive(false);
     }
 }

@@ -134,7 +134,7 @@ public class ArcadePlayerMovement : MonoBehaviour
 
         lastPos = currentPos;
         rotation = Mathf.Clamp(rotation, -maxSteerRotation , maxSteerRotation );
-        carMesh.gameObject.transform.localEulerAngles = new Vector3(carMesh.transform.localEulerAngles.x, rotation*1.1f, rotation/1.5f);
+        carMesh.gameObject.transform.localEulerAngles = new Vector3(carMesh.transform.localEulerAngles.x, rotation*1.1f, rotation/1.8f);
     }
 
     public void AddSpeed(float buff)
