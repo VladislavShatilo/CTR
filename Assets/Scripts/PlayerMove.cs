@@ -26,10 +26,11 @@ public class PlayerMove : MonoBehaviour
     [Header("Broke Effects")]
 
     [SerializeField] private GameObject carDestroyEffectPosition;
-   
 
 
 
+    private bool isTouching;
+    private int touchSide;
     private Rigidbody rb;
     private float targetX = 0f;
 
@@ -64,25 +65,54 @@ public class PlayerMove : MonoBehaviour
 
 
     }
-  
-   
+    bool IsMobile()
+    {
+        return SystemInfo.deviceType == DeviceType.Handheld;
+    }
+
+
+
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
     }
-
+   
     void Update()
     {
-        
-        float input = Input.GetAxis("Horizontal"); // A/D или стрелки
+        float input;
+      
+        if (IsMobile())
+        {
+            float targetInput = 0f;
+            float inputChangeSpeed = 35f;
+            input = 0f;
+            if (Input.GetMouseButton(0)) // Зажата левая кнопка мыши (или тап на экране)
+            {
+                if (Input.mousePosition.x < Screen.width / 2)
+                {
+                    targetInput = -1f; // Левая часть экрана — едем влево
+                }
+                else
+                {
+                    targetInput = 1f;  // Правая часть экрана — едем вправо
+                }
+            }
+            input = Mathf.Lerp(input, targetInput, inputChangeSpeed * Time.deltaTime);
+        }
+       else
+        {
+           input = Input.GetAxis("Horizontal"); // A/D или стрелки
 
+            
+        }
         targetX += input * steeringSpeed * Time.deltaTime;
         targetX = Mathf.Clamp(targetX, -maxSteerOffset, maxSteerOffset);
-
         float targetZTilt = -input * visualTiltZ;  // наклон по Z
         float targetYTurn = input * visualTurnY;   // разворот по Y
+    
+
 
         if (Mathf.Abs(targetX) >= maxSteerOffset - 0.1f) // немного запас по границе
         {
@@ -97,7 +127,18 @@ public class PlayerMove : MonoBehaviour
 
        
     }
+    private void HandleTouchInput()
+    {
+        isTouching = false;
+        touchSide = 0;
 
+        if (Input.GetMouseButton(0))
+        {
+            isTouching = true;
+            touchSide = Input.mousePosition.x < Screen.width / 2 ? -1 : 1;
+        }
+       
+    }
     void FixedUpdate()
     {
         Vector3 position = rb.position;

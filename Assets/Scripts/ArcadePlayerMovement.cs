@@ -32,6 +32,10 @@ public class ArcadePlayerMovement : MonoBehaviour
         cachedCamera = Camera.main;
         cachedCamera.gameObject.transform.SetParent(transform);     
     }
+    bool IsMobile()
+    {
+        return SystemInfo.deviceType == DeviceType.Handheld;
+    }
 
     void LateUpdate()
     {      
@@ -79,25 +83,33 @@ public class ArcadePlayerMovement : MonoBehaviour
             }
 
             UpdateRotation();
-            if (Input.GetMouseButton(0))
+            if (IsMobile())
             {
-                if (Input.mousePosition.x < Screen.width / 2 && transform.position.x > -moveRange)
+                if (Input.GetMouseButton(0))
+                {
+                    if (Input.mousePosition.x < Screen.width / 2 && transform.position.x > -moveRange)
+                    {
+                        transform.Translate(movespeed * Time.deltaTime * -5, 0, 0);
+                    }
+                    else if (Input.mousePosition.x > Screen.width / 2 && transform.position.x < moveRange)
+                    {
+                        transform.Translate(movespeed * Time.deltaTime * 5, 0, 0);
+                    }
+                }
+            }
+            else
+            {
+                if (Input.GetKey(KeyCode.A) && transform.position.x > -moveRange)
                 {
                     transform.Translate(movespeed * Time.deltaTime * -5, 0, 0);
                 }
-                else if (Input.mousePosition.x > Screen.width / 2 && transform.position.x < moveRange)
+                else if (Input.GetKey(KeyCode.D) && transform.position.x < moveRange)
                 {
                     transform.Translate(movespeed * Time.deltaTime * 5, 0, 0);
                 }
             }
-            if (Input.GetKey(KeyCode.A) && transform.position.x > -moveRange)
-            {
-                transform.Translate(movespeed * Time.deltaTime * -5, 0, 0);
-            }
-            else if (Input.GetKey(KeyCode.D) && transform.position.x < moveRange)
-            {
-                transform.Translate(movespeed * Time.deltaTime * 5, 0, 0);
-            }
+          
+          
         }
     }
 
@@ -134,7 +146,7 @@ public class ArcadePlayerMovement : MonoBehaviour
 
         lastPos = currentPos;
         rotation = Mathf.Clamp(rotation, -maxSteerRotation , maxSteerRotation );
-        carMesh.gameObject.transform.localEulerAngles = new Vector3(carMesh.transform.localEulerAngles.x, rotation*1.1f, rotation/1.8f);
+        carMesh.gameObject.transform.localEulerAngles = new Vector3(carMesh.transform.localEulerAngles.x, rotation*1.25f, rotation/2f);
     }
 
     public void AddSpeed(float buff)
