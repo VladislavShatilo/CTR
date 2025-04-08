@@ -22,13 +22,14 @@ public class Storage : MonoBehaviour
     public int ButtonActivated = 0;
     public float volume = 1;
     public int[] seasonCar = new int[3];
+    public bool isHintShown = false; 
     private const string SaveKey = "game_data";
 
     private void Awake()
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject); // Удалить дубликат
+            Destroy(gameObject);
             return;
         }
 
