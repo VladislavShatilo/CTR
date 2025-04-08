@@ -1,52 +1,89 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class Hint : MonoBehaviour
 {
     [SerializeField] private GameObject tutorialPanel; // затемнение + текст
     [SerializeField] private Text tutorialText;
+    [SerializeField] private Button leftButton;
+    [SerializeField] private Button rightButton;
+    [SerializeField] private GameObject playerGO;
+    [SerializeField] private Image leftBlockImage;
+    [SerializeField] private Image rightBlockImage
+        ;
 
-    private int step = 0;
-    private bool tutorialCompleted = false;
-
-    public void StartHint()
+    private float pulseSpeed = 5.0f;
+    private float minAlphaColor = 0.1f;
+    private float maxAlphaColor = 0.35f;
+    private Color baseColor;
+    private void OnEnable()
     {
+        if (Storage.Instance.isHintShown)
+        { 
+            Destroy(gameObject);
+            return;
+        }
+       // leftButton.onClick.AddListener(delegate { leftButtonFun(); });
+       // rightButton.onClick.AddListener(delegate { rightButtonFun(); });
+
         tutorialPanel.SetActive(true);
-        tutorialText.text = "Нажми на левую часть экрана, чтобы поехать влево";
+        leftBlockImage.gameObject.SetActive(false);
+        rightBlockImage.gameObject.SetActive(true);
+        leftButton.gameObject.SetActive(true);
+        rightButton.gameObject.SetActive(false);
+        baseColor = leftButton.image.color;
+
+        tutorialText.text = "Press the left side of the screen\nto move left ";
+    }
+    
+
+    void leftButtonFun()
+    {
+        tutorialText.text = "Nice! Now press the right side of the screen\nto go right.";
+        leftButton.gameObject.SetActive(false);
+        rightButton.gameObject.SetActive(true);
+        leftBlockImage.gameObject.SetActive(true);
+        rightBlockImage.gameObject.SetActive(false);
+    }
+    void rightButtonFun()
+    {
+        leftButton.gameObject.SetActive(false);
+        rightButton.gameObject.SetActive(false);
+        leftBlockImage.gameObject.SetActive(false);
+        rightBlockImage.gameObject.SetActive(false);
+        tutorialText.text = "Great!\nLet's go!";
+        Invoke(nameof(EndTutorial), 1.5f); // Немного подождем и уберем
+        
     }
 
     void Update()
     {
-        if (tutorialCompleted)
+        if(playerGO.transform.position.x < -20)
         {
-            return;
-        }
+            leftButtonFun();
 
-        if (Input.GetMouseButtonDown(0))
+        }
+        if (playerGO.transform.position.x > 20)
         {
-            Vector2 touchPos = Input.mousePosition;
+            rightButtonFun();
 
-            // Шаг 0: нажал влево
-            if (step == 0 && touchPos.x < Screen.width / 2)
-            {
-                tutorialText.text = "Хорошо! Теперь нажми на правую часть экрана, чтобы поехать вправо";
-                step++;
-            }
-            // Шаг 1: нажал вправо
-            else if (step == 1 && touchPos.x >= Screen.width / 2)
-            {
-                tutorialText.text = "Отлично! Поехали!";
-                Invoke(nameof(EndTutorial), 1.5f); // Немного подождем и уберем
-                step++;
-            }
         }
+        float alpha = Mathf.Lerp(minAlphaColor, maxAlphaColor, (Mathf.Sin(Time.time * pulseSpeed) + 1f) / 2f);
+        Color color = baseColor;
+        color.a = alpha;
+        leftButton.image.color = color;
+        rightButton.image.color = color;
+       
     }
 
     void EndTutorial()
     {
+        FindObjectOfType<ArcadeManager>().ContinueRoadGen();
+       // Destroy(gameObject);
         tutorialPanel.SetActive(false);
-        tutorialCompleted = true;
+
     }
 }

@@ -167,7 +167,7 @@ public class WindowAnimation2 : MonoBehaviour
         switch (action)
         {        
             case (int)LoseOptions.Restart:
-                Debug.Log("132");
+              
                 ChangeSceneTransition(Storage.Instance.nameActiveScene);
                 break;
             case (int)LoseOptions.Menu:

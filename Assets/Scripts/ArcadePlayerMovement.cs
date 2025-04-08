@@ -85,7 +85,7 @@ public class ArcadePlayerMovement : MonoBehaviour
             UpdateRotation();
             if (IsMobile())
             {
-                if (Input.GetMouseButton(0))
+                if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
                 {
                     if (Input.mousePosition.x < Screen.width / 2 && transform.position.x > -moveRange)
                     {

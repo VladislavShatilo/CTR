@@ -20,6 +20,10 @@ public class Storage : MonoBehaviour
     public int SelectedCar = 0;
     public int starsCount = 0;
     public int ButtonActivated = 0;
+    public  int Season1Money = 200;
+    public  int Season2Money = 500;
+    public  int Season3Money = 2000;
+
     public float volume = 1;
     public int[] seasonCar = new int[3];
     public bool isHintShown = false; 

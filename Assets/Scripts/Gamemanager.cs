@@ -45,9 +45,24 @@ public class Gamemanager : MonoBehaviour
     }
     public void EarnMoneyForLevel()
     {
-        if (Storage.Instance.levelsDones[int.Parse(SceneManager.GetActiveScene().name) - 1] != 1)
+        int level = int.Parse(Storage.Instance.nameActiveScene);
+
+        if (Storage.Instance.levelsDones[level - 1] != 1)
         {
-            Storage.Instance.money = Storage.Instance.money + 150;
+            if(level >= 1 && level <= 12)
+            {
+                Storage.Instance.money = Storage.Instance.money + Storage.Instance.Season1Money;
+            }
+            else if(level >= 13 && level <= 24)
+            {
+                Storage.Instance.money = Storage.Instance.money + Storage.Instance.Season2Money;
+
+            }
+            else
+            {
+                Storage.Instance.money = Storage.Instance.money + Storage.Instance.Season3Money;
+            }
+
             Storage.Instance.Save();
         }
         else

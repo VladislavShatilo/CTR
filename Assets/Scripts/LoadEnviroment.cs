@@ -26,13 +26,9 @@ public class LoadEnviroment : MonoBehaviour
         {
             Instantiate(obj.Result);
             levelGo.SetActive(true);
-            Debug.Log("Succeded");
+           
         }
-        else
-        {
-            Debug.Log("Not Succeded");
-
-        }
+      
 
     }
 

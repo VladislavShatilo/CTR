@@ -10,6 +10,7 @@ public class ArcadeManager : MonoBehaviour
     [SerializeField] private List<ArcadeBuffTimer> arcadeBuffTimers;
     [SerializeField] private GameObject roadGeneratorGO;
     [SerializeField] private GameObject cityBackgroundGO;
+    [SerializeField] private GameObject hintGO;
 
     private CameraMovementArcade cameraMovement;
     private Text countDownText;
@@ -18,6 +19,7 @@ public class ArcadeManager : MonoBehaviour
 
     private void Start()
     {
+      
         countDownText = UIArcadeController.Instance.CountDownInGameText;
         arcadePlayerMovement = playerGO.GetComponent<ArcadePlayerMovement>();
         roadGenerator = roadGeneratorGO.GetComponent<RoadGenerator>();
@@ -86,7 +88,12 @@ public class ArcadeManager : MonoBehaviour
         controller.MoneyInGameText.text = "0";
         FindObjectOfType<mainManager>().SetZeroOnCoinsInLevel();
     }
+    public void ContinueRoadGen()
+    {
+        roadGenerator.Continue();
 
+
+    }
     public void StartArcadeFromMenu()
     {
         StartCoroutine(StartArcadeFromMenuCor());
@@ -95,6 +102,7 @@ public class ArcadeManager : MonoBehaviour
     private IEnumerator StartArcadeFromMenuCor()
     {
         roadGeneratorGO.SetActive(true);
+
         UIArcadeController.Instance.InGameCanvas.gameObject.SetActive(true);
         arcadePlayerMovement.enabled = true;
         arcadePlayerMovement.isGameIntro = true;
@@ -102,11 +110,19 @@ public class ArcadeManager : MonoBehaviour
         cameraMovement.enabled = false;
         UIArcadeController.Instance.MenuCanvas.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.25f);
-        if (!Storage.Instance.isHintShown)
+        roadGenerator.Pause();
+
+        if (!Storage.Instance.isHintShown && SystemInfo.deviceType == DeviceType.Handheld)
         {
-            FindObjectOfType<Hint>().StartHint();
+            hintGO.SetActive(true);
             Storage.Instance.isHintShown = true;
             Storage.Instance.Save();
+        }
+        else
+        {
+            roadGenerator.Continue();
+
+
         }
         cityBackgroundGO.SetActive(false);
     }

@@ -29,14 +29,10 @@ public class SceneAddressManager : MonoBehaviour
     {
         if (obj.Status == AsyncOperationStatus.Succeeded)
         {
-            Debug.Log("—цена успешно загружена: " + obj.Result.Scene.name);
             Storage.Instance.nameActiveScene = obj.Result.Scene.name;
             Storage.Instance.Save();
         }
-        else
-        {
-            Debug.LogError("ќшибка загрузки сцены: " + obj.OperationException);
-        }
+      
     }
 
 

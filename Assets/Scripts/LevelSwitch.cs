@@ -65,7 +65,6 @@ public class LevelSwitch : MonoBehaviour
         buttonsGroups[nextIndex].DOAnchorPos(center, transitionTime).SetEase(Ease.InOutCubic);
 
         currentIndex = nextIndex;
-        Debug.Log(currentIndex);
         NextSeasonButton.enabled = false;
         BackSeasonButton.enabled = false;
         yield return new WaitForSeconds(transitionTime/2);
@@ -89,7 +88,6 @@ public class LevelSwitch : MonoBehaviour
         buttonsGroups[nextIndex].DOAnchorPos(center, transitionTime).SetEase(Ease.InOutCubic);
 
         currentIndex = nextIndex;
-        Debug.Log(currentIndex);
 
         NextSeasonButton.enabled = false;
         BackSeasonButton.enabled = false;

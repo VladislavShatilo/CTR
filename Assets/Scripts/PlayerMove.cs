@@ -27,10 +27,6 @@ public class PlayerMove : MonoBehaviour
 
     [SerializeField] private GameObject carDestroyEffectPosition;
 
-
-
-    private bool isTouching;
-    private int touchSide;
     private Rigidbody rb;
     private float targetX = 0f;
 
@@ -127,18 +123,7 @@ public class PlayerMove : MonoBehaviour
 
        
     }
-    private void HandleTouchInput()
-    {
-        isTouching = false;
-        touchSide = 0;
-
-        if (Input.GetMouseButton(0))
-        {
-            isTouching = true;
-            touchSide = Input.mousePosition.x < Screen.width / 2 ? -1 : 1;
-        }
-       
-    }
+   
     void FixedUpdate()
     {
         Vector3 position = rb.position;

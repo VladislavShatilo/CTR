@@ -35,20 +35,16 @@ public class WindowAnimation : MonoBehaviour
     private void Start()
     {
         float screenHeight = Screen.height * 1.5f;
-        Debug.Log(screenHeight);
         lowPosition = new Vector3(0, -screenHeight, 0);
         highPosition = new Vector3(0, screenHeight, 0);
-        Debug.Log(lowPosition + " " + highPosition);
 
         if (menus.Length > 0)
         {
             float elementHeight = menus[0].menu.rect.height;
-            Debug.Log(elementHeight);
             if (elementHeight > Screen.height)
             {
                 lowPosition = new Vector3(0, -screenHeight * 1.5f, 0);
                 highPosition = new Vector3(0, screenHeight * 1.5f, 0);
-                Debug.Log(lowPosition + " " + highPosition);
 
             }
         }
@@ -130,7 +126,7 @@ public class WindowAnimation : MonoBehaviour
         switch (action)
         {
             case 0:
-                Debug.Log("HandlePauseMenuAction1");
+             
                 manager.ContinueGame();
                 break;
             case 1:

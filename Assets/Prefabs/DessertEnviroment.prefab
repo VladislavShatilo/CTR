@@ -23,6 +23,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4089966253071803968}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.2788849, y: 16.218298, z: 6071.298}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -32,9 +33,9 @@ Transform:
   - {fileID: 5597992498018328744}
   - {fileID: 137467413942050351}
   - {fileID: 8976372591462787448}
+  - {fileID: 4752905320149551771}
   - {fileID: 7699784672815330834}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &468379381105921860
 PrefabInstance:
@@ -106,6 +107,73 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5417852431033741292, guid: ef893e6e85b2dd44895770313a225150, type: 3}
   m_PrefabInstance: {fileID: 468379381105921860}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &776204770587485559
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 5439396681176836591}
+    m_Modifications:
+    - target: {fileID: 5417852431033741292, guid: ef893e6e85b2dd44895770313a225150, type: 3}
+      propertyPath: m_RootOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5417852431033741292, guid: ef893e6e85b2dd44895770313a225150, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.2788849
+      objectReference: {fileID: 0}
+    - target: {fileID: 5417852431033741292, guid: ef893e6e85b2dd44895770313a225150, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -128.21829
+      objectReference: {fileID: 0}
+    - target: {fileID: 5417852431033741292, guid: ef893e6e85b2dd44895770313a225150, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1213
+      objectReference: {fileID: 0}
+    - target: {fileID: 5417852431033741292, guid: ef893e6e85b2dd44895770313a225150, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5417852431033741292, guid: ef893e6e85b2dd44895770313a225150, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5417852431033741292, guid: ef893e6e85b2dd44895770313a225150, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5417852431033741292, guid: ef893e6e85b2dd44895770313a225150, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5417852431033741292, guid: ef893e6e85b2dd44895770313a225150, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5417852431033741292, guid: ef893e6e85b2dd44895770313a225150, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5417852431033741292, guid: ef893e6e85b2dd44895770313a225150, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6682606550367165512, guid: ef893e6e85b2dd44895770313a225150, type: 3}
+      propertyPath: m_Name
+      value: DesertLandscape (5)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects:
+    - {fileID: 6934779461007000142, guid: ef893e6e85b2dd44895770313a225150, type: 3}
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ef893e6e85b2dd44895770313a225150, type: 3}
+--- !u!4 &4752905320149551771 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5417852431033741292, guid: ef893e6e85b2dd44895770313a225150, type: 3}
+  m_PrefabInstance: {fileID: 776204770587485559}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4008888958727587476
 PrefabInstance:

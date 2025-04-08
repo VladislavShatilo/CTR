@@ -23,13 +23,14 @@ public class mainManager : MonoBehaviour
         Camera.main.transform.SetParent(null);
         moneyInGame = UIArcadeController.Instance.MoneyInGameText;
     }
-
     void Start()
     {
-        //PlayerPrefs.DeleteAll();
-        //PlayerPrefs.Save();
-        //Storage.Instance.ResetSave();
+        StartCoroutine(StartCor());
+    }
+    IEnumerator StartCor()
+    {
         Storage.Instance.Load();
+        yield return new WaitForSeconds(0.1f);
         carRenderer = new Renderer[cars.Length];
         for (int i = 0; i < carRenderer.Length; i++)
         {
@@ -81,9 +82,5 @@ public class mainManager : MonoBehaviour
         Storage.Instance.Save();
     }
 
-    public void LoadShop()
-    {
-
-    }
-
+   
 }

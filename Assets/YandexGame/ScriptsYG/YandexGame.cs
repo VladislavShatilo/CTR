@@ -128,9 +128,9 @@ namespace YG
         private static void Message(string message)
         {
 #if UNITY_EDITOR
-            if (Instance.infoYG.debug)
+           // if (Instance.infoYG.debug)
 #endif
-                Debug.Log(message);
+               // Debug.Log(message);
         }
 
         public static void GetDataInvoke()

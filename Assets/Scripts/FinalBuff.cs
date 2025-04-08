@@ -96,16 +96,32 @@ public class FinalBuff : MonoBehaviour
 
         if (coinsInLevel.text != "0")
         {
+            int level = int.Parse(Storage.Instance.nameActiveScene);
+            int moneyAmount = 0;
+            if (level >= 1 && level <= 12)
+            {
+                moneyAmount = Storage.Instance.Season1Money;
+            }
+            else if (level >= 13 && level <= 24)
+            {
+                moneyAmount = Storage.Instance.Season2Money;
+
+            }
+            else
+            {
+                moneyAmount = Storage.Instance.Season3Money;
+            }
+
             while (timer < durationInSeconds)
             {
                 float progress1 = timer / durationInSeconds;
-                float finCoin1 = Mathf.RoundToInt(Mathf.Lerp(0, 150, progress1));
+                float finCoin1 = Mathf.RoundToInt(Mathf.Lerp(0, moneyAmount, progress1));
                 coinsInLevel.text = finCoin1.ToString();
                 timer += Time.deltaTime;
                 yield return null;
             }
 
-            coinsInLevel.text = "150";
+            coinsInLevel.text = moneyAmount.ToString();
         }
 
         UIController.Instance.MenuWinButton.gameObject.SetActive(true);
