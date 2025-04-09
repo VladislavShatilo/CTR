@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.XR;
 
 public class CameraMovementArcade : MonoBehaviour
@@ -22,7 +23,7 @@ public class CameraMovementArcade : MonoBehaviour
     void LateUpdate()
     {
        
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             isDragging = true;
             dragOrigin = Input.mousePosition;

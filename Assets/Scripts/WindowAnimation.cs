@@ -166,7 +166,7 @@ public class WindowAnimation : MonoBehaviour
         TransitionImage.gameObject.SetActive(true);
         var Smooth = TransitionImage.GetComponent<SmoothTransition>();
  
-            StartCoroutine(Smooth.StartCor());
+        StartCoroutine(Smooth.StartCor());
 
         yield return new WaitForSeconds(0.7f);
         SceneManager.LoadScene("Arcade");

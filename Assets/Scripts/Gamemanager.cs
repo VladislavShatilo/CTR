@@ -45,7 +45,7 @@ public class Gamemanager : MonoBehaviour
     }
     public void EarnMoneyForLevel()
     {
-        int level = int.Parse(Storage.Instance.nameActiveScene);
+        int level = int.Parse(SceneManager.GetActiveScene().name);
 
         if (Storage.Instance.levelsDones[level - 1] != 1)
         {

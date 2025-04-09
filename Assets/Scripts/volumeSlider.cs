@@ -16,6 +16,6 @@ public class volumeSlider : MonoBehaviour
     {
         float volume = slider.value;
         Storage.Instance.volume = volume;
-        //Storage.Instance.Save();
+        Storage.Instance.Save();
     }
 }

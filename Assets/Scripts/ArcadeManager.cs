@@ -112,7 +112,7 @@ public class ArcadeManager : MonoBehaviour
         yield return new WaitForSeconds(0.25f);
         roadGenerator.Pause();
 
-        if (!Storage.Instance.isHintShown && SystemInfo.deviceType == DeviceType.Handheld)
+        if (!Storage.Instance.isHintShown)
         {
             hintGO.SetActive(true);
             Storage.Instance.isHintShown = true;
@@ -121,8 +121,6 @@ public class ArcadeManager : MonoBehaviour
         else
         {
             roadGenerator.Continue();
-
-
         }
         cityBackgroundGO.SetActive(false);
     }

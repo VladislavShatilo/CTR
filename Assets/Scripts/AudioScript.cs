@@ -7,7 +7,11 @@ public class AudioScript : MonoBehaviour
     [SerializeField] AudioSource menuMusic;
     [SerializeField] AudioSource inGameMusic;
     [SerializeField] ArcadePlayerMovement arcadePlayerMovement;
-    
+    private void Start()
+    {
+        SetMenuMusicON();
+    }
+
     public void SetMenuMusicON()
     {
         inGameMusic.Stop();

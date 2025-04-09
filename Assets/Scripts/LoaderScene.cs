@@ -36,21 +36,26 @@ public class BackToMainMenu : MonoBehaviour
     {
         Transition();
         yield return new WaitForSeconds(0.7f);
-        SceneAddressManager.Instance.LoadScene("LevelMenu");
+        SceneManager.LoadScene("LevelMenu");
+       // SceneAddressManager.Instance.LoadScene("LevelMenu");
     }
 
     public IEnumerator LoadShopCor()
     {
         Transition();
         yield return new WaitForSeconds(0.7f);
-        SceneAddressManager.Instance.LoadScene("Shop");
+        SceneManager.LoadScene("Shop");
+
+        // SceneAddressManager.Instance.LoadScene("Shop");
     }
 
     private IEnumerator LoadScenebByNameCor(string nameScene)
     {
         Transition();
         yield return new WaitForSeconds(0.7f);
-        SceneAddressManager.Instance.LoadScene(nameScene);
+        SceneManager.LoadScene(nameScene);
+
+       // SceneAddressManager.Instance.LoadScene(nameScene);
     }
 
 

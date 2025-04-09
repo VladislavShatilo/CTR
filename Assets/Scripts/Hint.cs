@@ -19,15 +19,18 @@ public class Hint : MonoBehaviour
     private float minAlphaColor = 0.1f;
     private float maxAlphaColor = 0.35f;
     private Color baseColor;
+    bool IsMobile()
+    {
+        return SystemInfo.deviceType == DeviceType.Handheld;
+    }
     private void OnEnable()
     {
         if (Storage.Instance.isHintShown)
-        { 
+        {
             Destroy(gameObject);
             return;
         }
-       // leftButton.onClick.AddListener(delegate { leftButtonFun(); });
-       // rightButton.onClick.AddListener(delegate { rightButtonFun(); });
+      
 
         tutorialPanel.SetActive(true);
         leftBlockImage.gameObject.SetActive(false);
@@ -36,13 +39,28 @@ public class Hint : MonoBehaviour
         rightButton.gameObject.SetActive(false);
         baseColor = leftButton.image.color;
 
-        tutorialText.text = "Press the left side of the screen\nto move left ";
+        if (IsMobile())
+        {
+            tutorialText.text = "Press the left side of the screen\nto move left ";
+
+        }
+        else
+        {
+            tutorialText.text = "Press A to move left";
+        }
     }
     
 
     void leftButtonFun()
     {
-        tutorialText.text = "Nice! Now press the right side of the screen\nto go right.";
+        if (IsMobile())
+        {
+            tutorialText.text = "Nice! Now press the right side of the screen\nto go right.";
+        }
+        else
+        {
+            tutorialText.text = "Nice! Now press D to go right.";
+        }
         leftButton.gameObject.SetActive(false);
         rightButton.gameObject.SetActive(true);
         leftBlockImage.gameObject.SetActive(true);

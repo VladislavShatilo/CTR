@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class WindowAnimation2 : MonoBehaviour
@@ -136,7 +137,7 @@ public class WindowAnimation2 : MonoBehaviour
                 ChangeSceneTransition("LevelMenu");
                 break;
             case (int)PauseOptions.Restart:
-                ChangeSceneTransition(Storage.Instance.nameActiveScene);
+                ChangeSceneTransition(SceneManager.GetActiveScene().name);
                 break;
             case (int)PauseOptions.Resume:
                 FindObjectOfType<Gamemanager>().PauseFunction(false);
@@ -149,10 +150,10 @@ public class WindowAnimation2 : MonoBehaviour
         switch (action)
         {
             case (int)WinOptions.Next:
-                ChangeSceneTransition((int.Parse(Storage.Instance.nameActiveScene) + 1).ToString());
+                ChangeSceneTransition((int.Parse(SceneManager.GetActiveScene().name) + 1).ToString());
                 break;
             case (int)WinOptions.Restart:
-                ChangeSceneTransition(Storage.Instance.nameActiveScene);
+                ChangeSceneTransition(SceneManager.GetActiveScene().name);
                 break;
             case (int)WinOptions.Menu:
                 ChangeSceneTransition("LevelMenu");
@@ -168,7 +169,7 @@ public class WindowAnimation2 : MonoBehaviour
         {        
             case (int)LoseOptions.Restart:
               
-                ChangeSceneTransition(Storage.Instance.nameActiveScene);
+                ChangeSceneTransition(SceneManager.GetActiveScene().name);
                 break;
             case (int)LoseOptions.Menu:
                 ChangeSceneTransition("LevelMenu");
@@ -188,6 +189,7 @@ public class WindowAnimation2 : MonoBehaviour
         var Smooth = TransitionImage.GetComponent<SmoothTransition>();        
         StartCoroutine(Smooth.StartCor());       
         yield return new WaitForSeconds(0.7f);
-        SceneAddressManager.Instance.LoadScene(sceneName);
+        SceneManager.LoadScene(sceneName);
+        //SceneAddressManager.Instance.LoadScene(sceneName);
     }
 }

@@ -29,7 +29,7 @@ public class SceneAddressManager : MonoBehaviour
     {
         if (obj.Status == AsyncOperationStatus.Succeeded)
         {
-            Storage.Instance.nameActiveScene = obj.Result.Scene.name;
+            //Storage.Instance.nameActiveScene = obj.Result.Scene.name;
             Storage.Instance.Save();
         }
       

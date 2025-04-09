@@ -96,7 +96,7 @@ public class FinalBuff : MonoBehaviour
 
         if (coinsInLevel.text != "0")
         {
-            int level = int.Parse(Storage.Instance.nameActiveScene);
+            int level = int.Parse(SceneManager.GetActiveScene().name);
             int moneyAmount = 0;
             if (level >= 1 && level <= 12)
             {
@@ -127,9 +127,9 @@ public class FinalBuff : MonoBehaviour
         UIController.Instance.MenuWinButton.gameObject.SetActive(true);
         UIController.Instance.RestartWinButton.gameObject.SetActive(true);
         UIController.Instance.NextWinButton.gameObject.SetActive(true);
-        if((int.Parse(Storage.Instance.nameActiveScene) == 12 || 
-            int.Parse(Storage.Instance.nameActiveScene) == 24 ||
-            int.Parse(Storage.Instance.nameActiveScene) == 36) &&
+        if((int.Parse(SceneManager.GetActiveScene().name) == 12 || 
+            int.Parse(SceneManager.GetActiveScene().name) == 24 ||
+            int.Parse(SceneManager.GetActiveScene().name) == 36) &&
            Storage.Instance.stars < seasonStars[getNumberOfSeason()]) 
         {
             UIController.Instance.NextWinButton.enabled = false;

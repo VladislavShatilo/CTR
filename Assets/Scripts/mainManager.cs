@@ -13,24 +13,24 @@ public class mainManager : MonoBehaviour
 
     private Text moneyInGame;
     private Renderer[] carRenderer;
-    private float deltaTime;
     private int countOfCoinsInLevels;
 
 
     private void Awake()
-    {
+    { 
         Application.targetFrameRate = 60;
         Camera.main.transform.SetParent(null);
         moneyInGame = UIArcadeController.Instance.MoneyInGameText;
+        
     }
     void Start()
     {
-        StartCoroutine(StartCor());
+       StartCor();
+
     }
-    IEnumerator StartCor()
+    void StartCor()
     {
-        Storage.Instance.Load();
-        yield return new WaitForSeconds(0.1f);
+        
         carRenderer = new Renderer[cars.Length];
         for (int i = 0; i < carRenderer.Length; i++)
         {

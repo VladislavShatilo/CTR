@@ -8,7 +8,7 @@ public class setVolume : MonoBehaviour
 
     void Start()
     {
-      //  float savedVolume = Storage.Instance.volume;
-        //music.volume = savedVolume;
+      float savedVolume = Storage.Instance.volume;
+      music.volume = savedVolume;
     }
 }

@@ -25,7 +25,8 @@ public class CoinScript : MonoBehaviour
         }
 
         Destroy(gameObject);
-      //  Instantiate(coinSound, transform.position, transform.rotation);
+        coinSound.volume = Storage.Instance.volume;
+        Instantiate(coinSound, transform.position, transform.rotation);
         Instantiate(particlesPrefab, transform.position, transform.rotation);
     }
 }

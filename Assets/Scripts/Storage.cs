@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
@@ -7,16 +8,15 @@ using UnityEngine;
 public class Storage : MonoBehaviour
 {
     public static Storage Instance { get; private set; }
-    public string nameActiveScene = "Arcade";
-    public const int  carCount = 13;
+    public int  carCount = 13;
     public int money; 
     public int stars;
     public int score;
     public int[] levelsDones = new int[36];
     public int[] levelsStars = new int[36];
     public int activeSeason = 1;
-    public int[] cars = new int[carCount];
-    public int[] SelectedColor = new int[carCount];
+    public int[] cars = new int[13];
+    public int[] SelectedColor = new int[13];
     public int SelectedCar = 0;
     public int starsCount = 0;
     public int ButtonActivated = 0;
@@ -39,29 +39,60 @@ public class Storage : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        Load();
+        Init();
+
+
+
     }
 
     public void Save()
     {
-        string json = JsonUtility.ToJson(this);
+        string json = JsonUtility.ToJson(Instance);
         PlayerPrefs.SetString(SaveKey, json);
         PlayerPrefs.Save();
     }
 
     public void Load()
     {
+       
         if (PlayerPrefs.HasKey(SaveKey))
         {
             string json = PlayerPrefs.GetString(SaveKey);
+
             JsonUtility.FromJsonOverwrite(json, Instance);
+            Init();
+            Save();
         }
         else
         {
+
             ResetSave();
         }
     }
+    private void Init()
+    {
+        if (levelsDones == null || levelsDones.Length != 36)
+            levelsDones = new int[36];
+
+        if (levelsStars == null || levelsStars.Length != 36)
+            levelsStars = new int[36];
+
+        if (cars == null || cars.Length != carCount)
+            cars = new int[carCount];
+
+        if (SelectedColor == null || SelectedColor.Length != carCount)
+            SelectedColor = new int[carCount];
+
+        if (seasonCar == null || seasonCar.Length != 3)
+            seasonCar = new int[3];
+
+        if (SelectedCar < 0 || SelectedCar >= carCount)
+            SelectedCar = 0;
+    }
     public void ResetSave()
     {
+
         levelsDones = new int[36];
         levelsStars = new int[36];
         cars = new int[carCount];
