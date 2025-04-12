@@ -19,6 +19,7 @@ public class mainManager : MonoBehaviour
 
     private void Awake()
     {
+            
         YG2.GameplayStart();
         Application.targetFrameRate = 60;
         Camera.main.transform.SetParent(null);

@@ -157,12 +157,10 @@ public class WindowAnimation2 : MonoBehaviour
                 break;
 
             case (int)WinOptions.Restart:
-                YG2.optionalPlatform.FirstInterAdvShow();
 
                 ChangeSceneTransition(SceneManager.GetActiveScene().name);
                 break;
             case (int)WinOptions.Menu:
-                YG2.optionalPlatform.FirstInterAdvShow();
 
                 ChangeSceneTransition("LevelMenu");
 

@@ -4,6 +4,7 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using YG;
 
 
 public class BackToMainMenu : MonoBehaviour
@@ -29,6 +30,8 @@ public class BackToMainMenu : MonoBehaviour
 
     public void LoadScenebByName(string nameScene)
     {
+        YG2.optionalPlatform.FirstInterAdvShow();
+
         StartCoroutine(LoadScenebByNameCor(nameScene));
     }
 
