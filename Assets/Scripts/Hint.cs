@@ -19,17 +19,19 @@ public class Hint : MonoBehaviour
     private float minAlphaColor = 0.1f;
     private float maxAlphaColor = 0.35f;
     private Color baseColor;
+    private bool isOnLeft = false;
+    private bool isEnd = false;
     bool IsMobile()
     {
         return SystemInfo.deviceType == DeviceType.Handheld;
     }
     private void OnEnable()
     {
-        if (Storage.Instance.isHintShown)
-        {
-            Destroy(gameObject);
-            return;
-        }
+       if (Storage.Instance.isHintShown)
+       {
+           Destroy(gameObject);
+           return;
+       }
       
 
         tutorialPanel.SetActive(true);
@@ -65,6 +67,7 @@ public class Hint : MonoBehaviour
         rightButton.gameObject.SetActive(true);
         leftBlockImage.gameObject.SetActive(true);
         rightBlockImage.gameObject.SetActive(false);
+        isOnLeft = true;
     }
     void rightButtonFun()
     {
@@ -73,27 +76,32 @@ public class Hint : MonoBehaviour
         leftBlockImage.gameObject.SetActive(false);
         rightBlockImage.gameObject.SetActive(false);
         tutorialText.text = "Great!\nLet's go!";
+        isEnd = true;
         Invoke(nameof(EndTutorial), 1.5f); // Немного подождем и уберем
         
     }
 
     void Update()
     {
-        if(playerGO.transform.position.x < -20)
+        if (!isEnd)
         {
-            leftButtonFun();
+            if (playerGO.transform.position.x < -20)
+            {
+                leftButtonFun();
 
-        }
-        if (playerGO.transform.position.x > 20)
-        {
-            rightButtonFun();
+            }
+            if (playerGO.transform.position.x > 20 && isOnLeft)
+            {
+                rightButtonFun();
 
+            }
+            float alpha = Mathf.Lerp(minAlphaColor, maxAlphaColor, (Mathf.Sin(Time.time * pulseSpeed) + 1f) / 2f);
+            Color color = baseColor;
+            color.a = alpha;
+            leftButton.image.color = color;
+            rightButton.image.color = color;
         }
-        float alpha = Mathf.Lerp(minAlphaColor, maxAlphaColor, (Mathf.Sin(Time.time * pulseSpeed) + 1f) / 2f);
-        Color color = baseColor;
-        color.a = alpha;
-        leftButton.image.color = color;
-        rightButton.image.color = color;
+      
        
     }
 

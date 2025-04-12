@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using YG;
 
 
 public class WindowAnimation : MonoBehaviour
@@ -67,6 +68,11 @@ public class WindowAnimation : MonoBehaviour
         controller.ResultQuitBtn.onClick.AddListener(delegate { ToggleMenuOff("ResultWindow", (int)FinalOptions.Quit); });
     }
 
+    public void CloseAdvWindow()
+    {
+        ToggleMenuOff("AdWindow", 0);
+    
+    }
     public void ToggleMenuOn(string menuName)
     {
         StartCoroutine(ToggleMenuOnCor(menuName));
@@ -99,7 +105,12 @@ public class WindowAnimation : MonoBehaviour
             GameObject.Find(menu.menuName)?.SetActive(false);
             menu.menu.anchoredPosition = lowPosition;
         }
-     
+        else
+        {
+            Debug.Log("null");
+
+        }
+
         if (menuName == "PauseWindow")
         {
             HandlePauseMenuAction(action);
@@ -142,15 +153,20 @@ public class WindowAnimation : MonoBehaviour
     }
     private void HandleResultMenuAction(int action)
     {
+
         var manager = FindObjectOfType<ArcadeManager>();
 
         switch (action)
         {
             case 0:
+                Storage.Instance.isRewardArcadeShown = false;
+                YG2.optionalPlatform.FirstInterAdvShow();
                 manager.RestartGame();
                 break;
             case 1:
-               
+                Storage.Instance.isRewardArcadeShown = false;
+
+               // YG2.optionalPlatform.FirstInterAdvShow();
                 BackToMenu();
                 break;
             

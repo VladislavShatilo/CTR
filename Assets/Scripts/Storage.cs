@@ -8,6 +8,10 @@ using UnityEngine;
 public class Storage : MonoBehaviour
 {
     public static Storage Instance { get; private set; }
+    public bool isRewardArcadeShown;
+    public bool canShowArcadeRewardTime = true;
+    public bool canShowShopRewardTime = true;
+    public float[] carMultiplier = new float[13];
     public int  carCount = 13;
     public int money; 
     public int stars;
@@ -39,6 +43,7 @@ public class Storage : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        //ResetSave();
         Load();
         Init();
 
@@ -72,6 +77,10 @@ public class Storage : MonoBehaviour
     }
     private void Init()
     {
+        if (carMultiplier == null || carMultiplier.Length != 13)
+        {
+            carMultiplier = new float[13];
+        }
         if (levelsDones == null || levelsDones.Length != 36)
             levelsDones = new int[36];
 
@@ -95,6 +104,7 @@ public class Storage : MonoBehaviour
 
         levelsDones = new int[36];
         levelsStars = new int[36];
+        carMultiplier = new float[13] { 1,1.3f,1.6f,2.1f,2.7f,3.5f,4.5f,5.7f,7.3f,9.4f,12,16,25 };
         cars = new int[carCount];
         SelectedColor = new int[carCount];
         seasonCar = new int[3];

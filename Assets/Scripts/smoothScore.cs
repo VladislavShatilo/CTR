@@ -22,16 +22,17 @@ public class smoothScore : MonoBehaviour
 
     public void CountScore()
     {
-        gameObject.SetActive(true);
+        UIArcadeController.Instance.FinalWindowGO.gameObject.SetActive(true);
         FindObjectOfType<WindowAnimation>().ToggleMenuOn("ResultWindow");
         ButtonsInFinalWindowEnable(false);
-        currentScore = 0;
-        timer = 0f;
         StartCoroutine(UpdateScoreCoroutine());
     }
 
     IEnumerator UpdateScoreCoroutine()
     {
+        currentScore = 0;
+        timer = 0f;
+
         scoreInFinalWindowText = UIArcadeController.Instance.ScoreInFinalWindowText;
         moneyInFinalWindowText = UIArcadeController.Instance.MoneyInFinalWindowText;
         int targetScore = int.Parse(UIArcadeController.Instance.ScoreInGameText.text, System.Globalization.NumberStyles.AllowThousands);

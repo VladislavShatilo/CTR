@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using YG;
 
 public class WindowAnimation2 : MonoBehaviour
 {
@@ -150,12 +151,19 @@ public class WindowAnimation2 : MonoBehaviour
         switch (action)
         {
             case (int)WinOptions.Next:
+                YG2.optionalPlatform.FirstInterAdvShow();
+
                 ChangeSceneTransition((int.Parse(SceneManager.GetActiveScene().name) + 1).ToString());
                 break;
+
             case (int)WinOptions.Restart:
+                YG2.optionalPlatform.FirstInterAdvShow();
+
                 ChangeSceneTransition(SceneManager.GetActiveScene().name);
                 break;
             case (int)WinOptions.Menu:
+                YG2.optionalPlatform.FirstInterAdvShow();
+
                 ChangeSceneTransition("LevelMenu");
 
                 break;
@@ -168,7 +176,7 @@ public class WindowAnimation2 : MonoBehaviour
         switch (action)
         {        
             case (int)LoseOptions.Restart:
-              
+                YG2.optionalPlatform.FirstInterAdvShow();
                 ChangeSceneTransition(SceneManager.GetActiveScene().name);
                 break;
             case (int)LoseOptions.Menu:

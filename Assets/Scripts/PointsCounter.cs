@@ -6,7 +6,6 @@ public class PointsCounter : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private RoadGenerator roadGenerator;
-    [SerializeField] private float[] carMultiplier;
 
     public float currentScore = 0f;
 
@@ -27,7 +26,7 @@ public class PointsCounter : MonoBehaviour
         {
             speed = roadGenerator.speed * speedBalanceConst;
 
-            currentScore += Time.deltaTime * speed * carMultiplier[Storage.Instance.SelectedCar];
+            currentScore += Time.deltaTime * speed * Storage.Instance.carMultiplier[Storage.Instance.SelectedCar];
             UpdateCounterText();
         }
     }

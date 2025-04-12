@@ -66,6 +66,11 @@ public class UIArcadeController : MonoBehaviour
     }
     public void ShowFinalWindow()
     {
+        finalWindowGO.SetActive(true);
+        FindObjectOfType<WindowAnimation>().ToggleMenuOn("ResultWindow");
+    }
+    public void ShowFinalAdvWindow()
+    {
         advWindowGO.SetActive(true);
         FindObjectOfType<WindowAnimation>().ToggleMenuOn("AdWindow");
     }

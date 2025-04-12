@@ -1,2 +1,0 @@
-Build path: C:/xampp/htdocs/GameCTR
-Build number: 40

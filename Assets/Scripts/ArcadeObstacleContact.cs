@@ -25,8 +25,21 @@ public class ArcadeObstacleContact : MonoBehaviour
             Instantiate(particlesCrashPrefab, other.gameObject.transform.position, transform.rotation);
             other.gameObject.GetComponent<ArcadePlayerMovement>().DestroyCar();
             yield return new WaitForSeconds(0.7f);
-            UIArcadeController.Instance.ShowFinalWindow();
-          
+            int score = int.Parse(UIArcadeController.Instance.ScoreInGameText.text, System.Globalization.NumberStyles.AllowThousands);
+           
+            if (!Storage.Instance.isRewardArcadeShown && Storage.Instance.canShowArcadeRewardTime && score > 700* Storage.Instance.carMultiplier[Storage.Instance.SelectedCar])
+            {
+
+                UIArcadeController.Instance.ShowFinalAdvWindow();
+                Storage.Instance.isRewardArcadeShown = true;
+
+            }
+            else
+            {
+                UIArcadeController.Instance.ShowFinalWindow();
+                FindObjectOfType<smoothScore>().CountScore();
+            }
+
         }
     }
 }

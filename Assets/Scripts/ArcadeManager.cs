@@ -3,6 +3,7 @@ using System.Collections.Generic;
     using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
 
 public class ArcadeManager : MonoBehaviour
 {
@@ -101,6 +102,8 @@ public class ArcadeManager : MonoBehaviour
 
     private IEnumerator StartArcadeFromMenuCor()
     {
+        YG2.optionalPlatform.FirstInterAdvShow();
+
         roadGeneratorGO.SetActive(true);
 
         UIArcadeController.Instance.InGameCanvas.gameObject.SetActive(true);

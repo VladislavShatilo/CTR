@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using YG;
 
 public class mainManager : MonoBehaviour
 {
@@ -17,7 +18,8 @@ public class mainManager : MonoBehaviour
 
 
     private void Awake()
-    { 
+    {
+        YG2.GameplayStart();
         Application.targetFrameRate = 60;
         Camera.main.transform.SetParent(null);
         moneyInGame = UIArcadeController.Instance.MoneyInGameText;
@@ -82,5 +84,14 @@ public class mainManager : MonoBehaviour
         Storage.Instance.Save();
     }
 
-   
+    public void ShowRewardArcade()
+    {
+        YG2.RewardedAdvShow("Arcade");
+    }
+
+    public void ShowMidgame()
+    {
+        YG2.optionalPlatform.FirstInterAdvShow();
+    }
+
 }

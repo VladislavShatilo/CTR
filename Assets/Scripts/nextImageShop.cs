@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
 
 public class CarShop : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class CarShop : MonoBehaviour
     public Button selectButton;
     public Button unlockButton;
     public Button colorButton;
+
     public Text priceText;
     public Text moneyText;
     public int selectedCarIndex = 0;
@@ -21,14 +23,14 @@ public class CarShop : MonoBehaviour
     public Toggle[] colorToggles;
     private Renderer[] carRenderer;
     public Material[] carMaterials;
-
+    [SerializeField] private Button rewardButton;
     [SerializeField] GameObject block;
     [SerializeField] GameObject NoMoneyWindow;
     [SerializeField] GameObject NoSeasonWindow;
     [SerializeField] Text noMoneyTxt;
-
-    [SerializeField] float[] carMultiplier;
+    [SerializeField] Text noMoneyRewardTxt;
     [SerializeField] Text carMultiplierText;
+    [SerializeField] private Image rewardImage;
     
 
     void Awake()
@@ -39,12 +41,7 @@ public class CarShop : MonoBehaviour
         {
             carRenderer[i] = cars[i].GetComponent<Renderer>();
         }
-       // YandexGame.FullscreenShow();
-        //for(int i = 0; i < carRenderer.Length; i++)
-        //{
-        //    Storage.Instance.cars[i] = 1;
-
-        //}
+      
         Storage.Instance.cars[0] = 1;
         int selectedColorIndex = Storage.Instance.SelectedColor[selectedCarIndex];
         SetCarColor(selectedColorIndex);
@@ -56,6 +53,7 @@ public class CarShop : MonoBehaviour
             colorToggles[i].onValueChanged.AddListener(isOn => OnToggleValueChanged(isOn, colorIndex));
         }
         UpdateUI();
+        rewardButton.onClick.AddListener(delegate { OpenReward(); });
         Storage.Instance.Save();
 
     }
@@ -87,7 +85,10 @@ public class CarShop : MonoBehaviour
         Storage.Instance.Save();
 
     }
-    
+    void OpenReward()
+    {
+        YG2.RewardedAdvShow("Shop");
+    }
     public void BuyCar()
     {
         if (Storage.Instance.money >= int.Parse(carPrices[selectedCarIndex]))            
@@ -101,13 +102,31 @@ public class CarShop : MonoBehaviour
         }
         else
         {
+            if (Storage.Instance.canShowShopRewardTime)
+            {
+                rewardImage.gameObject.SetActive(true);
+                rewardButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                rewardImage.gameObject.SetActive(false);
+
+                rewardButton.gameObject.SetActive(false);
+            }
             int moneyNeeded = int.Parse(carPrices[selectedCarIndex]) - Storage.Instance.money;
             noMoneyTxt.text = "NOT ENOUGH MONEY\n" + moneyNeeded.ToString("N0")+ " NEEDED";
+            noMoneyRewardTxt.text = "Watch ad for " + CalculateRewardCoins().ToString();
             NoMoneyWindow.SetActive(true);
         }
 
     }
-  
+
+    public void UpdateCoinText()
+    {
+        moneyText.text = Storage.Instance.money.ToString("N0");
+
+    }
+
     public void UnlockCar()
     {
         calculateSeason();
@@ -148,7 +167,7 @@ public class CarShop : MonoBehaviour
 
         }
 
-        carMultiplierText.text =  "x "+carMultiplier[selectedCarIndex].ToString();
+        carMultiplierText.text =  "x "+Storage.Instance.carMultiplier[selectedCarIndex].ToString();
         moneyText.text = Storage.Instance.money.ToString("N0");
         if (!carPrices[selectedCarIndex].StartsWith("Season"))
         {
@@ -227,6 +246,45 @@ public class CarShop : MonoBehaviour
         cars[index].SetActive(true);
     }
 
+    public int CalculateRewardCoins()
+    {
+        int amoutOfCoins = 100;
+        for (int i = Storage.Instance.carCount - 1; i >= 0; i--)
+        {
+            if (Storage.Instance.cars[i] == 1)
+            {
+                //i+1 is not open
+                switch (i + 1)
+                {
+                    case 1:
+                        return 250;                    
+                    case 2:
+                        return 250;
+                    case 3:
+                        return 1000;
+                    case 4:
+                        return 1000;
+                    case 5:
+                        return 1000;
+                    case 6:
+                        return 1000;                      
+                    case 7:
+                        return 2000;                    
+                    case 8:
+                        return 4000;                 
+                    case 9:
+                        return 4000;
+                    case 10:
+                        return 15000;
+                    case 11:
+                        return 15000;
+                    case 12:
+                        return 0;
+                }
+            }
+        }
+        return amoutOfCoins;
+    }
     private void calculateSeason()
     {
         bool season1 = true;
