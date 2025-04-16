@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using YG;
 
 public class Hint : MonoBehaviour
 {
@@ -21,10 +22,7 @@ public class Hint : MonoBehaviour
     private Color baseColor;
     private bool isOnLeft = false;
     private bool isEnd = false;
-    bool IsMobile()
-    {
-        return SystemInfo.deviceType == DeviceType.Handheld;
-    }
+   
     private void OnEnable()
     {
        if (Storage.Instance.isHintShown)
@@ -41,12 +39,12 @@ public class Hint : MonoBehaviour
         rightButton.gameObject.SetActive(false);
         baseColor = leftButton.image.color;
 
-        if (IsMobile())
+        if (YG2.envir.isMobile)
         {
             tutorialText.text = "Press the left side of the screen\nto move left ";
 
         }
-        else
+        else if(YG2.envir.isDesktop)
         {
             tutorialText.text = "Press A to move left";
         }
@@ -55,11 +53,11 @@ public class Hint : MonoBehaviour
 
     void leftButtonFun()
     {
-        if (IsMobile())
+        if (YG2.envir.isMobile)
         {
             tutorialText.text = "Nice! Now press the right side of the screen\nto go right.";
         }
-        else
+        else if(YG2.envir.isDesktop)
         {
             tutorialText.text = "Nice! Now press D to go right.";
         }

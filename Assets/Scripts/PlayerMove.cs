@@ -6,6 +6,7 @@ using UnityEngine.AI;
 using UnityEngine.EventSystems;
 using UnityEngine.TestTools;
 using UnityEngine.XR;
+using YG;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -29,6 +30,7 @@ public class PlayerMove : MonoBehaviour
 
     private Rigidbody rb;
     private float targetX = 0f;
+    private bool isMobile;
 
     void Awake()
     {
@@ -40,10 +42,12 @@ public class PlayerMove : MonoBehaviour
         }
 
         Instance = this;
+       
         // DontDestroyOnLoad(gameObject); // Не уничтожать при смене сцены
     }
     public void addPower(int pwr)
     {
+        
         powerCar += pwr;
         if (powerCar <= 0)
         {
@@ -61,16 +65,14 @@ public class PlayerMove : MonoBehaviour
 
 
     }
-    bool IsMobile()
-    {
-        return SystemInfo.deviceType == DeviceType.Handheld;
-    }
+  
 
 
 
 
     void Start()
     {
+        isMobile = YG2.envir.isMobile;
         rb = GetComponent<Rigidbody>();
         rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
     }
@@ -79,7 +81,7 @@ public class PlayerMove : MonoBehaviour
     {
         float input;
       
-        if (IsMobile())
+        if (isMobile)
         {
             float targetInput = 0f;
             float inputChangeSpeed = 35f;

@@ -19,8 +19,7 @@ public class mainManager : MonoBehaviour
 
     private void Awake()
     {
-            
-        YG2.GameplayStart();
+        YG2.StartInit();
         Application.targetFrameRate = 60;
         Camera.main.transform.SetParent(null);
         moneyInGame = UIArcadeController.Instance.MoneyInGameText;
@@ -28,12 +27,14 @@ public class mainManager : MonoBehaviour
     }
     void Start()
     {
-       StartCor();
+        YG2.GameplayStart();
+
+        StartCor();
 
     }
     void StartCor()
     {
-        
+       
         carRenderer = new Renderer[cars.Length];
         for (int i = 0; i < carRenderer.Length; i++)
         {

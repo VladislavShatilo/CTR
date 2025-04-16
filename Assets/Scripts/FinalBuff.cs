@@ -162,7 +162,7 @@ public class FinalBuff : MonoBehaviour
             UpdateStarsMenu();
 
             Storage.Instance.levelsDones[int.Parse(SceneManager.GetActiveScene().name) -1] = 1;
-            Storage.Instance.levelsStars[int.Parse(SceneManager.GetActiveScene().name) - 1] = starsEarned;
+           // Storage.Instance.levelsStars[int.Parse(SceneManager.GetActiveScene().name) - 1] = starsEarned;
             Storage.Instance.Save();
 
             UIController.Instance.UIMenuGameOff();
@@ -174,16 +174,16 @@ public class FinalBuff : MonoBehaviour
     private void UpdateStarsInFinalWindow()
     {
         float progressProcces = (float.Parse(currentPowerText.text) / powerForLevel);
-        
         if ( progressProcces >= 0.66f) 
         {
             starsEarned = 3;
         }
-        else if (progressProcces >= 0.33f && progressProcces < 0.66f)
+        else if (progressProcces >= 0.33f && progressProcces < 0.66f )
         {
             starsEarned = 2;
         }
-        else if (progressProcces >= 0 && progressProcces < 0.33f){
+        else if (progressProcces >= 0 && progressProcces < 0.33f)
+        {
             starsEarned = 1;
         }
           

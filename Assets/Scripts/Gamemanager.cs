@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class Gamemanager : MonoBehaviour
 {
     private Camera cachedCamera;
+    public bool isPauseGlobal;
 
     private void Start()
     {
@@ -20,10 +21,12 @@ public class Gamemanager : MonoBehaviour
     {
         if (isPause)
         {
+            isPauseGlobal = true;
             PlayerMove.Instance.enabled = false;
         }
         else
         {
+            isPauseGlobal = false;
             PlayerMove.Instance.enabled = true;
 
         }

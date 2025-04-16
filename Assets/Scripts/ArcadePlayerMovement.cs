@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.TestTools;
 using UnityEngine.UIElements;
 using UnityEngine.XR;
+using YG;
 
 public class ArcadePlayerMovement : MonoBehaviour
 {
@@ -25,17 +26,16 @@ public class ArcadePlayerMovement : MonoBehaviour
     private float rotation;
     private Renderer carMesh;
     private Camera cachedCamera;
+    private bool isMobile;
 
     private void Start()
     {
+        isMobile  = YG2.envir.isMobile;
         carMesh =FindObjectOfType<mainManager>().cars[Storage.Instance.SelectedCar].GetComponent<Renderer>(); 
         cachedCamera = Camera.main;
         cachedCamera.gameObject.transform.SetParent(transform);     
     }
-    bool IsMobile()
-    {
-        return SystemInfo.deviceType == DeviceType.Handheld;
-    }
+
 
     void LateUpdate()
     {      
@@ -83,7 +83,7 @@ public class ArcadePlayerMovement : MonoBehaviour
             }
 
             UpdateRotation();
-            if (IsMobile())
+            if (isMobile)
             {
                 if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
                 {
@@ -97,7 +97,7 @@ public class ArcadePlayerMovement : MonoBehaviour
                     }
                 }
             }
-            else
+            else 
             {
                 if (Input.GetKey(KeyCode.A) && transform.position.x > -moveRange)
                 {
