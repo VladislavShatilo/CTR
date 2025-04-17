@@ -30,8 +30,8 @@ public class BackToMainMenu : MonoBehaviour
 
     public void LoadScenebByName(string nameScene)
     {
-        YG2.optionalPlatform.FirstInterAdvShow();
-
+       // YG2.optionalPlatform.FirstInterAdvShow();
+        YG2.InterstitialAdvShow();
         StartCoroutine(LoadScenebByNameCor(nameScene));
     }
 

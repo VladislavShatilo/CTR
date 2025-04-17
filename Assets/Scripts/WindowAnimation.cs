@@ -141,11 +141,15 @@ public class WindowAnimation : MonoBehaviour
                 manager.ContinueGame();
                 break;
             case 1:
+                YG2.InterstitialAdvShow();
+
                 manager.RestartGame();
                 break;
             case 2:
                 //  FindObjectOfType<BackToMainMenu>().Arcade1(); 
                 // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                YG2.InterstitialAdvShow();
+
                 BackToMenu();
 
                 break;
@@ -160,13 +164,14 @@ public class WindowAnimation : MonoBehaviour
         {
             case 0:
                 Storage.Instance.isRewardArcadeShown = false;
-                YG2.optionalPlatform.FirstInterAdvShow();
+                YG2.InterstitialAdvShow();
                 manager.RestartGame();
                 break;
             case 1:
                 Storage.Instance.isRewardArcadeShown = false;
+                YG2.InterstitialAdvShow();
 
-               // YG2.optionalPlatform.FirstInterAdvShow();
+                // YG2.optionalPlatform.FirstInterAdvShow();
                 BackToMenu();
                 break;
             

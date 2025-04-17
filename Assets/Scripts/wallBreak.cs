@@ -4,11 +4,12 @@ using System.IO;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class wallBreak : MonoBehaviour
 {
     [SerializeField] int wallPower;
-    [SerializeField] Text textWallPower;
+    [SerializeField] TextMeshProUGUI textWallPower;
     [SerializeField] GameObject bricksEffect;
     private Text powerText;
 

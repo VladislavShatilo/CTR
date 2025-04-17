@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 public class GateScript : MonoBehaviour
 {
     enum MaterialType
@@ -17,7 +17,7 @@ public class GateScript : MonoBehaviour
     [SerializeField] GameObject planeTop;
     [SerializeField] GameObject planeDown;
     [SerializeField] Material[] gateMaterial;
-    [SerializeField] Text textSpeed;
+    [SerializeField] TextMeshProUGUI textSpeed;
 
     public void updateVisual(int gatePower)
     {

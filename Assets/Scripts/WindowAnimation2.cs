@@ -135,12 +135,18 @@ public class WindowAnimation2 : MonoBehaviour
         switch (action)
         {
             case (int)PauseOptions.Quit:
+                YG2.InterstitialAdvShow();
+
                 ChangeSceneTransition("LevelMenu");
+
                 break;
             case (int)PauseOptions.Restart:
+                YG2.InterstitialAdvShow();
+
                 ChangeSceneTransition(SceneManager.GetActiveScene().name);
                 break;
             case (int)PauseOptions.Resume:
+
                 FindObjectOfType<Gamemanager>().PauseFunction(false);
                 break;
         }
@@ -151,16 +157,18 @@ public class WindowAnimation2 : MonoBehaviour
         switch (action)
         {
             case (int)WinOptions.Next:
-                YG2.optionalPlatform.FirstInterAdvShow();
+                YG2.InterstitialAdvShow();
 
                 ChangeSceneTransition((int.Parse(SceneManager.GetActiveScene().name) + 1).ToString());
                 break;
 
             case (int)WinOptions.Restart:
+                YG2.InterstitialAdvShow();
 
                 ChangeSceneTransition(SceneManager.GetActiveScene().name);
                 break;
             case (int)WinOptions.Menu:
+                YG2.InterstitialAdvShow();
 
                 ChangeSceneTransition("LevelMenu");
 
@@ -174,10 +182,12 @@ public class WindowAnimation2 : MonoBehaviour
         switch (action)
         {        
             case (int)LoseOptions.Restart:
-                YG2.optionalPlatform.FirstInterAdvShow();
+                YG2.InterstitialAdvShow();
                 ChangeSceneTransition(SceneManager.GetActiveScene().name);
                 break;
             case (int)LoseOptions.Menu:
+                YG2.InterstitialAdvShow();
+
                 ChangeSceneTransition("LevelMenu");
                 break;
 

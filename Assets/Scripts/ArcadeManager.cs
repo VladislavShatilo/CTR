@@ -102,7 +102,8 @@ public class ArcadeManager : MonoBehaviour
 
     private IEnumerator StartArcadeFromMenuCor()
     {
-        YG2.optionalPlatform.FirstInterAdvShow();
+        //YG2.optionalPlatform.FirstInterAdvShow();
+        YG2.InterstitialAdvShow();
 
         roadGeneratorGO.SetActive(true);
 
@@ -114,7 +115,7 @@ public class ArcadeManager : MonoBehaviour
         UIArcadeController.Instance.MenuCanvas.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.25f);
         roadGenerator.Pause();
-
+       
         if (!Storage.Instance.isHintShown)
         {
             hintGO.SetActive(true);

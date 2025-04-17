@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -16,7 +17,13 @@ public class mainManager : MonoBehaviour
     private Renderer[] carRenderer;
     private int countOfCoinsInLevels;
 
-
+    [MenuItem("Tools/Force Open TMP Converter")]
+    public static void ShowConverter()
+    {
+        // Открываем стандартный TMP-конвертер
+        //UnityEditor.TextCore.Text.Text
+        //UnityEditor.TextCore.Text.TextMeshProImporter.ShowTextMeshProImporter();
+    }
     private void Awake()
     {
         YG2.StartInit();
@@ -93,7 +100,8 @@ public class mainManager : MonoBehaviour
 
     public void ShowMidgame()
     {
-        YG2.optionalPlatform.FirstInterAdvShow();
+        YG2.InterstitialAdvShow();
+
     }
 
 }
