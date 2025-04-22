@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 public class ArcadeBuffTimer : MonoBehaviour
 {
     [SerializeField] private buffScripts buffScripts;
@@ -11,7 +11,7 @@ public class ArcadeBuffTimer : MonoBehaviour
 
     public bool isTimerActive = false;
 
-    private Text timerText;
+    private TextMeshProUGUI timerText;
     private Image buffImage;
     private float currentTime = 0f;
     private bool isCountingDown = false;
@@ -19,7 +19,7 @@ public class ArcadeBuffTimer : MonoBehaviour
 
     void Start()
     {
-        timerText = GetComponentInChildren<Text>();
+        timerText = GetComponentInChildren<TextMeshProUGUI>();
         buffImage = GetComponentInChildren<Image>();
         EnableTimer(false);
 

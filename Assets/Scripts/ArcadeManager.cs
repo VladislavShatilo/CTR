@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using YG;
-
+using TMPro;
 public class ArcadeManager : MonoBehaviour
 {
     [SerializeField] private GameObject playerGO; 
@@ -14,14 +14,17 @@ public class ArcadeManager : MonoBehaviour
     [SerializeField] private GameObject hintGO;
 
     private CameraMovementArcade cameraMovement;
-    private Text countDownText;
+    private TextMeshProUGUI countDownText;
     private ArcadePlayerMovement arcadePlayerMovement;
     private RoadGenerator roadGenerator;
+    private PointsCounter pointsCounter;
 
+ 
     private void Start()
     {
-      
-        countDownText = UIArcadeController.Instance.CountDownInGameText;
+       
+        pointsCounter = FindObjectOfType<PointsCounter>();
+          countDownText = UIArcadeController.Instance.CountDownInGameText;
         arcadePlayerMovement = playerGO.GetComponent<ArcadePlayerMovement>();
         roadGenerator = roadGeneratorGO.GetComponent<RoadGenerator>();
         cameraMovement = Camera.main.GetComponent<CameraMovementArcade>(); 
@@ -37,7 +40,9 @@ public class ArcadeManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.7f);
         countDownText.gameObject.SetActive(false);
 
-        roadGenerator.Continue();
+        roadGenerator.ContinueButton();
+        pointsCounter.StartCounter();
+
         arcadePlayerMovement.enabled = true;
 
         foreach (var arcadeBuffTimer in arcadeBuffTimers)
@@ -49,7 +54,9 @@ public class ArcadeManager : MonoBehaviour
     public void PauseGame()
     {
         UIArcadeController.Instance.PauseWindowGO.SetActive(true);
-        roadGenerator.Pause();
+        roadGenerator.PauseButton();
+        pointsCounter.StopCounter();
+
         arcadePlayerMovement.enabled = false;
 
         foreach(var arcadeBuffTimer in arcadeBuffTimers)
@@ -104,6 +111,7 @@ public class ArcadeManager : MonoBehaviour
     {
         //YG2.optionalPlatform.FirstInterAdvShow();
         YG2.InterstitialAdvShow();
+        yield return new WaitForSeconds(0.1f);
 
         roadGeneratorGO.SetActive(true);
 
@@ -113,7 +121,7 @@ public class ArcadeManager : MonoBehaviour
 
         cameraMovement.enabled = false;
         UIArcadeController.Instance.MenuCanvas.gameObject.SetActive(false);
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.15f);
         roadGenerator.Pause();
        
         if (!Storage.Instance.isHintShown)

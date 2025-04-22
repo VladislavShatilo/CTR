@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using YG;
+using TMPro;
 
 public class Hint : MonoBehaviour
 {
     [SerializeField] private GameObject tutorialPanel; // затемнение + текст
-    [SerializeField] private Text tutorialText;
+    [SerializeField] private TextMeshProUGUI tutorialText;
     [SerializeField] private Button leftButton;
     [SerializeField] private Button rightButton;
     [SerializeField] private GameObject playerGO;
@@ -39,28 +40,59 @@ public class Hint : MonoBehaviour
         rightButton.gameObject.SetActive(false);
         baseColor = leftButton.image.color;
 
-        if (YG2.envir.isMobile)
+        if (YG2.envir.language == "ru")
         {
-            tutorialText.text = "Press the left side of the screen\nto move left ";
+            if (YG2.envir.isMobile)
+            {
+                tutorialText.text = "Нажмите на левую часть экрана, чтобы\nпоехать влево ";
 
+            }
+            else if (YG2.envir.isDesktop)
+            {
+                tutorialText.text = "Нажмите A, чтобы поехать влево";
+            }
         }
-        else if(YG2.envir.isDesktop)
+        else
         {
-            tutorialText.text = "Press A to move left";
+            if (YG2.envir.isMobile)
+            {
+                tutorialText.text = "Press the left side of the screen\nto move left ";
+
+            }
+            else if (YG2.envir.isDesktop)
+            {
+                tutorialText.text = "Press A to move left";
+            }
         }
+       
     }
     
 
     void leftButtonFun()
     {
-        if (YG2.envir.isMobile)
+        if (YG2.envir.language == "ru")
         {
-            tutorialText.text = "Nice! Now press the right side of the screen\nto go right.";
+            if (YG2.envir.isMobile)
+            {
+                tutorialText.text = "Отлично! Теперь нажмите на правую часть экрана, чтобы\nпоехать вправо.";
+            }
+            else if (YG2.envir.isDesktop)
+            {
+                tutorialText.text = "Отлично! Теперь нажмите D, чтобы поехать вправо.";
+            }
         }
-        else if(YG2.envir.isDesktop)
+        else
         {
-            tutorialText.text = "Nice! Now press D to go right.";
+            if (YG2.envir.isMobile)
+            {
+                tutorialText.text = "Nice! Now press the right side of the screen\nto go right.";
+            }
+            else if (YG2.envir.isDesktop)
+            {
+                tutorialText.text = "Nice! Now press D to go right.";
+            }
         }
+       
         leftButton.gameObject.SetActive(false);
         rightButton.gameObject.SetActive(true);
         leftBlockImage.gameObject.SetActive(true);
@@ -73,7 +105,16 @@ public class Hint : MonoBehaviour
         rightButton.gameObject.SetActive(false);
         leftBlockImage.gameObject.SetActive(false);
         rightBlockImage.gameObject.SetActive(false);
-        tutorialText.text = "Great!\nLet's go!";
+        if (YG2.envir.language == "ru")
+        {
+            tutorialText.text = "Прекрасно!\nПоехали!";
+
+        }
+        else
+        {
+            tutorialText.text = "Great!\nLet's go!";
+
+        }
         isEnd = true;
         Invoke(nameof(EndTutorial), 1.5f); // Немного подождем и уберем
         

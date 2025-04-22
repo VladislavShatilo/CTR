@@ -3,15 +3,25 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using YG;
 
 public class Gamemanager : MonoBehaviour
 {
     private Camera cachedCamera;
     public bool isPauseGlobal;
-
+  
     private void Start()
     {
-        UIController.Instance.LevelText.text = "Level " + SceneManager.GetActiveScene().name;
+        if(YG2.envir.language == "ru")
+        {
+            UIController.Instance.LevelText.text = "Уровень " + SceneManager.GetActiveScene().name;
+
+        }
+        else
+        {
+            UIController.Instance.LevelText.text = "Level " + SceneManager.GetActiveScene().name;
+
+        }
         PlayerMove.Instance.enabled = false;
         UIController.Instance.UIMenuGameHide(false);
         cachedCamera = Camera.main;

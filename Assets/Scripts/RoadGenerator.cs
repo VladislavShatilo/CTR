@@ -13,6 +13,7 @@ public class RoadGenerator : MonoBehaviour
 
     private int prevRandValue;
     private List<GameObject> roads = new List<GameObject>();
+    private float buffSpeed;
    
     void Start()
     {
@@ -113,6 +114,15 @@ public class RoadGenerator : MonoBehaviour
     {
         ResetLevel();
         StartLevel();
+    }
+    public void PauseButton()
+    {
+        enabled = false;
+    }
+    public void ContinueButton()
+    {
+        enabled = true;
+
     }
 
     public void Pause()

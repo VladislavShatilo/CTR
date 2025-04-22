@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,8 +14,8 @@ public class CarShop : MonoBehaviour
     public Button unlockButton;
     public Button colorButton;
 
-    public Text priceText;
-    public Text moneyText;
+    public TextMeshProUGUI priceText;
+    public TextMeshProUGUI moneyText;
     public int selectedCarIndex = 0;
     public string[] carPrices;
 
@@ -27,9 +28,9 @@ public class CarShop : MonoBehaviour
     [SerializeField] GameObject block;
     [SerializeField] GameObject NoMoneyWindow;
     [SerializeField] GameObject NoSeasonWindow;
-    [SerializeField] Text noMoneyTxt;
-    [SerializeField] Text noMoneyRewardTxt;
-    [SerializeField] Text carMultiplierText;
+    [SerializeField] TextMeshProUGUI noMoneyTxt;
+    [SerializeField] TextMeshProUGUI noMoneyRewardTxt;
+    [SerializeField] TextMeshProUGUI carMultiplierText;
     [SerializeField] private Image rewardImage;
     
 
@@ -114,8 +115,19 @@ public class CarShop : MonoBehaviour
                 rewardButton.gameObject.SetActive(false);
             }
             int moneyNeeded = int.Parse(carPrices[selectedCarIndex]) - Storage.Instance.money;
-            noMoneyTxt.text = "NOT ENOUGH MONEY\n" + moneyNeeded.ToString("N0")+ " NEEDED";
-            noMoneyRewardTxt.text = "Watch ad for " + CalculateRewardCoins().ToString();
+            if(YG2.envir.language == "ru")
+            {
+                noMoneyTxt.text = "НЕ ХВАТАЕТ ДЕНЕГ\n" + moneyNeeded.ToString("N0") + " НУЖНО";
+                noMoneyRewardTxt.text = "Смотреть рекламу за " + CalculateRewardCoins().ToString();
+
+            }
+            else
+            {
+                noMoneyTxt.text = "NOT ENOUGH MONEY\n" + moneyNeeded.ToString("N0") + " NEEDED";
+                noMoneyRewardTxt.text = "Watch ad for " + CalculateRewardCoins().ToString();
+
+            }
+           
             NoMoneyWindow.SetActive(true);
         }
 
@@ -177,7 +189,16 @@ public class CarShop : MonoBehaviour
         {
             string price = carPrices[selectedCarIndex];
             int numberOfSeason =int.Parse(price[price.Length - 1].ToString()) ;
-            priceText.text = "Season " + numberOfSeason;
+            if (YG2.envir.language == "ru")
+            {
+                priceText.text = "Сезон " + numberOfSeason;
+
+            }
+            else
+            {
+                priceText.text = "Season " + numberOfSeason;
+
+            }
         }
 
         SetActiveCar(selectedCarIndex);

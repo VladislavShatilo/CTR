@@ -61,13 +61,21 @@ public class WindowAnimation : MonoBehaviour
         controller.InfoInMenuCloseButton.onClick.AddListener(delegate { ToggleMenuOff("InfoGameWindow", 0); });
         controller.PauseInGameOnButton.onClick.AddListener(delegate { ToggleMenuOn("PauseWindow"); });
         controller.PauseContinueButton.onClick.AddListener(delegate { ToggleMenuOff("PauseWindow",(int)PauseOptions.Continue); });
+        controller.PauseRestartButton.onClick.AddListener(delegate { ShowMidgame(); });
         controller.PauseRestartButton.onClick.AddListener(delegate { ToggleMenuOff("PauseWindow", (int)PauseOptions.Restart); });
+        controller.PauseQuitButton.onClick.AddListener(delegate { ShowMidgame(); });
         controller.PauseQuitButton.onClick.AddListener(delegate { ToggleMenuOff("PauseWindow", (int)PauseOptions.Quit); });
         controller.AdvCloseButton.onClick.AddListener(delegate { ToggleMenuOff("AdWindow", 0); });
+        controller.ResultRestartBtn.onClick.AddListener(delegate { ShowMidgame(); });
         controller.ResultRestartBtn.onClick.AddListener(delegate { ToggleMenuOff("ResultWindow",(int)FinalOptions.Restart); });
+        controller.ResultQuitBtn.onClick.AddListener(delegate { ShowMidgame(); });
         controller.ResultQuitBtn.onClick.AddListener(delegate { ToggleMenuOff("ResultWindow", (int)FinalOptions.Quit); });
     }
 
+    public void ShowMidgame()
+    {
+        YG2.InterstitialAdvShow();
+    }
     public void CloseAdvWindow()
     {
         ToggleMenuOff("AdWindow", 0);
@@ -141,14 +149,14 @@ public class WindowAnimation : MonoBehaviour
                 manager.ContinueGame();
                 break;
             case 1:
-                YG2.InterstitialAdvShow();
+               // YG2.InterstitialAdvShow();
 
                 manager.RestartGame();
                 break;
             case 2:
                 //  FindObjectOfType<BackToMainMenu>().Arcade1(); 
                 // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-                YG2.InterstitialAdvShow();
+               // YG2.InterstitialAdvShow();
 
                 BackToMenu();
 
@@ -163,15 +171,13 @@ public class WindowAnimation : MonoBehaviour
         switch (action)
         {
             case 0:
+                //YG2.InterstitialAdvShow();
                 Storage.Instance.isRewardArcadeShown = false;
-                YG2.InterstitialAdvShow();
                 manager.RestartGame();
                 break;
             case 1:
+                //YG2.InterstitialAdvShow();
                 Storage.Instance.isRewardArcadeShown = false;
-                YG2.InterstitialAdvShow();
-
-                // YG2.optionalPlatform.FirstInterAdvShow();
                 BackToMenu();
                 break;
             

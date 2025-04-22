@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
 
 
 public class UIArcadeController : MonoBehaviour
@@ -15,10 +17,10 @@ public class UIArcadeController : MonoBehaviour
     [SerializeField] private GameObject advWindowGO;
 
     [Header("In Game UI")]
-    [SerializeField] private Text countDownInGameText;
+    [SerializeField] private TextMeshProUGUI countDownInGameText;
     [SerializeField] private Canvas inGameCanvas;
-    [SerializeField] private Text scoreInGameText;
-    [SerializeField] private Text moneyInGameText;
+    [SerializeField] private TextMeshProUGUI scoreInGameText;
+    [SerializeField] private TextMeshProUGUI moneyInGameText;
     [SerializeField] private Button pauseInGameOnButton;
     [SerializeField] private Button pauseQuitButton;
     [SerializeField] private Button pauseRestartButton;
@@ -30,17 +32,17 @@ public class UIArcadeController : MonoBehaviour
 
     [Header("Main Menu UI")]
     [SerializeField] private Canvas menuCanvas;
-    [SerializeField] private Text coinsInMenuText;
-    [SerializeField] private Text starsInMenuText;
-    [SerializeField] private Text scoreInMenuText;
+    [SerializeField] private TextMeshProUGUI coinsInMenuText;
+    [SerializeField] private TextMeshProUGUI starsInMenuText;
+    [SerializeField] private TextMeshProUGUI scoreInMenuText;
     [SerializeField] private Button settingInMenuOnButton;
     [SerializeField] private Button settingInMenuCloseButton;
     [SerializeField] private Button infoInMenuOnButton;
     [SerializeField] private Button infoInMenuCloseButton;
 
     [Header("Final Window UI")]
-    [SerializeField] private Text scoreInFinalWindowText;
-    [SerializeField] private Text moneyInFinalWindowText;
+    [SerializeField] private TextMeshProUGUI scoreInFinalWindowText;
+    [SerializeField] private TextMeshProUGUI moneyInFinalWindowText;
     [SerializeField] private Button quitInFinalWindowButton;
     [SerializeField] private Button restartInFinalWindowButton;
 
@@ -63,6 +65,7 @@ public class UIArcadeController : MonoBehaviour
         starsInMenuText.text = Storage.Instance.stars.ToString("N0");
         coinsInMenuText.text = Storage.Instance.money.ToString("N0");
         scoreInMenuText.text = Storage.Instance.score.ToString("N0");
+        YG2.SetLeaderboard("score", Storage.Instance.score);
     }
     public void ShowFinalWindow()
     {
@@ -78,16 +81,16 @@ public class UIArcadeController : MonoBehaviour
     public GameObject PauseWindowGO => pauseWindowGO;
     public GameObject FinalWindowGO => finalWindowGO;
     public GameObject AdvWindowGO => advWindowGO;
-    public Text CountDownInGameText => countDownInGameText;
+    public TextMeshProUGUI CountDownInGameText => countDownInGameText;
     public Canvas MenuCanvas => menuCanvas;
     public Canvas InGameCanvas => inGameCanvas;
-    public Text CoinsInMenuText => coinsInMenuText;
-    public Text StarsInMenuText => starsInMenuText;
-    public Text ScoreInMenuText => scoreInMenuText;
-    public Text ScoreInGameText => scoreInGameText;
-    public Text MoneyInGameText => moneyInGameText;
-    public Text ScoreInFinalWindowText => scoreInFinalWindowText;
-    public Text MoneyInFinalWindowText => moneyInFinalWindowText;
+    public TextMeshProUGUI CoinsInMenuText => coinsInMenuText;
+    public TextMeshProUGUI StarsInMenuText => starsInMenuText;
+    public TextMeshProUGUI ScoreInMenuText => scoreInMenuText;
+    public TextMeshProUGUI ScoreInGameText => scoreInGameText;
+    public TextMeshProUGUI MoneyInGameText => moneyInGameText;
+    public TextMeshProUGUI ScoreInFinalWindowText => scoreInFinalWindowText;
+    public TextMeshProUGUI MoneyInFinalWindowText => moneyInFinalWindowText;
     public Button QuitInFinalWindowButton => quitInFinalWindowButton;
     public Button RestartInFinalWindowButton => restartInFinalWindowButton;
     public Button SettingInMenuOnButton => settingInMenuOnButton;

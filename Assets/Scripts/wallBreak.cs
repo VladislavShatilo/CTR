@@ -11,7 +11,7 @@ public class wallBreak : MonoBehaviour
     [SerializeField] int wallPower;
     [SerializeField] TextMeshProUGUI textWallPower;
     [SerializeField] GameObject bricksEffect;
-    private Text powerText;
+    private TextMeshProUGUI powerText;
 
     private void OnValidate()
     {

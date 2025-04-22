@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,8 +8,8 @@ public class smoothScore : MonoBehaviour
 {
     [SerializeField] private float durationInSeconds = 1f;
 
-    private Text scoreInFinalWindowText;
-    private Text moneyInFinalWindowText;
+    private TextMeshProUGUI scoreInFinalWindowText;
+    private TextMeshProUGUI moneyInFinalWindowText;
     private int currentScore;
     private int currentMoney;
     private float timer;

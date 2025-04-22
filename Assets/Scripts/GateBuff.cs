@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +9,7 @@ public class gate : MonoBehaviour
     [SerializeField] private GameObject pointGateEffect;
     [SerializeField] private int power;
     [SerializeField] private GateScript gate1;
-    private Text powerText;
+    private TextMeshProUGUI powerText;
 
     void Start()
     {

@@ -10,10 +10,10 @@ public class TextPingPong : MonoBehaviour
     [SerializeField] private float pulseSpeed = 1.0f;
     [SerializeField] private float minSize = 1.0f;
     [SerializeField] private float maxSize = 1.5f;
-    private Text text;
+    private TextMeshProUGUI text;
     void Start()
     {
-        text = GetComponent<Text>();
+        text = GetComponent<TextMeshProUGUI>();
     }
 
     void Update()

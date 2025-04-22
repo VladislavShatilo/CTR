@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using YG;
+using TMPro;
 
 public class mainManager : MonoBehaviour
 {
@@ -13,17 +14,35 @@ public class mainManager : MonoBehaviour
     [SerializeField] public GameObject[] cars;
     [SerializeField] private Material[] carMaterials;
 
-    private Text moneyInGame;
+    private TextMeshProUGUI moneyInGame;
     private Renderer[] carRenderer;
     private int countOfCoinsInLevels;
 
-    [MenuItem("Tools/Force Open TMP Converter")]
-    public static void ShowConverter()
-    {
-        // Открываем стандартный TMP-конвертер
-        //UnityEditor.TextCore.Text.Text
-        //UnityEditor.TextCore.Text.TextMeshProImporter.ShowTextMeshProImporter();
-    }
+    //private void OnEnable()
+    //{
+    //    YG2.onPauseGame += HandlePauseGame;
+    //}
+
+    //private void OnDisable()
+    //{
+    //    YG2.onPauseGame -= HandlePauseGame;
+    //}
+
+    //private void HandlePauseGame(bool isPaused)
+    //{
+    //    if (isPaused)
+    //    {
+    //        Debug.Log("Игра приостановлена");
+    //        // Действия при паузе (например, остановка времени)
+    //        Time.timeScale = 0f;
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("Игра возобновлена");
+    //        // Действия при возобновлении игры
+    //        Time.timeScale = 1f;
+    //    }
+    //}
     private void Awake()
     {
         YG2.StartInit();
