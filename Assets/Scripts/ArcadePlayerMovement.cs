@@ -10,14 +10,15 @@ using YG;
 
 public class ArcadePlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float movespeed;
+    [SerializeField] private float moveSpeed;
     [SerializeField] private float moveRange;
     [SerializeField] private int maxSteerRotation;
     [SerializeField] private float steerRotationSpeed;
     [SerializeField] private RoadGenerator roadGenerator;
-    [SerializeField] smoothScore smooth_Score;
     [SerializeField] private float sensetivity;
 
+    [Header("References")]
+    [SerializeField] private InputHandler inputHandler;
     public bool isGameIntro = false;
 
     private Vector3 currentPos;
@@ -83,33 +84,16 @@ public class ArcadePlayerMovement : MonoBehaviour
             }
 
             UpdateRotation();
-            if (isMobile)
+            float moveDirection = inputHandler.GetMoveDirection();
+         
+            if (Mathf.Abs(moveDirection) > 0.01f)
             {
-                if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
-                {
-                    if (Input.mousePosition.x < Screen.width / 2 && transform.position.x > -moveRange)
-                    {
-                        transform.Translate(movespeed * Time.deltaTime * -5, 0, 0);
-                    }
-                    else if (Input.mousePosition.x > Screen.width / 2 && transform.position.x < moveRange)
-                    {
-                        transform.Translate(movespeed * Time.deltaTime * 5, 0, 0);
-                    }
-                }
+                
+                transform.Translate(moveSpeed * Time.deltaTime * moveDirection, 0, 0);
+               
             }
-            else 
-            {
-                if (Input.GetKey(KeyCode.A) && transform.position.x > -moveRange)
-                {
-                    transform.Translate(movespeed * Time.deltaTime * -5, 0, 0);
-                }
-                else if (Input.GetKey(KeyCode.D) && transform.position.x < moveRange)
-                {
-                    transform.Translate(movespeed * Time.deltaTime * 5, 0, 0);
-                }
-            }
-          
-          
+
+
         }
     }
 
@@ -170,8 +154,5 @@ public class ArcadePlayerMovement : MonoBehaviour
         enabled = true;
         carMesh.gameObject.SetActive(true);
     }
-    public void CountScore()
-    {
-        smooth_Score.CountScore();
-    }
+   
 }

@@ -10,7 +10,6 @@ public class Adv : MonoBehaviour
     private string rewardIDArcade = "Arcade";
     private string rewardIDShop = "Shop";
 
-
     private void OnEnable()
     {
         YG2.onRewardAdv += OnReward;    
@@ -21,8 +20,6 @@ public class Adv : MonoBehaviour
     {
         YG2.onRewardAdv -= OnReward;
     }
-
-
 
     
     public void OnReward(string id)
