@@ -140,4 +140,8 @@ public class RoadGenerator : MonoBehaviour
     {
         speed += buff;
     }
+    public void SetZeroSpeed()
+    {
+        speed= 0;
+    }
 }

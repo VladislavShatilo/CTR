@@ -14,16 +14,17 @@ public class ArcadeObstacleContact : MonoBehaviour
         particlesCrashPrefab = other.GetComponent<PlayerEffects>().GetParticlesCrashPrefab();
 
         yield return new WaitForSeconds(0);
-        if (other.gameObject.GetComponent<buffScripts>().GetImmortality())
+        if (other.gameObject.GetComponent<BuffManager>().GetImmortality())
         {
             Destroy(gameObject);
             Instantiate(particlesImortalityPrefab, other.gameObject.transform.position, transform.rotation);
         }
         else
         {
-            FindObjectOfType<mainManager>().SaveCoinsInLevel();
+            FindObjectOfType<MainManager>().SaveCoinsInLevel();
             Instantiate(particlesCrashPrefab, other.gameObject.transform.position, transform.rotation);
             other.gameObject.GetComponent<ArcadePlayerMovement>().DestroyCar();
+            ArcadeManager.Instance.SetZeroSpeed();
             yield return new WaitForSeconds(0.7f);
             int score = int.Parse(UIArcadeController.Instance.ScoreInGameText.text, System.Globalization.NumberStyles.AllowThousands);
            

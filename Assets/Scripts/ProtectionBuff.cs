@@ -6,11 +6,11 @@ using UnityEngine;
 public class ProtectionBuff : MonoBehaviour
 {
     [SerializeField] private bool isProtection;
-    private buffScripts playerBuffs;
+    private BuffManager playerBuffs;
 
     private void OnTriggerEnter(Collider other)
     {
-        playerBuffs = other.attachedRigidbody.GetComponent<buffScripts>();
+        playerBuffs = other.attachedRigidbody.GetComponent<BuffManager>();
 
         if (playerBuffs)
         {

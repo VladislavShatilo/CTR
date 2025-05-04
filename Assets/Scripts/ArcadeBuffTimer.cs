@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 public class ArcadeBuffTimer : MonoBehaviour
 {
-    [SerializeField] private buffScripts buffScripts;
+    [SerializeField] private BuffManager buffScripts;
     [SerializeField] private float countdownTime = 5f;
 
     public bool isTimerActive = false;
@@ -21,6 +21,11 @@ public class ArcadeBuffTimer : MonoBehaviour
     {
         timerText = GetComponentInChildren<TextMeshProUGUI>();
         buffImage = GetComponentInChildren<Image>();
+        if (timerText == null || buffImage == null)
+        {
+            Debug.LogError("ArcadeBuffTimer: Missing UI components!");
+            enabled = false;
+        }
         EnableTimer(false);
 
     }
@@ -43,7 +48,7 @@ public class ArcadeBuffTimer : MonoBehaviour
             {
                 currentTime = 0f;               
                 EnableTimer(false);
-
+                
                 if (mode.Equals("IMMORTALITY"))
                 {
                     buffScripts.DeactivateImmortality();
@@ -65,7 +70,7 @@ public class ArcadeBuffTimer : MonoBehaviour
         timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
-    public void StartTimer(String buff, Sprite buffIMG)
+    public void StartTimer(string buff, Sprite buffIMG)
     {
         mode = buff;
         buffImage.sprite = buffIMG;

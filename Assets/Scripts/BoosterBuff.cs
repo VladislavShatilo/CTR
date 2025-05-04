@@ -26,13 +26,14 @@ public class boosterBuff : MonoBehaviour
         {
             if (!isNegative)
             {
-                other.attachedRigidbody.GetComponent<ArcadePlayerMovement>().AddSpeed(250);
-                other.attachedRigidbody.GetComponent<ArcadePlayerMovement>().SetCameraView(80);
+                ArcadeManager.Instance.AddSpeed(250);
+                Camera.main.fieldOfView = 80;
             }
             else
             {
-                other.attachedRigidbody.GetComponent<ArcadePlayerMovement>().AddSpeed(-100);
-                other.attachedRigidbody.GetComponent<ArcadePlayerMovement>().SetCameraView(45);
+                ArcadeManager.Instance.AddSpeed(-100);
+                Camera.main.fieldOfView = 45;
+
             }
             Destroy(gameObject);
         }

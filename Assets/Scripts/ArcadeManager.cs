@@ -5,24 +5,36 @@ using UnityEngine;
 using UnityEngine.UI;
 using YG;
 using TMPro;
+using TMPro.Examples;
 public class ArcadeManager : MonoBehaviour
 {
+    public static ArcadeManager Instance { get; private set; }
+
     [SerializeField] private GameObject playerGO; 
     [SerializeField] private List<ArcadeBuffTimer> arcadeBuffTimers;
     [SerializeField] private GameObject roadGeneratorGO;
     [SerializeField] private GameObject cityBackgroundGO;
     [SerializeField] private GameObject hintGO;
-
+    [Header("Camera")]
+    [SerializeField] private ArcadeCameraController cameraController;
     private CameraMovementArcade cameraMovement;
     private TextMeshProUGUI countDownText;
     private ArcadePlayerMovement arcadePlayerMovement;
     private RoadGenerator roadGenerator;
     private PointsCounter pointsCounter;
 
- 
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject); // Удалить дубликат
+            return;
+        }
+
+        Instance = this;
+    }
     private void Start()
     {
-       
         pointsCounter = FindObjectOfType<PointsCounter>();
           countDownText = UIArcadeController.Instance.CountDownInGameText;
         arcadePlayerMovement = playerGO.GetComponent<ArcadePlayerMovement>();
@@ -84,7 +96,7 @@ public class ArcadeManager : MonoBehaviour
         FindObjectOfType<ArcadePlayerMovement>().RestartCar();
 
         playerGO.SetActive(true);
-        playerGO.GetComponent<buffScripts>().Restart();
+        playerGO.GetComponent<BuffManager>().Restart();
         arcadePlayerMovement.enabled = true;
 
         foreach(var arcadeBuffTimer in arcadeBuffTimers)
@@ -94,7 +106,7 @@ public class ArcadeManager : MonoBehaviour
 
         FindObjectOfType<PointsCounter>().currentScore = 0f;
         controller.MoneyInGameText.text = "0";
-        FindObjectOfType<mainManager>().SetZeroOnCoinsInLevel();
+        FindObjectOfType<MainManager>().SetZeroOnCoinsInLevel();
     }
     public void ContinueRoadGen()
     {
@@ -109,7 +121,6 @@ public class ArcadeManager : MonoBehaviour
 
     private IEnumerator StartArcadeFromMenuCor()
     {
-        //YG2.optionalPlatform.FirstInterAdvShow();
         YG2.InterstitialAdvShow();
         yield return new WaitForSeconds(0.1f);
 
@@ -117,7 +128,8 @@ public class ArcadeManager : MonoBehaviour
 
         UIArcadeController.Instance.InGameCanvas.gameObject.SetActive(true);
         arcadePlayerMovement.enabled = true;
-        arcadePlayerMovement.isGameIntro = true;
+        cameraController = Camera.main.GetComponent<ArcadeCameraController>();
+        cameraController.PlayIntroAnimation(transform);
 
         cameraMovement.enabled = false;
         UIArcadeController.Instance.MenuCanvas.gameObject.SetActive(false);
@@ -135,5 +147,14 @@ public class ArcadeManager : MonoBehaviour
             roadGenerator.Continue();
         }
         cityBackgroundGO.SetActive(false);
+    }
+
+    public void AddSpeed(float buff)
+    {
+        roadGenerator.AddSpeed(buff);
+    }
+    public void SetZeroSpeed()
+    {
+        roadGenerator.SetZeroSpeed();
     }
 }

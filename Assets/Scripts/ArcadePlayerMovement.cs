@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro.Examples;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
@@ -10,91 +11,53 @@ using YG;
 
 public class ArcadePlayerMovement : MonoBehaviour
 {
+    [Header("Movement Settings")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private float moveRange;
     [SerializeField] private int maxSteerRotation;
     [SerializeField] private float steerRotationSpeed;
-    [SerializeField] private RoadGenerator roadGenerator;
-    [SerializeField] private float sensetivity;
+    [SerializeField] private float rotationMultiplierY = 1.25f;
+    [SerializeField] private float rotationMultiplierZ = 0.5f;
 
     [Header("References")]
     [SerializeField] private InputHandler inputHandler;
-    public bool isGameIntro = false;
 
     private Vector3 currentPos;
     private Vector3 lastPos;
-    private float minMoveDistanceToRotate = 0.02f;
+    private readonly float minMoveDistanceToRotate = 0.02f;
     private float rotation;
     private Renderer carMesh;
-    private Camera cachedCamera;
-    private bool isMobile;
+    private Transform carTransform;
 
     private void Start()
     {
-        isMobile  = YG2.envir.isMobile;
-        carMesh =FindObjectOfType<mainManager>().cars[Storage.Instance.SelectedCar].GetComponent<Renderer>(); 
-        cachedCamera = Camera.main;
-        cachedCamera.gameObject.transform.SetParent(transform);     
+        if (!CarProvider.Instance.Cars[Storage.Instance.SelectedCar].TryGetComponent(out carMesh))
+        {
+            Debug.LogError("ArcadePlayerMovement: Car mesh is missing!");
+            enabled = false;
+        }
+        carTransform = carMesh.gameObject.transform;
     }
-
-
+   
     void LateUpdate()
-    {      
-        if (isGameIntro)
+    {
+        UpdateRotation();
+        float moveDirection = inputHandler.GetMoveDirection();
+
+        if (Mathf.Abs(moveDirection) > 0.01f)
         {
-            Vector3 camPos = cachedCamera.transform.position;
-            Vector3 camRotation = cachedCamera.transform.eulerAngles;
 
-            float tmpX = Mathf.Lerp(cachedCamera.transform.position.x, 0, 0.15f);
-            float tmpY = Mathf.Lerp(cachedCamera.transform.position.y, 24, 0.15f);
-            float tmpZ = Mathf.Lerp(cachedCamera.transform.position.z, -25, 0.3f);
+            float newX = transform.position.x + moveDirection * moveSpeed * Time.deltaTime;
+            newX = Mathf.Clamp(newX, -moveRange, moveRange);
 
-            Vector3 tmpPos = new Vector3(tmpX, tmpY, tmpZ);
-
-            tmpX = Mathf.Lerp(cachedCamera.transform.eulerAngles.x, 26, 0.12f);
-            tmpY = Mathf.Lerp(cachedCamera.transform.eulerAngles.y, 0, 0.1f);
-
-            Vector3 tmpEuler = new Vector3(tmpX, tmpY, cachedCamera.transform.eulerAngles.z);
-
-            if (cachedCamera.transform.position.x >= -0.3 && cachedCamera.transform.position.x < 0.3 &&
-                cachedCamera.transform.position.y >= 23.7 && cachedCamera.transform.position.y < 24.3 &&
-                cachedCamera.transform.position.z >= -25.3 && cachedCamera.transform.position.z < -24.7 &&
-                cachedCamera.transform.eulerAngles.x >= 25.7 && cachedCamera.transform.eulerAngles.x < 26.3 &&
-                cachedCamera.transform.eulerAngles.y >= -0.3 && cachedCamera.transform.eulerAngles.y < 0.3)
-            {
-                isGameIntro = false;
-            }
-               
-            else
-            {
-                cachedCamera.transform.position = tmpPos;
-                cachedCamera.transform.eulerAngles = tmpEuler;
-            }
-        }
-        else
-        {
-            if (cachedCamera.fieldOfView < 60)
-            {
-                cachedCamera.fieldOfView += 0.1f;
-            }
-            else if (cachedCamera.fieldOfView > 60)
-            {
-                cachedCamera.fieldOfView -= 0.1f;
-
-            }
-
-            UpdateRotation();
-            float moveDirection = inputHandler.GetMoveDirection();
-         
-            if (Mathf.Abs(moveDirection) > 0.01f)
-            {
-                
-                transform.Translate(moveSpeed * Time.deltaTime * moveDirection, 0, 0);
-               
-            }
-
+            transform.position = new Vector3(
+                newX,
+                transform.position.y,
+                transform.position.z
+            );
 
         }
+
     }
 
     void UpdateRotation()
@@ -129,30 +92,16 @@ public class ArcadePlayerMovement : MonoBehaviour
         }
 
         lastPos = currentPos;
-        rotation = Mathf.Clamp(rotation, -maxSteerRotation , maxSteerRotation );
-        carMesh.gameObject.transform.localEulerAngles = new Vector3(carMesh.transform.localEulerAngles.x, rotation*1.25f, rotation/2f);
+        rotation = Mathf.Clamp(rotation, -maxSteerRotation, maxSteerRotation);
+        carTransform.localEulerAngles = new Vector3(carTransform.localEulerAngles.x, rotation * rotationMultiplierY, rotation * rotationMultiplierZ);
     }
 
-    public void AddSpeed(float buff)
-    {
-        roadGenerator.AddSpeed(buff);
-    }
 
-    public void SetCameraView(float value)
+    public void DestroyCar() => SetCarActive(false);
+    public void RestartCar() => SetCarActive(true);
+    public void SetCarActive(bool isActive)
     {
-        cachedCamera.fieldOfView = value;
+        enabled = isActive;
+        carMesh.gameObject.SetActive(isActive);
     }
-
-    public void DestroyCar()
-    {
-        enabled = false;
-        carMesh.gameObject.SetActive(false);
-        roadGenerator.speed = 0;
-    }
-    public void RestartCar()
-    {
-        enabled = true;
-        carMesh.gameObject.SetActive(true);
-    }
-   
 }

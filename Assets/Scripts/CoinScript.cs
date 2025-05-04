@@ -15,13 +15,13 @@ public class CoinScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.attachedRigidbody.GetComponent<buffScripts>().GetDoubledCoins())
+        if (other.attachedRigidbody.GetComponent<BuffManager>().GetDoubledCoins())
         {
-            FindObjectOfType<mainManager>().AddOneCoinInLevel(2);
+            FindObjectOfType<MainManager>().AddOneCoinInLevel(2);
         }
         else
         {
-            FindObjectOfType<mainManager>().AddOneCoinInLevel(1);
+            FindObjectOfType<MainManager>().AddOneCoinInLevel(1);
         }
 
         Destroy(gameObject);

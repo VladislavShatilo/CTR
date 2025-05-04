@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class buffScripts : MonoBehaviour
+public class BuffManager : MonoBehaviour
 {
     [SerializeField] List<ArcadeBuffTimer> timers;
     [SerializeField] List<Sprite> buffImages;

@@ -8,48 +8,29 @@ using UnityEngine.UI;
 using YG;
 using TMPro;
 
-public class mainManager : MonoBehaviour
+public class MainManager : MonoBehaviour
 {
 
-    [SerializeField] public GameObject[] cars;
     [SerializeField] private Material[] carMaterials;
-
+    private GameObject[] cars;
     private TextMeshProUGUI moneyInGame;
     private Renderer[] carRenderer;
     private int countOfCoinsInLevels;
+    public static MainManager Instance { get; private set; }
 
-    //private void OnEnable()
-    //{
-    //    YG2.onPauseGame += HandlePauseGame;
-    //}
-
-    //private void OnDisable()
-    //{
-    //    YG2.onPauseGame -= HandlePauseGame;
-    //}
-
-    //private void HandlePauseGame(bool isPaused)
-    //{
-    //    if (isPaused)
-    //    {
-    //        Debug.Log("Игра приостановлена");
-    //        // Действия при паузе (например, остановка времени)
-    //        Time.timeScale = 0f;
-    //    }
-    //    else
-    //    {
-    //        Debug.Log("Игра возобновлена");
-    //        // Действия при возобновлении игры
-    //        Time.timeScale = 1f;
-    //    }
-    //}
     private void Awake()
     {
         YG2.StartInit();
         Application.targetFrameRate = 60;
         Camera.main.transform.SetParent(null);
         moneyInGame = UIArcadeController.Instance.MoneyInGameText;
-        
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject); // Удалить дубликат
+            return;
+        }
+
+        Instance = this;
     }
     void Start()
     {
@@ -60,7 +41,7 @@ public class mainManager : MonoBehaviour
     }
     void StartCor()
     {
-       
+        cars = CarProvider.Instance.Cars;
         carRenderer = new Renderer[cars.Length];
         for (int i = 0; i < carRenderer.Length; i++)
         {
@@ -123,4 +104,5 @@ public class mainManager : MonoBehaviour
 
     }
 
+  
 }
