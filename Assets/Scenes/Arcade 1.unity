@@ -38,6 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -498,7 +499,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorialPanel: {fileID: 70544549}
-  tutorialText: {fileID: 146542886}
+  tutorialText: {fileID: 0}
   leftButton: {fileID: 450431619}
   rightButton: {fileID: 320342402}
   playerGO: {fileID: 3329021992681430951}
@@ -13000,7 +13001,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4518347042067012406, guid: 27dafab9345d5ba4c851d824d4e63a69, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 3.55
       objectReference: {fileID: 0}
     - target: {fileID: 4518347042067012406, guid: 27dafab9345d5ba4c851d824d4e63a69, type: 3}
       propertyPath: m_LocalRotation.w
