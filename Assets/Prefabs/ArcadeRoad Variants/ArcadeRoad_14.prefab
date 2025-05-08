@@ -1417,6 +1417,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Vehicle_Taxi
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 05aec82adc02f16409639716322b1673, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 05aec82adc02f16409639716322b1673, type: 3}
       propertyPath: m_LocalScale.x
       value: 3
@@ -1546,9 +1550,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98601d987c9c9144e970f70e9b74ce1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particlesImortalityPrefab: {fileID: 100004, guid: b04fc638e58525f4e888ce0804969646, type: 3}
-  particlesCrashPrefab: {fileID: 100004, guid: ca3dcbe4043137344b51d0673025642b, type: 3}
-  player: {fileID: 3899654477473124394, guid: 27dafab9345d5ba4c851d824d4e63a69, type: 3}
 --- !u!1001 &6215643713805220839
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1769,6 +1770,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Vehicle_Car_color02
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 81835658bbd378143a0f525b8552f557, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 81835658bbd378143a0f525b8552f557, type: 3}
       propertyPath: m_LocalScale.x
       value: 3
@@ -1898,9 +1903,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98601d987c9c9144e970f70e9b74ce1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particlesImortalityPrefab: {fileID: 100004, guid: b04fc638e58525f4e888ce0804969646, type: 3}
-  particlesCrashPrefab: {fileID: 100004, guid: ca3dcbe4043137344b51d0673025642b, type: 3}
-  player: {fileID: 3899654477473124394, guid: 27dafab9345d5ba4c851d824d4e63a69, type: 3}
 --- !u!1001 &7639813825623735217
 PrefabInstance:
   m_ObjectHideFlags: 0

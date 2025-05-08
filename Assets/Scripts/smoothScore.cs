@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class smoothScore : MonoBehaviour
+public class SmoothScore : MonoBehaviour
 {
     [SerializeField] private float durationInSeconds = 1f;
 

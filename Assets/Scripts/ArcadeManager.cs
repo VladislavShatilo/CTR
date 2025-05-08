@@ -10,24 +10,27 @@ public class ArcadeManager : MonoBehaviour
 {
     public static ArcadeManager Instance { get; private set; }
 
+    [Header("References")]
     [SerializeField] private GameObject playerGO; 
     [SerializeField] private List<ArcadeBuffTimer> arcadeBuffTimers;
     [SerializeField] private GameObject roadGeneratorGO;
     [SerializeField] private GameObject cityBackgroundGO;
     [SerializeField] private GameObject hintGO;
-    [Header("Camera")]
-    [SerializeField] private ArcadeCameraController cameraController;
+    [SerializeField] private PointsCounter pointsCounter;
+
+   
+
     private CameraMovementArcade cameraMovement;
     private TextMeshProUGUI countDownText;
     private ArcadePlayerMovement arcadePlayerMovement;
     private RoadGenerator roadGenerator;
-    private PointsCounter pointsCounter;
+    private UIArcadeController UIArcadeController;
 
     void Awake()
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject); // Удалить дубликат
+            Destroy(gameObject); 
             return;
         }
 
@@ -35,21 +38,26 @@ public class ArcadeManager : MonoBehaviour
     }
     private void Start()
     {
-        pointsCounter = FindObjectOfType<PointsCounter>();
-          countDownText = UIArcadeController.Instance.CountDownInGameText;
+        UIArcadeController = UIArcadeController.Instance;
+        countDownText = UIArcadeController.Instance.CountDownInGameText;
         arcadePlayerMovement = playerGO.GetComponent<ArcadePlayerMovement>();
         roadGenerator = roadGeneratorGO.GetComponent<RoadGenerator>();
         cameraMovement = Camera.main.GetComponent<CameraMovementArcade>(); 
+        if(countDownText == null || arcadePlayerMovement == null || roadGenerator == null 
+            || cameraMovement == null || UIArcadeController==null)
+        {
+            Debug.LogError("ArcadeManager: Critical components are missing!");
+            enabled = false;
+        }
     }
     IEnumerator StartCountdown()
     {
-        countDownText.text = "3";
-        countDownText.gameObject.SetActive(true); 
-        yield return new WaitForSecondsRealtime(0.7f);
-        countDownText.text = "2";
-        yield return new WaitForSecondsRealtime(0.7f);
-        countDownText.text = "1";
-        yield return new WaitForSecondsRealtime(0.7f);
+        var wait = new WaitForSecondsRealtime(0.7f);
+        for (int i = 3; i > 0; i--)
+        {
+            countDownText.text = i.ToString();
+            yield return wait;
+        }
         countDownText.gameObject.SetActive(false);
 
         roadGenerator.ContinueButton();
@@ -57,56 +65,44 @@ public class ArcadeManager : MonoBehaviour
 
         arcadePlayerMovement.enabled = true;
 
-        foreach (var arcadeBuffTimer in arcadeBuffTimers)
-        {
-            arcadeBuffTimer.ContinueTimer();
-        }
+        SetAllTimersActive(true);
     }
    
     public void PauseGame()
     {
-        UIArcadeController.Instance.PauseWindowGO.SetActive(true);
+        UIArcadeController.PauseWindowGO.SetActive(true);
         roadGenerator.PauseButton();
         pointsCounter.StopCounter();
 
         arcadePlayerMovement.enabled = false;
 
-        foreach(var arcadeBuffTimer in arcadeBuffTimers)
-        {
-            arcadeBuffTimer.PauseTimer();
-        }
+        SetAllTimersActive(false);
     }
 
     public void ContinueGame()
     {
-        UIArcadeController.Instance.PauseWindowGO.SetActive(false);
+        UIArcadeController.PauseWindowGO.SetActive(false);
         StartCoroutine(StartCountdown());
     }
 
     public void RestartGame()
     {
-        UIArcadeController controller = UIArcadeController.Instance;
-        controller.PauseWindowGO.SetActive(false);
-        controller.FinalWindowGO.SetActive(false);
-        controller.AdvWindowGO.SetActive(false);
-        controller.AdvWindowBGImage.gameObject.SetActive(true);
+
+        UIArcadeController.HideAllGameWindows();
+        UIArcadeController.AdvWindowBGImage.gameObject.SetActive(true);
 
 
         roadGenerator.Restart();
-        FindObjectOfType<ArcadePlayerMovement>().RestartCar();
+        arcadePlayerMovement.RestartCar();
 
         playerGO.SetActive(true);
         playerGO.GetComponent<BuffManager>().Restart();
         arcadePlayerMovement.enabled = true;
 
-        foreach(var arcadeBuffTimer in arcadeBuffTimers)
-        {
-            arcadeBuffTimer.StopTimer();
-        }
-
-        FindObjectOfType<PointsCounter>().currentScore = 0f;
-        controller.MoneyInGameText.text = "0";
-        FindObjectOfType<MainManager>().SetZeroOnCoinsInLevel();
+        SetAllTimersActive(false);
+        pointsCounter.currentScore = 0f;
+        UIArcadeController.MoneyInGameText.text = "0";
+        MainManager.Instance.SetZeroOnCoinsInLevel();
     }
     public void ContinueRoadGen()
     {
@@ -126,13 +122,12 @@ public class ArcadeManager : MonoBehaviour
 
         roadGeneratorGO.SetActive(true);
 
-        UIArcadeController.Instance.InGameCanvas.gameObject.SetActive(true);
+        UIArcadeController.InGameCanvas.gameObject.SetActive(true);
         arcadePlayerMovement.enabled = true;
-        cameraController = Camera.main.GetComponent<ArcadeCameraController>();
-        cameraController.PlayIntroAnimation(transform);
+       
 
         cameraMovement.enabled = false;
-        UIArcadeController.Instance.MenuCanvas.gameObject.SetActive(false);
+        UIArcadeController.MenuCanvas.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.15f);
         roadGenerator.Pause();
        
@@ -148,7 +143,14 @@ public class ArcadeManager : MonoBehaviour
         }
         cityBackgroundGO.SetActive(false);
     }
-
+    private void SetAllTimersActive(bool isActive)
+    {
+        foreach (var timer in arcadeBuffTimers)
+        {
+            if (isActive) timer.ContinueTimer();
+            else timer.PauseTimer();
+        }
+    }
     public void AddSpeed(float buff)
     {
         roadGenerator.AddSpeed(buff);

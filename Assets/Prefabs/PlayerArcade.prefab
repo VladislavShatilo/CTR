@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 7588665737330553800}
   - component: {fileID: 3815212748892512895}
   - component: {fileID: 5718266954909621050}
-  - component: {fileID: 3899654477473124394}
-  - component: {fileID: 8856841085125215589}
+  - component: {fileID: 2012263356863461066}
+  - component: {fileID: 2587765419588543158}
   m_Layer: 0
   m_Name: PlayerArcade
   m_TagString: Untagged
@@ -93,7 +93,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1.73, y: 1.29, z: 3.06}
   m_Center: {x: 0, y: 1.21, z: 0.69}
@@ -109,15 +109,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cb6cecee9825eb4883272befd520f9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movespeed: 20
+  moveSpeed: 20
   moveRange: 20
   maxSteerRotation: 8
   steerRotationSpeed: 50
-  roadGenerator: {fileID: 0}
-  smooth_Score: {fileID: 0}
-  sensetivity: 0.05
-  isGameIntro: 0
---- !u!114 &3899654477473124394
+  rotationMultiplierY: 1.25
+  rotationMultiplierZ: 0.5
+  inputHandler: {fileID: 0}
+--- !u!114 &2012263356863461066
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -126,7 +125,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5326108436070509406}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6318a0bf232d30f41a954b2d20cec310, type: 3}
+  m_Script: {fileID: 11500000, guid: 800d181b51793b541a4dc116336b17b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   timers:
@@ -138,7 +137,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: fd455c03f7b3756478ffee90636579f2, type: 3}
   amountOfActiveBuffs: 0
   isSlotFree: 
---- !u!114 &8856841085125215589
+--- !u!114 &2587765419588543158
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -147,11 +146,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5326108436070509406}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73c12871233bb6143956c09cd4dae164, type: 3}
+  m_Script: {fileID: 11500000, guid: 0dd5fcb8db3c537488668b6da8b16047, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particlesImortalityPrefab: {fileID: 100004, guid: b04fc638e58525f4e888ce0804969646, type: 3}
-  particlesCrashPrefab: {fileID: 100004, guid: ca3dcbe4043137344b51d0673025642b, type: 3}
+  immortalityParticles: {fileID: 19800004, guid: b04fc638e58525f4e888ce0804969646, type: 3}
+  crashParticles: {fileID: 19800004, guid: ca3dcbe4043137344b51d0673025642b, type: 3}
+  smoothScore: {fileID: 0}
 --- !u!1001 &614857979647140283
 PrefabInstance:
   m_ObjectHideFlags: 0

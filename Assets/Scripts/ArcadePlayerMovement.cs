@@ -21,13 +21,14 @@ public class ArcadePlayerMovement : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private InputHandler inputHandler;
-
+    [SerializeField] private ArcadeCameraController cameraController;
     private Vector3 currentPos;
     private Vector3 lastPos;
     private readonly float minMoveDistanceToRotate = 0.02f;
     private float rotation;
     private Renderer carMesh;
     private Transform carTransform;
+
 
     private void Start()
     {
@@ -38,7 +39,12 @@ public class ArcadePlayerMovement : MonoBehaviour
         }
         carTransform = carMesh.gameObject.transform;
     }
-   
+    private void OnEnable()
+    {
+        cameraController = Camera.main.GetComponent<ArcadeCameraController>();
+        cameraController.PlayIntroAnimation(transform);
+    }
+
     void LateUpdate()
     {
         UpdateRotation();

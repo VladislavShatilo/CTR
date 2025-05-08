@@ -46,8 +46,10 @@ public class UIArcadeController : MonoBehaviour
     [SerializeField] private Button quitInFinalWindowButton;
     [SerializeField] private Button restartInFinalWindowButton;
 
-    
-   
+    [Header("References")]
+    [SerializeField] private PlayerObstacleHandler playerObstacleHandler;
+
+
 
     void Awake()
     {
@@ -59,7 +61,20 @@ public class UIArcadeController : MonoBehaviour
 
         Instance = this;
     }
+    private void Start()
+    {
+        playerObstacleHandler.OnCrash += ShowFinalWindow;
+    }
 
+
+   
+    public void HideAllGameWindows()
+    {
+        PauseWindowGO.SetActive(false);
+        FinalWindowGO.SetActive(false);
+        AdvWindowGO.SetActive(false);
+
+    }
     public void SetMenuStatistic()
     {
         starsInMenuText.text = Storage.Instance.stars.ToString("N0");
@@ -69,8 +84,28 @@ public class UIArcadeController : MonoBehaviour
     }
     public void ShowFinalWindow()
     {
-        finalWindowGO.SetActive(true);
-        FindObjectOfType<WindowAnimation>().ToggleMenuOn("ResultWindow");
+        StartCoroutine(ShowFinalWindowCor());
+    }
+    private IEnumerator ShowFinalWindowCor()
+    {
+        yield return new WaitForSeconds(0.7f);
+        int score = int.Parse(UIArcadeController.Instance.ScoreInGameText.text, System.Globalization.NumberStyles.AllowThousands);
+
+        if (!Storage.Instance.isRewardArcadeShown && Storage.Instance.canShowArcadeRewardTime && score > 700 * Storage.Instance.carMultiplier[Storage.Instance.SelectedCar])
+        {
+
+            finalWindowGO.SetActive(true);
+            FindObjectOfType<WindowAnimation>().ToggleMenuOn("ResultWindow");
+            Storage.Instance.isRewardArcadeShown = true;
+
+        }
+        else
+        {
+            finalWindowGO.SetActive(true);
+            FindObjectOfType<WindowAnimation>().ToggleMenuOn("ResultWindow");
+            //smoothScore.CountScore();
+        }
+
     }
     public void ShowFinalAdvWindow()
     {

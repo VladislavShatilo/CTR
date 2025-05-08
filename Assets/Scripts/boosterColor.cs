@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class boosterColor : MonoBehaviour
+public class BoosterColor : MonoBehaviour
 {
     [SerializeField] Image image;
     [SerializeField] Color colorPositive;
