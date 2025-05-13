@@ -64,16 +64,16 @@ public class Gamemanager : MonoBehaviour
         {
             if(level >= 1 && level <= 12)
             {
-                Storage.Instance.money = Storage.Instance.money + Storage.Instance.Season1Money;
+                Storage.Instance.coins = Storage.Instance.coins + Storage.Instance.Season1Money;
             }
             else if(level >= 13 && level <= 24)
             {
-                Storage.Instance.money = Storage.Instance.money + Storage.Instance.Season2Money;
+                Storage.Instance.coins = Storage.Instance.coins + Storage.Instance.Season2Money;
 
             }
             else
             {
-                Storage.Instance.money = Storage.Instance.money + Storage.Instance.Season3Money;
+                Storage.Instance.coins = Storage.Instance.coins + Storage.Instance.Season3Money;
             }
 
             Storage.Instance.Save();

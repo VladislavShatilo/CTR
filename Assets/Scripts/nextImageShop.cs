@@ -92,9 +92,9 @@ public class CarShop : MonoBehaviour
     }
     public void BuyCar()
     {
-        if (Storage.Instance.money >= int.Parse(carPrices[selectedCarIndex]))            
+        if (Storage.Instance.coins >= int.Parse(carPrices[selectedCarIndex]))            
         {
-            Storage.Instance.money = Storage.Instance.money - int.Parse(carPrices[selectedCarIndex]);
+            Storage.Instance.coins = Storage.Instance.coins - int.Parse(carPrices[selectedCarIndex]);
             block.SetActive(false);
             Storage.Instance.cars[selectedCarIndex] = 1;
             
@@ -114,7 +114,7 @@ public class CarShop : MonoBehaviour
 
                 rewardButton.gameObject.SetActive(false);
             }
-            int moneyNeeded = int.Parse(carPrices[selectedCarIndex]) - Storage.Instance.money;
+            int moneyNeeded = int.Parse(carPrices[selectedCarIndex]) - Storage.Instance.coins;
             if(YG2.envir.language == "ru")
             {
                 noMoneyTxt.text = "НЕ ХВАТАЕТ ДЕНЕГ\n" + moneyNeeded.ToString("N0") + " НУЖНО";
@@ -135,7 +135,7 @@ public class CarShop : MonoBehaviour
 
     public void UpdateCoinText()
     {
-        moneyText.text = Storage.Instance.money.ToString("N0");
+        moneyText.text = Storage.Instance.coins.ToString("N0");
 
     }
 
@@ -180,7 +180,7 @@ public class CarShop : MonoBehaviour
         }
 
         carMultiplierText.text =  "x "+Storage.Instance.carMultiplier[selectedCarIndex].ToString();
-        moneyText.text = Storage.Instance.money.ToString("N0");
+        moneyText.text = Storage.Instance.coins.ToString("N0");
         if (!carPrices[selectedCarIndex].StartsWith("Season"))
         {
             priceText.text = int.Parse(carPrices[selectedCarIndex]).ToString("N0");

@@ -22,7 +22,7 @@ public class boosterBuff : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.attachedRigidbody.GetComponent<ArcadePlayerMovement>())
+        if (other.CompareTag("Player"))
         {
             if (!isNegative)
             {

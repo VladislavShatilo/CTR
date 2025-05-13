@@ -5,18 +5,18 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class PlayerObstacleHandler : MonoBehaviour
 {
-    public event System.Action OnCrash; // score, multiplier
+ 
 
     [Header("Effects")]
-    [SerializeField] private ParticleSystem immortalityParticles;
-    [SerializeField] private ParticleSystem crashParticles;
+    [SerializeField] private GameObject immortalityParticles;
+    [SerializeField] private GameObject crashParticles;
+    [SerializeField] private GameObject particlePoint;
 
-    [Header("References")]
-    [SerializeField] private SmoothScore smoothScore;
+
 
     private BuffManager buffManager;
     private ArcadePlayerMovement movement;
-    private 
+    private
     void Start()
     {
         buffManager = GetComponent<BuffManager>();
@@ -40,27 +40,30 @@ public class PlayerObstacleHandler : MonoBehaviour
         }
         else
         {
-            HandleCrashCollision();
+            StartCoroutine( HandleCrashCollision());
         }
     }
-  
+
 
     private void HandleImmortalCollision()
     {
-        immortalityParticles.Play();
+        Instantiate(immortalityParticles, particlePoint.transform);
+       
     }
 
-    private void HandleCrashCollision()
+    private IEnumerator HandleCrashCollision()
     {
         MainManager.Instance.SaveCoinsInLevel();
 
-        crashParticles.Play();
-
+       
+        Instantiate(crashParticles, particlePoint.transform);
         movement.DestroyCar();
         ArcadeManager.Instance.SetZeroSpeed();
-        OnCrash.Invoke();
+        yield return new WaitForSeconds(0.2f);
+        UIManager.Instance.Windows.ShowWindow<UIArcadeFinalWindow>();
+        UIManager.Instance.Windows.GetWindow<UIArcadeFinalWindow>().CountScore();
     }
 
-  
-    
+
+
 }

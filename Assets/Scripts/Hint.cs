@@ -146,7 +146,7 @@ public class Hint : MonoBehaviour
 
     void EndTutorial()
     {
-        FindObjectOfType<ArcadeManager>().ContinueRoadGen();
+        //FindObjectOfType<ArcadeManager>().ContinueRoadGen();
        // Destroy(gameObject);
         tutorialPanel.SetActive(false);
 

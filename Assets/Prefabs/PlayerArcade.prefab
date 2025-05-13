@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3007711465708771314
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5678964513754492668}
+  m_Layer: 0
+  m_Name: ParticlePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5678964513754492668
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3007711465708771314}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.06, y: 0.99, z: 2.22}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4518347042067012406}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5326108436070509406
 GameObject:
   m_ObjectHideFlags: 0
@@ -14,6 +45,7 @@ GameObject:
   - component: {fileID: 5718266954909621050}
   - component: {fileID: 2012263356863461066}
   - component: {fileID: 2587765419588543158}
+  - component: {fileID: 3476877554190794488}
   m_Layer: 0
   m_Name: PlayerArcade
   m_TagString: Untagged
@@ -34,6 +66,7 @@ Transform:
   m_LocalScale: {x: 3.3, y: 3.3, z: 3.3}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5678964513754492668}
   - {fileID: 4487545226522343119}
   - {fileID: 6894848093585032542}
   - {fileID: 8059680249474096705}
@@ -93,7 +126,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1.73, y: 1.29, z: 3.06}
   m_Center: {x: 0, y: 1.21, z: 0.69}
@@ -116,6 +149,7 @@ MonoBehaviour:
   rotationMultiplierY: 1.25
   rotationMultiplierZ: 0.5
   inputHandler: {fileID: 0}
+  cameraController: {fileID: 0}
 --- !u!114 &2012263356863461066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,9 +183,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd5fcb8db3c537488668b6da8b16047, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  immortalityParticles: {fileID: 19800004, guid: b04fc638e58525f4e888ce0804969646, type: 3}
-  crashParticles: {fileID: 19800004, guid: ca3dcbe4043137344b51d0673025642b, type: 3}
-  smoothScore: {fileID: 0}
+  immortalityParticles: {fileID: 100004, guid: b04fc638e58525f4e888ce0804969646, type: 3}
+  crashParticles: {fileID: 100004, guid: ca3dcbe4043137344b51d0673025642b, type: 3}
+  particlePoint: {fileID: 3007711465708771314}
+--- !u!114 &3476877554190794488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5326108436070509406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44c7fcdb08f30554c91c9c62c54cde12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buffManager: {fileID: 2012263356863461066}
+  particlesPrefab: {fileID: 100004, guid: 757df604761b8ef42831192c70ee1099, type: 3}
+  coinSound: {fileID: 7150585665123829359, guid: 9cf3290e52c47da4aa0451e7bfe77b63, type: 3}
 --- !u!1001 &614857979647140283
 PrefabInstance:
   m_ObjectHideFlags: 0

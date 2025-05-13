@@ -151,7 +151,7 @@ public class WindowAnimation : MonoBehaviour
             case 1:
                // YG2.InterstitialAdvShow();
 
-                manager.RestartGame();
+               // manager.RestartGame();
                 break;
             case 2:
                 //  FindObjectOfType<BackToMainMenu>().Arcade1(); 
@@ -173,7 +173,7 @@ public class WindowAnimation : MonoBehaviour
             case 0:
                 //YG2.InterstitialAdvShow();
                 Storage.Instance.isRewardArcadeShown = false;
-                manager.RestartGame();
+              //  manager.RestartGame();
                 break;
             case 1:
                 //YG2.InterstitialAdvShow();
@@ -193,7 +193,7 @@ public class WindowAnimation : MonoBehaviour
         TransitionImage.gameObject.SetActive(true);
         var Smooth = TransitionImage.GetComponent<SmoothTransition>();
  
-        StartCoroutine(Smooth.StartCor());
+        //StartCoroutine(Smooth.StartCor());
 
         yield return new WaitForSeconds(0.7f);
         SceneManager.LoadScene("Arcade");

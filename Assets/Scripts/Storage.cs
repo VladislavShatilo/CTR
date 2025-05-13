@@ -13,7 +13,8 @@ public class Storage : MonoBehaviour
     public bool canShowShopRewardTime = true;
     public float[] carMultiplier = new float[13];
     public int  carCount = 13;
-    public int money; 
+    public int coins;
+    public int coinsInLevel;
     public int stars;
     public int score;
     public int[] levelsDones = new int[36];

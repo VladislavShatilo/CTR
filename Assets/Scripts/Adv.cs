@@ -35,7 +35,7 @@ public class Adv : MonoBehaviour
         else if(id == rewardIDShop)
         {
             CarShop carShop = FindObjectOfType<CarShop>();
-            Storage.Instance.money  += carShop.CalculateRewardCoins();
+            Storage.Instance.coins  += carShop.CalculateRewardCoins();
             carShop.UpdateCoinText();
             Storage.Instance.Save();
         }

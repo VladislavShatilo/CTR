@@ -15,13 +15,14 @@ public class UIArcadeController : MonoBehaviour
     [SerializeField] private GameObject pauseWindowGO;
     [SerializeField] private GameObject finalWindowGO;
     [SerializeField] private GameObject advWindowGO;
-
+    [SerializeField] private TextMeshProUGUI countDownText;
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI moneyText;
+    [SerializeField] private Button pauseButton;
     [Header("In Game UI")]
-    [SerializeField] private TextMeshProUGUI countDownInGameText;
+
     [SerializeField] private Canvas inGameCanvas;
-    [SerializeField] private TextMeshProUGUI scoreInGameText;
-    [SerializeField] private TextMeshProUGUI moneyInGameText;
-    [SerializeField] private Button pauseInGameOnButton;
+
     [SerializeField] private Button pauseQuitButton;
     [SerializeField] private Button pauseRestartButton;
     [SerializeField] private Button pauseContinueButton;
@@ -61,11 +62,7 @@ public class UIArcadeController : MonoBehaviour
 
         Instance = this;
     }
-    private void Start()
-    {
-        playerObstacleHandler.OnCrash += ShowFinalWindow;
-    }
-
+  
 
    
     public void HideAllGameWindows()
@@ -78,7 +75,7 @@ public class UIArcadeController : MonoBehaviour
     public void SetMenuStatistic()
     {
         starsInMenuText.text = Storage.Instance.stars.ToString("N0");
-        coinsInMenuText.text = Storage.Instance.money.ToString("N0");
+        coinsInMenuText.text = Storage.Instance.coins.ToString("N0");
         scoreInMenuText.text = Storage.Instance.score.ToString("N0");
         YG2.SetLeaderboard("score", Storage.Instance.score);
     }
@@ -116,14 +113,14 @@ public class UIArcadeController : MonoBehaviour
     public GameObject PauseWindowGO => pauseWindowGO;
     public GameObject FinalWindowGO => finalWindowGO;
     public GameObject AdvWindowGO => advWindowGO;
-    public TextMeshProUGUI CountDownInGameText => countDownInGameText;
+    public TextMeshProUGUI CountDownInGameText => countDownText;
     public Canvas MenuCanvas => menuCanvas;
     public Canvas InGameCanvas => inGameCanvas;
     public TextMeshProUGUI CoinsInMenuText => coinsInMenuText;
     public TextMeshProUGUI StarsInMenuText => starsInMenuText;
     public TextMeshProUGUI ScoreInMenuText => scoreInMenuText;
-    public TextMeshProUGUI ScoreInGameText => scoreInGameText;
-    public TextMeshProUGUI MoneyInGameText => moneyInGameText;
+    public TextMeshProUGUI ScoreInGameText => scoreText;
+    public TextMeshProUGUI MoneyInGameText => moneyText;
     public TextMeshProUGUI ScoreInFinalWindowText => scoreInFinalWindowText;
     public TextMeshProUGUI MoneyInFinalWindowText => moneyInFinalWindowText;
     public Button QuitInFinalWindowButton => quitInFinalWindowButton;
@@ -132,7 +129,7 @@ public class UIArcadeController : MonoBehaviour
     public Button SettingInMenuCloseButton => settingInMenuCloseButton;
     public Button InfoInMenuOnButton => infoInMenuOnButton;
     public Button InfoInMenuCloseButton => infoInMenuCloseButton;
-    public Button PauseInGameOnButton => pauseInGameOnButton;
+    public Button PauseInGameOnButton => pauseButton;
     public Button PauseQuitButton => pauseQuitButton;
     public Button PauseRestartButton => pauseRestartButton;
     public Button PauseContinueButton => pauseContinueButton;

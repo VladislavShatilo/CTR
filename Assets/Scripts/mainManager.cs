@@ -15,7 +15,6 @@ public class MainManager : MonoBehaviour
     private GameObject[] cars;
     private TextMeshProUGUI moneyInGame;
     private Renderer[] carRenderer;
-    private int countOfCoinsInLevels;
     public static MainManager Instance { get; private set; }
 
     private void Awake()
@@ -23,7 +22,7 @@ public class MainManager : MonoBehaviour
         YG2.StartInit();
         Application.targetFrameRate = 60;
         Camera.main.transform.SetParent(null);
-        moneyInGame = UIArcadeController.Instance.MoneyInGameText;
+      
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject); // Удалить дубликат
@@ -47,9 +46,8 @@ public class MainManager : MonoBehaviour
         {
             carRenderer[i] = cars[i].GetComponent<Renderer>();
         }
-
-        UIArcadeController.Instance.SetMenuStatistic();
-        //YandexGame.FullscreenShow();
+        UIManager.Instance.MenuManager.UpdateStatesInfo();
+      
 
         foreach (var car in cars)
         {
@@ -70,24 +68,13 @@ public class MainManager : MonoBehaviour
     }
    
 
-    public void AddOneCoinInLevel(int count)
-    {
-        countOfCoinsInLevels += count;
-        moneyInGame.text = countOfCoinsInLevels.ToString();
-    }
-
-    public void SetZeroOnCoinsInLevel()
-    {
-        countOfCoinsInLevels = 0;
-    }
 
     public void SaveCoinsInLevel()
     {
-
-        Storage.Instance.money += countOfCoinsInLevels;
-        if (Storage.Instance.score < int.Parse(UIArcadeController.Instance.ScoreInGameText.text, System.Globalization.NumberStyles.AllowThousands))
+        Storage.Instance.coins += Storage.Instance.coinsInLevel;
+        if (Storage.Instance.score < int.Parse(UIManager.Instance.HUD.ScoreText.text, System.Globalization.NumberStyles.AllowThousands))
         {
-            Storage.Instance.score = int.Parse(UIArcadeController.Instance.ScoreInGameText.text, System.Globalization.NumberStyles.AllowThousands);
+            Storage.Instance.score = int.Parse(UIManager.Instance.HUD.ScoreText.text, System.Globalization.NumberStyles.AllowThousands);
         }
 
         Storage.Instance.Save();

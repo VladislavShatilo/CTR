@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-public class RoadGenerator : MonoBehaviour
+public class RoadGenerator : MonoBehaviour, IArcadePauseListener
 {
     [SerializeField] private List<GameObject> roadPrefabs;
     [SerializeField] private float startSpeed = 150;
@@ -12,13 +12,40 @@ public class RoadGenerator : MonoBehaviour
     public float speed = 0;
 
     private int prevRandValue;
-    private List<GameObject> roads = new List<GameObject>();
-    private float buffSpeed;
-   
-    void Start()
+    private readonly List<GameObject> roads = new();
+    private float prevSpeed;
+
+
+    private void Start()
     {
+        enabled = false;
+    }
+    void OnEnable()
+    {
+       
         ResetLevel();
         Pause();
+        StartLevel();
+    }
+
+    public void OnArcadePaused() => Pause();
+    public void OnArcadeContinued() => Continue();
+    public void OnArcadeRestart() => Restart();
+
+    public void Pause()
+    {   
+        speed = 0;
+    }
+
+    public void Continue()
+    {
+        speed = prevSpeed;
+    }
+
+    public void Restart()
+    {
+        ResetLevel();
+
         StartLevel();
     }
 
@@ -34,17 +61,7 @@ public class RoadGenerator : MonoBehaviour
             road.transform.position -= new Vector3(0, 0, speed * Time.deltaTime);
         }
 
-        if (speed > startSpeed)
-        {
-            speed--;
-
-        }
-        else if (speed < startSpeed)
-        {
-            speed++;
-
-        }
-
+       
         if (roads[0].transform.position.z < -200)
         {
             Destroy(roads[0]);
@@ -52,8 +69,8 @@ public class RoadGenerator : MonoBehaviour
             CreateNextRoad();
         }
 
-        startSpeed += 0.005f; //постепенное ускорение
         speed += 0.005f;
+        prevSpeed = speed;
     }
 
     private void CreateNextRoad()
@@ -86,10 +103,12 @@ public class RoadGenerator : MonoBehaviour
 
         prevRandValue = randInt;
     }
-
+    
     public void ResetLevel()
     {
+       
         speed = 0;
+        prevSpeed = 0;
         while (roads.Count > 0)
         {
             Destroy(roads[0]);
@@ -104,38 +123,25 @@ public class RoadGenerator : MonoBehaviour
 
     public void StartLevel()
     {
-        startSpeed = 150;
+        enabled = true;
         speed = startSpeed;
         //YandexGame.FullscreenShow();
-        Storage.Instance.Save();
+    
     }
 
-    public void Restart()
-    {
-        ResetLevel();
-        StartLevel();
-    }
-    public void PauseButton()
-    {
-        enabled = false;
-    }
-    public void ContinueButton()
-    {
-        enabled = true;
+   
+    //private void PauseRoad()
+    //{
+    //    gameObject.SetActive(false);    
+    //}
+    //private void ContinueRoad()
+    //{
+    //    gameObject.SetActive(true);
+    //}
 
-    }
+  
 
-    public void Pause()
-    {
-        startSpeed = speed;
-        speed = 0;
-    }
-
-    public void Continue()
-    {
-        speed = startSpeed;
-    }
-
+   
     public void AddSpeed(float buff)
     {
         speed += buff;

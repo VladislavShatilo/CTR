@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 using UnityEngine.XR;
 using YG;
 
-public class ArcadePlayerMovement : MonoBehaviour
+public class ArcadePlayerMovement : MonoBehaviour, IArcadePauseListener
 {
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed;
@@ -30,7 +30,8 @@ public class ArcadePlayerMovement : MonoBehaviour
     private Transform carTransform;
 
 
-    private void Start()
+   
+    private void OnEnable()
     {
         if (!CarProvider.Instance.Cars[Storage.Instance.SelectedCar].TryGetComponent(out carMesh))
         {
@@ -38,12 +39,13 @@ public class ArcadePlayerMovement : MonoBehaviour
             enabled = false;
         }
         carTransform = carMesh.gameObject.transform;
-    }
-    private void OnEnable()
-    {
         cameraController = Camera.main.GetComponent<ArcadeCameraController>();
         cameraController.PlayIntroAnimation(transform);
     }
+
+    public void OnArcadePaused() => StopCar();
+    public void OnArcadeContinued() => StartCar();
+    public void OnArcadeRestart() => RestartCar();
 
     void LateUpdate()
     {
@@ -101,10 +103,25 @@ public class ArcadePlayerMovement : MonoBehaviour
         rotation = Mathf.Clamp(rotation, -maxSteerRotation, maxSteerRotation);
         carTransform.localEulerAngles = new Vector3(carTransform.localEulerAngles.x, rotation * rotationMultiplierY, rotation * rotationMultiplierZ);
     }
-
+  
+    private void StopCar()
+    {
+        enabled = false;
+    }
+    private void StartCar()
+    {
+        enabled = true;
+    }
 
     public void DestroyCar() => SetCarActive(false);
-    public void RestartCar() => SetCarActive(true);
+    public void RestartCar()
+    {
+      
+        SetCarActive(true);
+        gameObject.SetActive(true);
+      
+    }
+
     public void SetCarActive(bool isActive)
     {
         enabled = isActive;

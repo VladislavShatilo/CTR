@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BuffManager : MonoBehaviour
+public class BuffManager : MonoBehaviour, IArcadePauseListener
 {
     [SerializeField] List<ArcadeBuffTimer> timers;
     [SerializeField] List<Sprite> buffImages;
@@ -22,7 +22,7 @@ public class BuffManager : MonoBehaviour
     {
         isSlotFree = new List<bool>();
 
-        for(int i = 0; i < timers.Count; i++)
+        for (int i = 0; i < timers.Count; i++)
         {
             isSlotFree.Add(true);
         }
@@ -109,9 +109,27 @@ public class BuffManager : MonoBehaviour
         isImmortal = false;
         doubledCoins = false;
 
-        for(int i = 0;i < isSlotFree.Count; i++)
+        for (int i = 0; i < isSlotFree.Count; i++)
         {
             isSlotFree[i] = true;
         }
     }
+    private void SetAllTimersActive(bool isActive)
+    {
+        foreach (var timer in timers)
+        {
+            if (isActive) timer.ContinueTimer();
+            else timer.PauseTimer();
+        }
+    }
+
+    public void OnArcadePaused() => SetAllTimersActive(false);
+    public void OnArcadeContinued() => SetAllTimersActive(true);
+    public void OnArcadeRestart() 
+    {
+        SetAllTimersActive(false);
+        Restart();
+    }
+
 }
+
