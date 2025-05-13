@@ -1,33 +1,27 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
+using Unity.VisualScripting;
 public class ArcadeBuffTimer : MonoBehaviour
 {
-    [SerializeField] private BuffManager buffScripts;
+    public event Action<BuffType> OnTimerCompleted;
+
+    [Header("Settings")]
     [SerializeField] private float countdownTime = 5f;
 
-    public bool isTimerActive = false;
+    [Header("UI References")]
+    [SerializeField] private TextMeshProUGUI timerText;
+    [SerializeField] private Image buffImage;
 
-    private TextMeshProUGUI timerText;
-    private Image buffImage;
+    private bool isTimerActive = false;
     private float currentTime = 0f;
     private bool isCountingDown = false;
-    private string mode;
+    private BuffType currentBuffType;
 
     void Start()
     {
-        timerText = GetComponentInChildren<TextMeshProUGUI>();
-        buffImage = GetComponentInChildren<Image>();
-        if (timerText == null || buffImage == null)
-        {
-            Debug.LogError("ArcadeBuffTimer: Missing UI components!");
-            enabled = false;
-        }
         EnableTimer(false);
-
     }
 
     private void EnableTimer(bool enabled)
@@ -36,6 +30,11 @@ public class ArcadeBuffTimer : MonoBehaviour
         buffImage.enabled = enabled;
         isCountingDown = enabled;
         isTimerActive = enabled;
+        if (enabled)
+        {
+            UpdateTimerDisplay();
+        }
+            
     }
 
     void Update()
@@ -43,41 +42,29 @@ public class ArcadeBuffTimer : MonoBehaviour
         if (isCountingDown)
         {
             currentTime -= Time.deltaTime;
+            UpdateTimerDisplay();
 
             if (currentTime <= 0f)
             {
-                currentTime = 0f;               
-                EnableTimer(false);
-                
-                if (mode.Equals("IMMORTALITY"))
-                {
-                    buffScripts.DeactivateImmortality();
-                }
-                else if (mode.Equals("COINS"))
-                {
-                    buffScripts.DeactivateDoubledCoins();
-                }
+                CompleteTimer();
             }
-
-            UpdateTimerText();
         }
     }
 
-    void UpdateTimerText()
-    {
-        int minutes = Mathf.FloorToInt(currentTime / 60f);
-        int seconds = Mathf.FloorToInt(currentTime % 60f);
-        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-    }
 
-    public void StartTimer(string buff, Sprite buffIMG)
+    public void StartTimer(BuffType type, Sprite buffIcon)
     {
-        mode = buff;
-        buffImage.sprite = buffIMG;
+        currentBuffType = type;
+        buffImage.sprite = buffIcon;
         currentTime = countdownTime;
         EnableTimer(true);
     }
-
+    private void CompleteTimer()
+    {
+        currentTime = 0f;
+        EnableTimer(false);
+        OnTimerCompleted?.Invoke(currentBuffType); 
+    }
     public void PauseTimer()
     {
         isCountingDown = false;
@@ -85,17 +72,16 @@ public class ArcadeBuffTimer : MonoBehaviour
 
     public void ContinueTimer()
     {
-        if(isTimerActive)
+        if (isTimerActive)
+        {
             isCountingDown = true;
-    }
-    public void StopTimer()
-    {
-        EnableTimer(false);    
+        }     
     }
 
-    public void ResetTimer()
+    private void UpdateTimerDisplay()
     {
-        currentTime = countdownTime;
-        UpdateTimerText();
+        int minutes = Mathf.FloorToInt(currentTime / 60f);
+        int seconds = Mathf.FloorToInt(currentTime % 60f);
+        timerText.text = $"{minutes:00}:{seconds:00}";
     }
 }

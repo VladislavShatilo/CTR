@@ -26,20 +26,20 @@ public class ArcadeCameraController : MonoBehaviour
     private Camera cameraArcade;
     private float shakeTimer;
     private bool isIntroPlaying;
+    private Vector3 originalPosition;
 
     public event Action OnIntroCompleted;
     private void Awake()
     {
         cameraArcade = Camera.main;
     }
- 
 
   
     private void LateUpdate()
     {
         if (isIntroPlaying || inroTarget == null) return;
         HandleFOV();
-
+        HandleShake();
     }
 
     public void PlayIntroAnimation(Transform playerTransform)
@@ -96,15 +96,16 @@ public class ArcadeCameraController : MonoBehaviour
 
     private void HandleShake()
     {
+        originalPosition = transform.localPosition;
         if (shakeTimer > 0)
         {
-           // transform.localPosition = originalPosition + UnityEngine.Random.insideUnitSphere * shakeIntensity;
+            transform.localPosition = originalPosition + UnityEngine.Random.insideUnitSphere * shakeIntensity;
             shakeTimer -= Time.deltaTime;
         }
         else
         {
             shakeTimer = 0f;
-           // transform.localPosition = originalPosition;
+            transform.localPosition = originalPosition;
         }
     }
 

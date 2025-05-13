@@ -19,7 +19,7 @@ public class CoinPlayer : MonoBehaviour
     {
         if (other.CompareTag("Coin"))
         {
-            if (buffManager.GetDoubledCoins())
+            if (buffManager.IsBuffActive(BuffType.DoubleCoins))
             {
                 Storage.Instance.coinsInLevel += 2;
                 

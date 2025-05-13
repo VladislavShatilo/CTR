@@ -32,8 +32,8 @@ public class PlayerObstacleHandler : MonoBehaviour
         {
             return;
         }
-
-        if (buffManager.GetImmortality())
+        Camera.main.GetComponent<ArcadeCameraController>().TriggerShake();
+        if (buffManager.IsBuffActive(BuffType.Immortality))
         {
             HandleImmortalCollision();
             Destroy(other.gameObject);
@@ -60,8 +60,8 @@ public class PlayerObstacleHandler : MonoBehaviour
         movement.DestroyCar();
         ArcadeManager.Instance.SetZeroSpeed();
         yield return new WaitForSeconds(0.2f);
-        UIManager.Instance.Windows.ShowWindow<UIArcadeFinalWindow>();
-        UIManager.Instance.Windows.GetWindow<UIArcadeFinalWindow>().CountScore();
+        UIManager.Instance.Windows.ShowWindow<UIAdvWindow>();
+       
     }
 
 

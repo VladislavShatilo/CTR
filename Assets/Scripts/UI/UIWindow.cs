@@ -28,7 +28,11 @@ public class UIWindow : MonoBehaviour
 
 
     }
+    protected void CloseWindow()
+    {
+        UIManager.Instance.Windows.HideTopWindow();
 
+    }
     public virtual void Show()
     {
         if (ñurrentAnimation != null)

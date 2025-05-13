@@ -18,11 +18,12 @@ public class ArcadeManager : MonoBehaviour
     [Header("References")]
     [SerializeField] private RoadGenerator roadGenerator;
     [SerializeField] private GameObject cityBackgroundGO;
-
+    [SerializeField] private GameObject playerGO;
     public static ArcadeManager Instance { get; private set; }
 
     private CameraMovementArcade cameraMovement;
     private List<IArcadePauseListener> pauseListeners = new();
+    private ArcadeCameraController cameraController;
 
     void Awake()
     {
@@ -37,6 +38,11 @@ public class ArcadeManager : MonoBehaviour
     }
     private void Start()
     {
+        if (!Camera.main.TryGetComponent(out cameraController))
+        {
+            Debug.LogError("CameraContoller is missing!");
+            enabled = false;
+        }
         if (!Camera.main.TryGetComponent(out cameraMovement))
         {
             Debug.LogError("CameraMovement is missing!");
@@ -79,6 +85,8 @@ public class ArcadeManager : MonoBehaviour
     {
         YG2.InterstitialAdvShow();
         yield return new WaitForSeconds(0.1f);
+      
+        cameraController.PlayIntroAnimation(playerGO.transform);
         RestartGame();
         UIManager.Instance.HUD.SetActiveHUD(true);
         cameraMovement.enabled = false;

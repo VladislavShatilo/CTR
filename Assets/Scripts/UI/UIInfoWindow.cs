@@ -12,7 +12,7 @@ public class UIInfoWindow : UIWindow
     }
     private void OnClose()
     {
-        UIManager.Instance.Windows.HideTopWindow();
+        CloseWindow();
         UIManager.Instance.Windows.GetWindow<UISettingsWindow>().BGSetTrue();
     }
 }

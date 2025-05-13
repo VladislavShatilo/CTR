@@ -21,7 +21,6 @@ public class ArcadePlayerMovement : MonoBehaviour, IArcadePauseListener
 
     [Header("References")]
     [SerializeField] private InputHandler inputHandler;
-    [SerializeField] private ArcadeCameraController cameraController;
     private Vector3 currentPos;
     private Vector3 lastPos;
     private readonly float minMoveDistanceToRotate = 0.02f;
@@ -39,8 +38,7 @@ public class ArcadePlayerMovement : MonoBehaviour, IArcadePauseListener
             enabled = false;
         }
         carTransform = carMesh.gameObject.transform;
-        cameraController = Camera.main.GetComponent<ArcadeCameraController>();
-        cameraController.PlayIntroAnimation(transform);
+       
     }
 
     public void OnArcadePaused() => StopCar();

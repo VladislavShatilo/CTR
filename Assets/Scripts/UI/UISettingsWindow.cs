@@ -12,20 +12,14 @@ public class UISettingsWindow : UIWindow
     [SerializeField] private Image BGImage;
     void Start()
     {
-        closeButton.onClick.AddListener(OnClose);
+        closeButton.onClick.AddListener(CloseWindow);
         openInfoButton.onClick.AddListener(OnOpenInfo);
     }
 
 
-    private void OnClose()
-    {
-        UIManager.Instance.Windows.HideTopWindow();
-
-    }
-
     private void OnOpenInfo()
     {
-        UIManager.Instance.Windows.HideTopWindow(); 
+        CloseWindow();
         BGImage.gameObject.SetActive(false);
         UIManager.Instance.Windows.ShowWindow<UIInfoWindow>();
     }

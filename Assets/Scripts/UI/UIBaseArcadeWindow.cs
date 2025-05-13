@@ -10,14 +10,14 @@ public abstract class UIBaseArcadeWindow : UIWindow
 
     protected IEnumerator OnQuitCor()
     {
-        UIManager.Instance.Windows.HideTopWindow();
+        CloseWindow();
         yield return new WaitForSeconds(0.7f);
         transition.LoadScenebByName("Arcade");
     }
 
     protected IEnumerator OnRestartCor()
     {
-        UIManager.Instance.Windows.HideTopWindow();
+        CloseWindow();
         yield return new WaitForSeconds(0.5f);
         arcadeManager.RestartGame();
     }

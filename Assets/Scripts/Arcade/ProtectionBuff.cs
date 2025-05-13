@@ -6,21 +6,24 @@ using UnityEngine;
 public class ProtectionBuff : MonoBehaviour
 {
     [SerializeField] private bool isProtection;
-    private BuffManager playerBuffs;
+    private BuffManager buffManager;
 
     private void OnTriggerEnter(Collider other)
     {
-        playerBuffs = other.attachedRigidbody.GetComponent<BuffManager>();
+        buffManager = other.attachedRigidbody.GetComponent<BuffManager>();
 
-        if (playerBuffs != null)
+        if (buffManager != null)
         {
             if (isProtection)
             {
-                playerBuffs.SetImmortality();
+                
+                buffManager.ActivateBuff(BuffType.Immortality);
+
             }
             else
             {
-                playerBuffs.SetDoubleCoins();
+               
+                buffManager.ActivateBuff(BuffType.DoubleCoins);
             }
             Destroy(gameObject);
         }

@@ -29,7 +29,7 @@ public class Adv : MonoBehaviour
             //FindObjectOfType<WindowAnimation>().CloseAdvWindow();
           
             FindObjectOfType<ArcadePlayerMovement>().RestartCar();
-            FindAnyObjectByType<BuffManager>().SetImmortality();
+            FindAnyObjectByType<BuffManager>().ActivateBuff(BuffType.Immortality);
             FindObjectOfType<RoadGenerator>().Continue();
         }
         else if(id == rewardIDShop)
