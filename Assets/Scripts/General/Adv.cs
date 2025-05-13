@@ -26,7 +26,7 @@ public class Adv : MonoBehaviour
     {
         if(id == rewardIDArcade)
         {
-            FindObjectOfType<WindowAnimation>().CloseAdvWindow();
+            //FindObjectOfType<WindowAnimation>().CloseAdvWindow();
           
             FindObjectOfType<ArcadePlayerMovement>().RestartCar();
             FindAnyObjectByType<BuffManager>().SetImmortality();

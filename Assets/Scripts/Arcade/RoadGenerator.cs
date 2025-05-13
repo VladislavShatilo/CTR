@@ -22,7 +22,6 @@ public class RoadGenerator : MonoBehaviour, IArcadePauseListener
     }
     void OnEnable()
     {
-       
         ResetLevel();
         Pause();
         StartLevel();
@@ -60,8 +59,12 @@ public class RoadGenerator : MonoBehaviour, IArcadePauseListener
         {
             road.transform.position -= new Vector3(0, 0, speed * Time.deltaTime);
         }
+        if (speed > startSpeed)
+            speed--;
+        else if (speed < startSpeed)
+            speed++;
 
-       
+
         if (roads[0].transform.position.z < -200)
         {
             Destroy(roads[0]);
@@ -70,6 +73,7 @@ public class RoadGenerator : MonoBehaviour, IArcadePauseListener
         }
 
         speed += 0.005f;
+        startSpeed += 0.005f;
         prevSpeed = speed;
     }
 

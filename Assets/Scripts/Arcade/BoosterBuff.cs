@@ -24,6 +24,7 @@ public class boosterBuff : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            Debug.Log("134");
             if (!isNegative)
             {
                 ArcadeManager.Instance.AddSpeed(250);

@@ -30,7 +30,6 @@ public class ArcadeCameraController : MonoBehaviour
     public event Action OnIntroCompleted;
     private void Awake()
     {
-        cameraArcade = GetComponent<Camera>();
         cameraArcade = Camera.main;
     }
  
@@ -45,6 +44,7 @@ public class ArcadeCameraController : MonoBehaviour
 
     public void PlayIntroAnimation(Transform playerTransform)
     {
+        Debug.Log("Intromi");
         if (!enableIntro) return;
 
         inroTarget = playerTransform;

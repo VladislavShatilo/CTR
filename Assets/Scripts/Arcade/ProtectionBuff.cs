@@ -12,7 +12,7 @@ public class ProtectionBuff : MonoBehaviour
     {
         playerBuffs = other.attachedRigidbody.GetComponent<BuffManager>();
 
-        if (playerBuffs)
+        if (playerBuffs != null)
         {
             if (isProtection)
             {

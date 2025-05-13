@@ -202,7 +202,6 @@ public class WindowAnimation2 : MonoBehaviour
     private IEnumerator ChangeSceneTransitionCor(string sceneName)
     {
         TransitionImage.gameObject.SetActive(true);
-        var Smooth = TransitionImage.GetComponent<SmoothTransition>();        
        // StartCoroutine(Smooth.StartCor());       
         yield return new WaitForSeconds(0.7f);
         SceneManager.LoadScene(sceneName);
