@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 using UnityEngine.XR;
 using YG;
 
-public class ArcadePlayerMovement : MonoBehaviour, IArcadePauseListener
+public class ArcadePlayerMovement : MonoBehaviour, IArcadeStateListener
 {
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed;

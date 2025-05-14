@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PointsCounter : MonoBehaviour, IArcadePauseListener
+public class PointsCounter : MonoBehaviour, IArcadeStateListener
 {
     [SerializeField] private float speed;
     [SerializeField] private RoadGenerator roadGenerator;

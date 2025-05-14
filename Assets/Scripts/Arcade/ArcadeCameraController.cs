@@ -2,53 +2,47 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-
+/// <summary>
+/// Controls camera intro animation with smooth transition and parenting to target.
+/// </summary>
 [RequireComponent(typeof(Camera))]
 public class ArcadeCameraController : MonoBehaviour
 {
 
-    [Header("FOV Settings")]
-    [SerializeField] private float defaultFOV = 60f;
-    [SerializeField] private float fovChangeSpeed = 5f;
-
-    [Header("Shake Settings")]
-    [SerializeField] private float shakeIntensity = 0.1f;
-    [SerializeField] private float shakeDuration = 0.3f;
-
     [Header("Intro Animation")]
     [SerializeField] private bool enableIntro = true;
-    [SerializeField] private float introDuration = 3f;
+    [SerializeField, Min(0.1f)] private float introDuration = 3f;
     [SerializeField] private Vector3 introTargetPosition = new Vector3(0, 24, -25);
     [SerializeField] private Vector3 introTargetRotation = new Vector3(26, 0, 0);
     [SerializeField] private AnimationCurve introMovementCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
-    private Transform inroTarget;
+    private Transform introTarget;
     private Camera cameraArcade;
-    private float shakeTimer;
-    private bool isIntroPlaying;
-    private Vector3 originalPosition;
 
-    public event Action OnIntroCompleted;
     private void Awake()
     {
-        cameraArcade = Camera.main;
+        cameraArcade = GetComponent<Camera>();
+        if(cameraArcade == null)
+        {
+            Debug.LogError("Camera is null");
+            enabled = false;
+        }
     }
 
-  
-    private void LateUpdate()
-    {
-        if (isIntroPlaying || inroTarget == null) return;
-        HandleFOV();
-        HandleShake();
-    }
-
+    /// <summary>
+    /// Starts the intro animation sequence
+    /// </summary>
+    /// <param name="target">Target transform to follow after intro</param>
     public void PlayIntroAnimation(Transform playerTransform)
     {
-        Debug.Log("Intromi");
         if (!enableIntro) return;
 
-        inroTarget = playerTransform;
-        isIntroPlaying = true;
+        introTarget = playerTransform;
+        if (introTarget == null)
+        {
+            Debug.LogError("IntroTarget is null");
+            enabled = false;
+        }
 
         StartCoroutine(IntroAnimationRoutine());
     }
@@ -66,7 +60,7 @@ public class ArcadeCameraController : MonoBehaviour
 
             transform.SetPositionAndRotation(Vector3.Lerp(
                 startPos,
-                inroTarget.position + introTargetPosition,
+                introTarget.position + introTargetPosition,
                 progress
             ), Quaternion.Slerp(
                 startRot,
@@ -77,39 +71,7 @@ public class ArcadeCameraController : MonoBehaviour
             yield return null;
         }
 
-        isIntroPlaying = false;
-        OnIntroCompleted?.Invoke();
-        cameraArcade.gameObject.transform.SetParent(inroTarget);
-
-
+        cameraArcade.gameObject.transform.SetParent(introTarget);       
      
-    }
-
-    private void HandleFOV()
-    {
-        cameraArcade.fieldOfView = Mathf.Lerp(
-            cameraArcade.fieldOfView,
-            defaultFOV,
-            fovChangeSpeed * Time.deltaTime
-        );
-    }
-
-    private void HandleShake()
-    {
-        originalPosition = transform.localPosition;
-        if (shakeTimer > 0)
-        {
-            transform.localPosition = originalPosition + UnityEngine.Random.insideUnitSphere * shakeIntensity;
-            shakeTimer -= Time.deltaTime;
-        }
-        else
-        {
-            shakeTimer = 0f;
-            transform.localPosition = originalPosition;
-        }
-    }
-
-    public void TriggerShake() => shakeTimer = shakeDuration;
-
-
+    }  
 }

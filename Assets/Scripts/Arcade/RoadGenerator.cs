@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-public class RoadGenerator : MonoBehaviour, IArcadePauseListener
+public class RoadGenerator : MonoBehaviour, IArcadeStateListener
 {
     [SerializeField] private List<GameObject> roadPrefabs;
     [SerializeField] private float startSpeed = 150;
@@ -146,11 +146,11 @@ public class RoadGenerator : MonoBehaviour, IArcadePauseListener
   
 
    
-    public void AddSpeed(float buff)
+    public void ModifySpeed(float buff)
     {
         speed += buff;
     }
-    public void SetZeroSpeed()
+    public void StopMovement()
     {
         speed= 0;
     }

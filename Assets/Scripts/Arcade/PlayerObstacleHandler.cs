@@ -5,23 +5,20 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class PlayerObstacleHandler : MonoBehaviour
 {
- 
-
     [Header("Effects")]
     [SerializeField] private GameObject immortalityParticles;
     [SerializeField] private GameObject crashParticles;
     [SerializeField] private GameObject particlePoint;
 
-
-
     private BuffManager buffManager;
     private ArcadePlayerMovement movement;
-    private
+    private CameraShakeEffect cameraShake;
     void Start()
     {
+        cameraShake = Camera.main.GetComponent<CameraShakeEffect>();
         buffManager = GetComponent<BuffManager>();
         movement = GetComponent<ArcadePlayerMovement>();
-        if (movement == null || buffManager == null)
+        if (movement == null || buffManager == null || cameraShake == null)
         {
             throw new System.NullReferenceException("PlayerObstacleHandler: Missing critical components!");
         }
@@ -32,7 +29,7 @@ public class PlayerObstacleHandler : MonoBehaviour
         {
             return;
         }
-        Camera.main.GetComponent<ArcadeCameraController>().TriggerShake();
+        cameraShake.TriggerShake();
         if (buffManager.IsBuffActive(BuffType.Immortality))
         {
             HandleImmortalCollision();

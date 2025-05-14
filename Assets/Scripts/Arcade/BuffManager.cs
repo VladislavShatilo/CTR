@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BuffManager : MonoBehaviour, IArcadePauseListener
+public class BuffManager : MonoBehaviour, IArcadeStateListener
 {
     [System.Serializable]
     private class BuffData

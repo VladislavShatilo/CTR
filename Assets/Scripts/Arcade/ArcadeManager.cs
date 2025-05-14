@@ -1,13 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.UI;
-using YG;
-using TMPro;
-using TMPro.Examples;
-using System;
 using System.Linq;
+using UnityEngine;
+using YG;
+
+
+/// <summary>
+/// Central game manager for arcade mode handling game state, events, and core systems
+/// </summary>
 public class ArcadeManager : MonoBehaviour
 {
 
@@ -22,7 +23,7 @@ public class ArcadeManager : MonoBehaviour
     public static ArcadeManager Instance { get; private set; }
 
     private CameraMovementArcade cameraMovement;
-    private List<IArcadePauseListener> pauseListeners = new();
+    private List<IArcadeStateListener> pauseListeners = new();
     private ArcadeCameraController cameraController;
 
     void Awake()
@@ -34,7 +35,7 @@ public class ArcadeManager : MonoBehaviour
         }
 
         Instance = this;
-        pauseListeners = FindObjectsOfType<MonoBehaviour>().OfType<IArcadePauseListener>().ToList();
+        pauseListeners = FindObjectsOfType<MonoBehaviour>().OfType<IArcadeStateListener>().ToList();
     }
     private void Start()
     {
@@ -73,7 +74,7 @@ public class ArcadeManager : MonoBehaviour
         foreach (var listener in pauseListeners)
         {
             listener.OnArcadeRestart();
-        }    
+        }
     }
 
     public void StartArcadeFromMenu()
@@ -85,7 +86,7 @@ public class ArcadeManager : MonoBehaviour
     {
         YG2.InterstitialAdvShow();
         yield return new WaitForSeconds(0.1f);
-      
+
         cameraController.PlayIntroAnimation(playerGO.transform);
         RestartGame();
         UIManager.Instance.HUD.SetActiveHUD(true);
@@ -96,10 +97,10 @@ public class ArcadeManager : MonoBehaviour
 
     public void AddSpeed(float buff)
     {
-        roadGenerator.AddSpeed(buff);
+        roadGenerator.ModifySpeed(buff);
     }
     public void SetZeroSpeed()
     {
-        roadGenerator.SetZeroSpeed();
+        roadGenerator.StopMovement();
     }
 }
