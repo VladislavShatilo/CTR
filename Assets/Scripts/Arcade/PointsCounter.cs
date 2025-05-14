@@ -15,7 +15,7 @@ public class PointsCounter : MonoBehaviour, IArcadeStateListener
 
     void Start()
     {
-        hudManager = UIManager.Instance.HUD;
+        hudManager = UIArcadeManager.Instance.ArcadeHUD;
         currentScore = 0;
         isCounting = true;
         UpdateCounterText();

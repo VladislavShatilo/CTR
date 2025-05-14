@@ -4,18 +4,6 @@ using UnityEngine;
 
 public class AudioScript : MonoBehaviour
 {
-    public static AudioScript Instance { get; private set; }
-
-    void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-    }
     [SerializeField] AudioSource menuMusic;
     [SerializeField] AudioSource inGameMusic;
     [SerializeField] ArcadePlayerMovement arcadePlayerMovement;

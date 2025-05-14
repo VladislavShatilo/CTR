@@ -14,88 +14,54 @@ public class FinalBuff : MonoBehaviour
     
     [SerializeField] private Sprite goodStarSprite;
 
-    private Image[] starImages;
-    private TextMeshProUGUI currentPowerText;
-    private TextMeshProUGUI coinsInLevel;
+    private UIFinalLevelWindow finalWindow;
+
     private float durationInSeconds = 1f;
     private float timer;
     private int starsEarned = 0;
 
     void Start()
     {
-        starImages = UIController.Instance.StarOnWinWindowImages; 
-        coinsInLevel = UIController.Instance.LevelCoinsWinText;
-        currentPowerText = UIController.Instance.PowerText;
+    
         enabled = false;
         timer = 0f;
-      
-        for(int i = 0; i < starImages.Length; i++)
-        {
-            starImages[i].gameObject.SetActive(true);
-        }
+       
+        finalWindow = UILevelManager.Instance.Windows.GetWindow<UIFinalLevelWindow>();
 
-        UIController.Instance.FinalPowerWinText.text = "0";
-        UIController.Instance.MenuWinButton.gameObject.SetActive(false);
-        UIController.Instance.RestartWinButton.gameObject.SetActive(false);
-        UIController.Instance.NextWinButton.gameObject.SetActive(false);
+        finalWindow.UpdatePowerText(0);
+        finalWindow.SetActiveButtons(false);
+
 
     }
     IEnumerator FinalWindowUICor()
     {
         yield return new WaitForSeconds(1f);
-      
-        UIController.Instance.WinWindow.gameObject.SetActive(true);
-        FindObjectOfType<WindowAnimation2>().ToggleMenuOn("FinalWindow");
-        coinsInLevel.gameObject.SetActive(true);
+
+        UILevelManager.Instance.Windows.ShowWindow<UIFinalLevelWindow>();
 
         float finPower;
         float progress;
         while (timer < durationInSeconds)
         {
             progress = timer / durationInSeconds;
-            finPower = Mathf.RoundToInt(Mathf.Lerp(0, int.Parse(currentPowerText.text), progress));
-            UIController.Instance.FinalPowerWinText.text = finPower.ToString();
+            finPower = Mathf.RoundToInt(Mathf.Lerp(0, UILevelManager.Instance.LevelHUD.GetCurrentPower(), progress));
+            finalWindow.UpdatePowerText((int)finPower);
+           
 
             timer += Time.deltaTime;
             yield return null;
         }
 
         timer = 0f;
-        finPower = int.Parse(currentPowerText.text);
-        UIController.Instance.FinalPowerWinText.text = finPower.ToString();
+        finPower = UILevelManager.Instance.LevelHUD.GetCurrentPower();
+        finalWindow.UpdatePowerText((int)finPower);
 
-     
         yield return new WaitForSeconds(0.3f);
 
-        switch (starsEarned)
-        {
-            case 1:
-                starImages[0].sprite = goodStarSprite;
-
-                break;
-            case 2:
-                starImages[0].sprite = goodStarSprite;
-                yield return new WaitForSeconds(0.2f);
-
-                starImages[1].sprite = goodStarSprite;
-
-                break;
-            case 3:
-                starImages[0].sprite = goodStarSprite;
-                yield return new WaitForSeconds(0.2f);
-
-                starImages[1].sprite = goodStarSprite;
-                yield return new WaitForSeconds(0.2f);
-
-                starImages[2].sprite = goodStarSprite;
-                break;
-        }
-        yield return new WaitForSeconds(0.3f);
-
-     
+        yield return finalWindow.ShowStars(starsEarned,goodStarSprite);
 
 
-        if (coinsInLevel.text != "0")
+        if (Storage.Instance.levelsDones[int.Parse(SceneManager.GetActiveScene().name) - 1] != 1)
         {
             int level = int.Parse(SceneManager.GetActiveScene().name);
             int moneyAmount = 0;
@@ -117,23 +83,27 @@ public class FinalBuff : MonoBehaviour
             {
                 float progress1 = timer / durationInSeconds;
                 float finCoin1 = Mathf.RoundToInt(Mathf.Lerp(0, moneyAmount, progress1));
-                coinsInLevel.text = finCoin1.ToString();
+                finalWindow.UpdateCoinsText((int)finCoin1);
                 timer += Time.deltaTime;
                 yield return null;
             }
 
-            coinsInLevel.text = moneyAmount.ToString();
+            finalWindow.UpdateCoinsText((int)moneyAmount);
+
+        }
+        else 
+        {
+            finalWindow.UpdateCoinsText(0);
         }
 
-        UIController.Instance.MenuWinButton.gameObject.SetActive(true);
-        UIController.Instance.RestartWinButton.gameObject.SetActive(true);
-        UIController.Instance.NextWinButton.gameObject.SetActive(true);
-        if((int.Parse(SceneManager.GetActiveScene().name) == 12 || 
+        finalWindow.SetActiveButtons(true);
+
+        if ((int.Parse(SceneManager.GetActiveScene().name) == 12 || 
             int.Parse(SceneManager.GetActiveScene().name) == 24 ||
             int.Parse(SceneManager.GetActiveScene().name) == 36) &&
            Storage.Instance.stars < seasonStars[getNumberOfSeason()]) 
         {
-            UIController.Instance.NextWinButton.enabled = false;
+           finalWindow.BlockNextButtonOnLastLevel();
         }
     }
 
@@ -163,10 +133,8 @@ public class FinalBuff : MonoBehaviour
             UpdateStarsMenu();
 
             Storage.Instance.levelsDones[int.Parse(SceneManager.GetActiveScene().name) -1] = 1;
-           // Storage.Instance.levelsStars[int.Parse(SceneManager.GetActiveScene().name) - 1] = starsEarned;
             Storage.Instance.Save();
-
-            UIController.Instance.UIMenuGameOff();
+            UILevelManager.Instance.LevelHUD.AllUIActive(false);
 
         }
     }
@@ -174,7 +142,7 @@ public class FinalBuff : MonoBehaviour
    
     private void UpdateStarsInFinalWindow()
     {
-        float progressProcces = (float.Parse(currentPowerText.text) / powerForLevel);
+        float progressProcces =(float)UILevelManager.Instance.LevelHUD.GetCurrentPower() / powerForLevel;
         if ( progressProcces >= 0.66f) 
         {
             starsEarned = 3;
@@ -192,7 +160,7 @@ public class FinalBuff : MonoBehaviour
 
     private void UpdateStarsMenu()
     {
-        float progressProcces = (float.Parse(currentPowerText.text) / powerForLevel);
+        float progressProcces = (float)UILevelManager.Instance.LevelHUD.GetCurrentPower() / powerForLevel;
 
         if (progressProcces >= 0.66f && (Storage.Instance.levelsStars[int.Parse(SceneManager.GetActiveScene().name) - 1] < 3)) 
         {

@@ -17,14 +17,29 @@ public class UIArcadeFinalWindow : UIBaseArcadeWindow
     private int currentScore;
     private int currentMoney;
     private float timer;
+ 
     void Start()
     {
-        quitButton.onClick.AddListener(() => StartCoroutine(OnQuitCor()));
-        restartButton.onClick.AddListener(() => StartCoroutine(OnRestartCor()));
+     
+        if (quitButton == null || restartButton == null || scoreText == null || coinsText== null) 
+        {
+            Debug.LogError("Buttons are missing");
+            enabled = false;
+        }
+        quitButton.onClick.AddListener(OnQuit);
+        restartButton.onClick.AddListener(OnRestart);
 
     }
-  
-  
+    private void OnQuit() => StartCoroutine(OnQuitCor());
+    private void OnRestart() => StartCoroutine(OnRestartCor());
+
+    private void OnDestroy()
+    {
+        quitButton.onClick.RemoveListener(OnQuit);
+        restartButton.onClick.RemoveListener(OnRestart);
+    }
+
+
     private void ButtonsEnable(bool enable)
     {
         quitButton.gameObject.SetActive(enable);
@@ -43,10 +58,17 @@ public class UIArcadeFinalWindow : UIBaseArcadeWindow
     {
         currentScore = 0;
         timer = 0f;
+        if(UIArcadeManager.Instance == null)
+        {
+            Debug.LogError(" UIArcadeManager.Instance is missing");
+            enabled = false;
+        }
+       
+        var arcadeHUD = UIArcadeManager.Instance.ArcadeHUD;
 
-    
-        int targetScore = int.Parse(UIManager.Instance.HUD.ScoreText.text, System.Globalization.NumberStyles.AllowThousands);
-        int targetCoins = int.Parse(UIManager.Instance.HUD.CoinsText.text, System.Globalization.NumberStyles.AllowThousands);
+
+        int targetScore = GetTargetScore(arcadeHUD.ScoreText);
+        int targetCoins = GetTargetScore(arcadeHUD.CoinsText);
         while (timer < durationAnimation)
         {
             float progress = timer / durationAnimation;
@@ -68,7 +90,16 @@ public class UIArcadeFinalWindow : UIBaseArcadeWindow
         ButtonsEnable(true);
 
     }
+    private int  GetTargetScore(TextMeshProUGUI textField)
+    {
+        if (textField == null)
+        {
+            Debug.LogError("Text is missing");
+            enabled = false;
 
+        }
+        return int.Parse(textField.text, System.Globalization.NumberStyles.AllowThousands);
+    }
     private string FormatNumber(int number)
     {
         if (number >= 1_000_000)

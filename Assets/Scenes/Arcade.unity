@@ -461,6 +461,7 @@ MonoBehaviour:
   arcadeButton: {fileID: 1180476732}
   shopButton: {fileID: 293440567}
   settingsButton: {fileID: 1878785184}
+  transition: {fileID: 1705118130}
 --- !u!4 &7714972
 Transform:
   m_ObjectHideFlags: 0
@@ -3432,6 +3433,8 @@ GameObject:
   - component: {fileID: 304022700}
   - component: {fileID: 304022698}
   - component: {fileID: 304022703}
+  - component: {fileID: 304022705}
+  - component: {fileID: 304022704}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3540,10 +3543,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a25c42c06a70ed64fa4681990f86517c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultFOV: 60
-  fovChangeSpeed: 1
-  shakeIntensity: 0.1
-  shakeDuration: 0.3
   enableIntro: 1
   introDuration: 0.5
   introTargetPosition: {x: 0, y: 27, z: -35}
@@ -3572,6 +3571,34 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &304022704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 304022697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a8dce289dd02db41aea6c9ae5dbae24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shakeIntensity: 0.1
+  shakeDuration: 0.3
+--- !u!114 &304022705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 304022697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a0397acd99031e46b2020e6abca4fe8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultFOV: 60
+  fovChangeSpeed: 5
 --- !u!1 &311088438
 GameObject:
   m_ObjectHideFlags: 0
@@ -15212,7 +15239,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1938693066}
-  - component: {fileID: 1938693065}
+  - component: {fileID: 1938693067}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -15220,22 +15247,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1938693065
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1938693064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5ca5551a2c8d3847b505fcf89b36dda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  windowManager: {fileID: 1191483823}
-  hudManager: {fileID: 1235331971}
-  animationHandler: {fileID: 1515150898}
-  menuManager: {fileID: 7714971}
 --- !u!4 &1938693066
 Transform:
   m_ObjectHideFlags: 0
@@ -15251,6 +15262,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1938693067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1938693064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f1b451744c98e14f9fe9887ca873343, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  windowManager: {fileID: 1191483823}
+  animationHandler: {fileID: 1515150898}
+  arcadeHudManager: {fileID: 1235331971}
+  menuManager: {fileID: 7714971}
 --- !u!1 &1946592441
 GameObject:
   m_ObjectHideFlags: 0

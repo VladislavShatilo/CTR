@@ -8,7 +8,7 @@ public class UIAnimationHandler : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float _defaultDuration = 0.3f;
     [SerializeField] private Ease _defaultEase = Ease.OutCubic;
-  
+
     public IEnumerator AnimateMove(RectTransform rectTransform, Vector2 targetPos,
         float delay = 0.05f, float? duration = null, Ease? ease = null)
     {
@@ -18,7 +18,7 @@ public class UIAnimationHandler : MonoBehaviour
         .DOAnchorPos(targetPos, duration ?? _defaultDuration)
         .SetEase(ease ?? _defaultEase)
         .SetUpdate(true)
-        .WaitForCompletion(); // <- Ключевая строка!
+        .WaitForCompletion(); 
     }
 
     

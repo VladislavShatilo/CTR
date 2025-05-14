@@ -19,6 +19,19 @@ public class ArcadeBuffTimer : MonoBehaviour
     private bool isCountingDown = false;
     private BuffType currentBuffType;
 
+    private void Awake()
+    {
+        if(timerText == null)
+        {
+            Debug.LogError("timerText is missing");
+            enabled = false;
+        }
+        if (buffImage == null)
+        {
+            Debug.LogError("buffImage is missing");
+            enabled = false;
+        }
+    }
     void Start()
     {
         EnableTimer(false);

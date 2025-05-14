@@ -46,7 +46,7 @@ public class MainManager : MonoBehaviour
         {
             carRenderer[i] = cars[i].GetComponent<Renderer>();
         }
-        UIManager.Instance.MenuManager.UpdateStatesInfo();
+        UIArcadeManager.Instance.MenuManager.UpdateStatesInfo();
       
 
         foreach (var car in cars)
@@ -72,9 +72,9 @@ public class MainManager : MonoBehaviour
     public void SaveCoinsInLevel()
     {
         Storage.Instance.coins += Storage.Instance.coinsInLevel;
-        if (Storage.Instance.score < int.Parse(UIManager.Instance.HUD.ScoreText.text, System.Globalization.NumberStyles.AllowThousands))
+        if (Storage.Instance.score < int.Parse(UIArcadeManager.Instance.ArcadeHUD.ScoreText.text, System.Globalization.NumberStyles.AllowThousands))
         {
-            Storage.Instance.score = int.Parse(UIManager.Instance.HUD.ScoreText.text, System.Globalization.NumberStyles.AllowThousands);
+            Storage.Instance.score = int.Parse(UIArcadeManager.Instance.ArcadeHUD.ScoreText.text, System.Globalization.NumberStyles.AllowThousands);
         }
 
         Storage.Instance.Save();

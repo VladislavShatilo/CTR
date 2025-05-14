@@ -12,18 +12,9 @@ public class Gamemanager : MonoBehaviour
   
     private void Start()
     {
-        if(YG2.envir.language == "ru")
-        {
-            UIController.Instance.LevelText.text = "Уровень " + SceneManager.GetActiveScene().name;
-
-        }
-        else
-        {
-            UIController.Instance.LevelText.text = "Level " + SceneManager.GetActiveScene().name;
-
-        }
+       
         PlayerMove.Instance.enabled = false;
-        UIController.Instance.UIMenuGameHide(false);
+        UILevelManager.Instance.LevelHUD.SetGameplayUI(false);
         cachedCamera = Camera.main;
 
     }
@@ -43,13 +34,9 @@ public class Gamemanager : MonoBehaviour
     }
     public void StartGame()
     {
-        UIController controller = UIController.Instance;
-        controller.PlayButton.gameObject.SetActive(false);
-        controller.TapToPlayText.gameObject.SetActive(false);
+     
         PlayerMove.Instance.enabled = true;
-        controller.MainLevelMenuButton.gameObject.SetActive(false);
-        controller.UIMenuGameHide(true);
-
+        
     }
 
     public void StopCamera()
@@ -80,7 +67,7 @@ public class Gamemanager : MonoBehaviour
         }
         else
         {
-            UIController.Instance.LevelCoinsWinText.text = "0";
+            //UIController.Instance.LevelCoinsWinText.text = "0";
         }
     }
 }

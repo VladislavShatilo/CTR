@@ -6,22 +6,43 @@ using UnityEngine.UI;
 
 public class UISettingsWindow : UIWindow
 {
+    [Header("UI elements")]
+
     [SerializeField] private Button closeButton;
     [SerializeField] private Slider volumeSlider;
     [SerializeField] private Button openInfoButton;
     [SerializeField] private Image BGImage;
     void Start()
     {
-        closeButton.onClick.AddListener(CloseWindow);
+        if(closeButton == null || volumeSlider == null || openInfoButton == null || BGImage == null)
+        {
+            Debug.LogError("UI elements are missing");
+            enabled = false;
+        }
+        closeButton.onClick.AddListener(CloseArcadeWindow);
         openInfoButton.onClick.AddListener(OnOpenInfo);
     }
+    private void OnDestroy()
+    {
+        closeButton.onClick.RemoveAllListeners();
+        openInfoButton.onClick.RemoveAllListeners();
 
+    }
 
     private void OnOpenInfo()
     {
-        CloseWindow();
+        CloseArcadeWindow();
         BGImage.gameObject.SetActive(false);
-        UIManager.Instance.Windows.ShowWindow<UIInfoWindow>();
+        if(UIArcadeManager.Instance.Windows == null)
+        {
+            Debug.LogError("UIArcadeManager.Instance.Windows is missing");
+            enabled = false;
+        }
+        else
+        {
+            UIArcadeManager.Instance.Windows.ShowWindow<UIInfoWindow>();
+
+        }
     }
 
     public void BGSetTrue()

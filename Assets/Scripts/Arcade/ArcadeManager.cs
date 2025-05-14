@@ -28,6 +28,23 @@ public class ArcadeManager : MonoBehaviour
 
     void Awake()
     {
+        if(roadGenerator == null)
+        {
+            Debug.LogError("roadGenerator is null");
+            enabled = false;
+        }
+        if (cityBackgroundGO == null)
+        {
+            Debug.LogError("cityBackgroundGO is null");
+            enabled = false;
+
+        }
+        if (playerGO == null)
+        {
+            Debug.LogError("playerGO is null");
+            enabled = false;
+
+        }
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -35,6 +52,13 @@ public class ArcadeManager : MonoBehaviour
         }
 
         Instance = this;
+        if(FindObjectsOfType<MonoBehaviour>().OfType<IArcadeStateListener>() == null)
+        {
+            Debug.LogError("cityBackgroundGO is null");
+            enabled = false;
+
+
+        }
         pauseListeners = FindObjectsOfType<MonoBehaviour>().OfType<IArcadeStateListener>().ToList();
     }
     private void Start()
@@ -70,7 +94,8 @@ public class ArcadeManager : MonoBehaviour
     public void RestartGame()
     {
         Storage.Instance.coinsInLevel = 0;
-        UIManager.Instance.HUD.CoinsText.text = "0";
+        
+        UIArcadeManager.Instance.ArcadeHUD.CoinsText.text = "0";
         foreach (var listener in pauseListeners)
         {
             listener.OnArcadeRestart();
@@ -89,7 +114,7 @@ public class ArcadeManager : MonoBehaviour
 
         cameraController.PlayIntroAnimation(playerGO.transform);
         RestartGame();
-        UIManager.Instance.HUD.SetActiveHUD(true);
+        UIArcadeManager.Instance.ArcadeHUD.SetActiveHUD(true);
         cameraMovement.enabled = false;
         yield return new WaitForSeconds(0.15f);
         cityBackgroundGO.SetActive(false);

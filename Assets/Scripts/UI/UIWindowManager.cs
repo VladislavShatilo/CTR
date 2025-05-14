@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class UIWindowManager : MonoBehaviour
 {
-    [SerializeField] private List<UIWindow> windows; // Все окна проекта
-    private readonly Stack<UIWindow> windowStack = new (); // История окон
+    [SerializeField] private List<UIWindow> windows; 
+    private readonly Stack<UIWindow> windowStack = new (); 
     public void ShowWindow<T>() where T : UIWindow
     {
         var window = windows.Find(w => w is T);
@@ -18,7 +18,7 @@ public class UIWindowManager : MonoBehaviour
 
         if (windowStack.Count > 0)
         {
-            windowStack.Peek().Hide(); // Скрыть текущее окно
+            windowStack.Peek().Hide(); 
 
         }
 
@@ -26,7 +26,6 @@ public class UIWindowManager : MonoBehaviour
         windowStack.Push(window);
     }
 
-    // Закрыть текущее окно
     public void HideTopWindow()
     {
         if (windowStack.Count == 0) return;
@@ -38,14 +37,7 @@ public class UIWindowManager : MonoBehaviour
             windowStack.Peek().Show(); // Показать предыдущее
     }
 
-    // Закрыть все окна
-    public void HideAll()
-    {
-        foreach (var window in windows)
-            window.Hide();
-
-        windowStack.Clear();
-    }
+  
     public T GetWindow<T>() where T : UIWindow
     {
         var window = windows.Find(w => w is T);

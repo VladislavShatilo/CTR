@@ -9,13 +9,13 @@ public class gate : MonoBehaviour
     [SerializeField] private GameObject pointGateEffect;
     [SerializeField] private int power;
     [SerializeField] private GateScript gate1;
-    private TextMeshProUGUI powerText;
+    private UILevelHUDManager levelHUDManager;
 
     void Start()
     {
-        
-        powerText = UIController.Instance.PowerText;
-       
+        levelHUDManager = UILevelManager.Instance.LevelHUD;
+
+
     }
     private void OnValidate()
     {
@@ -23,12 +23,12 @@ public class gate : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (int.Parse(powerText.text) + power > 0)
+        if (levelHUDManager.GetCurrentPower() + power > 0)
         {
             PlayerMove.Instance.addPower(power);
             ParticleManager.Instance.CreateGateDestroyEffect(pointGateEffect.transform.position);
             Destroy(gameObject);
-            powerText.text = (int.Parse(powerText.text) + power).ToString();
+            levelHUDManager.UpdatePowerText(levelHUDManager.GetCurrentPower() + power);
         }
         else
         {

@@ -57,7 +57,7 @@ public class PlayerObstacleHandler : MonoBehaviour
         movement.DestroyCar();
         ArcadeManager.Instance.SetZeroSpeed();
         yield return new WaitForSeconds(0.2f);
-        UIManager.Instance.Windows.ShowWindow<UIAdvWindow>();
+        UIArcadeManager.Instance.Windows.ShowWindow<UIAdvWindow>();
        
     }
 

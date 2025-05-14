@@ -58,9 +58,22 @@ public class PlayerMove : MonoBehaviour
     {
         ParticleManager.Instance.CreateCarDestroyEffect(carDestroyEffectPosition.transform.position);
         gameObject.SetActive(false);
-        UIController.Instance.LoseWindowAnimation();
-        UIController.Instance.SetLosePowerText();
-        UIController.Instance.UIMenuGameOff();
+        if(UILevelManager.Instance.Windows == null)
+        {
+            Debug.LogError("UILevelManager.Instance.Windows is null");
+            enabled = false;
+        }
+        var windowManager = UILevelManager.Instance.Windows;
+        windowManager.ShowWindow<UILoseLevelWindow>();
+        if (UILevelManager.Instance.LevelHUD == null)
+        {
+            Debug.LogError("UILevelManager.Instance.LevelHUD is null");
+            enabled = false;
+        }
+        var levelHUD = UILevelManager.Instance.LevelHUD;
+        int currentPower = levelHUD.GetCurrentPower();
+        windowManager.GetWindow<UILoseLevelWindow>().UpdatePowerText(currentPower);
+        levelHUD.SetGameplayUI(false);
         FindObjectOfType<PreFinish>().enabled = false;
 
 

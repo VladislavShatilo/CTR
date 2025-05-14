@@ -12,26 +12,48 @@ public class UIPauseWindow : UIBaseArcadeWindow
     [SerializeField] private Button resumeButton;
     [SerializeField] private Button restartButton;
 
-    
-
     void Start()
     {
+        if(quitButton == null || resumeButton == null || restartButton == null)
+        {
+            Debug.LogError("Buttons are missing");
+            enabled = false;
+        }
         resumeButton.onClick.AddListener(OnResume);
         quitButton.onClick.AddListener(() => StartCoroutine(OnQuitCor()));
         restartButton.onClick.AddListener(() => StartCoroutine(OnRestartCor()));
     }
-    
+    private void OnDestroy()
+    {
+        resumeButton.onClick.RemoveAllListeners();
+        quitButton.onClick.RemoveAllListeners();
+        restartButton.onClick.RemoveAllListeners();
+    }
 
     private void OnResume()
     {
-       UIManager.Instance.Windows.HideTopWindow();
+        if (UIArcadeManager.Instance.Windows == null)
+        {
+            Debug.LogError("UIArcadeManager.Instance.Windows is missing");
+            enabled = false;
+        }
+        else
+        {
+            UIArcadeManager.Instance.Windows.HideTopWindow();
+
+        }
         StartCoroutine(ResumeCorutine());
 
     }
 
     private IEnumerator ResumeCorutine()
     {
-        yield return UIManager.Instance.HUD.StartCountdown();
+        if(UIArcadeManager.Instance.ArcadeHUD == null)
+        {
+            Debug.LogError("UIArcadeManager.Instance.ArcadeHUD is missing");
+            enabled = false;
+        }
+        yield return UIArcadeManager.Instance.ArcadeHUD.StartCountdown();
         arcadeManager.ContinueGame();
 
     }

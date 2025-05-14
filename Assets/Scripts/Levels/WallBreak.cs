@@ -11,7 +11,17 @@ public class wallBreak : MonoBehaviour
     [SerializeField] int wallPower;
     [SerializeField] TextMeshProUGUI textWallPower;
     [SerializeField] GameObject bricksEffect;
-    private TextMeshProUGUI powerText;
+    private UILevelHUDManager levelHud;
+
+    private void Start()
+    {
+        levelHud = UILevelManager.Instance.LevelHUD;
+        if (levelHud == null)
+        {
+            Debug.LogError("LevelHud is null");
+            enabled = false;
+        }
+    }
 
     private void OnValidate()
     {
@@ -23,12 +33,12 @@ public class wallBreak : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        powerText = UIController.Instance.PowerText;
+       
 
-        if (int.Parse(powerText.text) >= wallPower)
+        if (levelHud.GetCurrentPower() >= wallPower)
         {
             Destroy(gameObject);
-            powerText.text = (int.Parse(powerText.text) - wallPower).ToString();
+            levelHud.UpdatePowerText(levelHud.GetCurrentPower() - wallPower);
             Instantiate(bricksEffect, transform.position, transform.rotation);
         }
         else

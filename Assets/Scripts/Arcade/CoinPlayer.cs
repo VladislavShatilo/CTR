@@ -12,7 +12,7 @@ public class CoinPlayer : MonoBehaviour
 
     private void Start()
     {
-        hudManager = UIManager.Instance.HUD;
+        hudManager = UIArcadeManager.Instance.ArcadeHUD;
     }
 
     private void OnTriggerEnter(Collider other)
