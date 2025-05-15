@@ -7,7 +7,6 @@ using UnityEngine;
 [RequireComponent(typeof(RectTransform))]
 public class SafeArea : MonoBehaviour
 {
-
     private void Awake()
     {
         var rectTransform = GetComponent<RectTransform>();
@@ -21,6 +20,5 @@ public class SafeArea : MonoBehaviour
 
         rectTransform.anchorMin = anchorMin;
         rectTransform.anchorMax = anchorMax;
-
     }
 }

@@ -27,7 +27,6 @@ public class UIArcadeHUDManager : MonoBehaviour
         ComponentValidator.CheckAndLog(scoreText, nameof(scoreText), this);
         ComponentValidator.CheckAndLog(coinsText, nameof(coinsText), this);
         ComponentValidator.CheckAndLog(pauseButton, nameof(pauseButton), this);
-        ComponentValidator.CheckAndLog(UIArcadeManager.Instance, nameof(UIArcadeManager.Instance), this);
 
         countdownDelay = new WaitForSecondsRealtime(0.2f);
         countdownInterval = new WaitForSecondsRealtime(0.7f);

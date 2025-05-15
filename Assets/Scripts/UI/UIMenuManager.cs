@@ -57,9 +57,9 @@ public class UIMenuManager : MonoBehaviour
     public void UpdateStatesInfo()
     {
         coinsText.text = Storage.Instance.coins.ToString();
-        starsText.text = Storage.Instance.stars.ToString();
-        recordText.text = Storage.Instance.score.ToString();
-        YG2.SetLeaderboard("score", Storage.Instance.score);
+        starsText.text = Storage.Instance.totalStars.ToString();
+        recordText.text = Storage.Instance.highScore.ToString();
+        YG2.SetLeaderboard("score", Storage.Instance.highScore);
     }
     private void OnLevelMenuClicked()
     {

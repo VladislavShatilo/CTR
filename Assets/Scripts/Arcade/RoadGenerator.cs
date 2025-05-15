@@ -8,14 +8,19 @@ public class RoadGenerator : MonoBehaviour, IArcadeStateListener
     [SerializeField] private List<GameObject> roadPrefabs;
     [SerializeField] private float startSpeed = 150;
     [SerializeField] private int maxRoadCount = 4;
-
+    [SerializeField] private float segmentLength;
+    [SerializeField] private float speedAdjustmentRate = 0.005f;
     public float speed = 0;
 
     private int prevRandValue;
     private readonly List<GameObject> roads = new();
     private float prevSpeed;
 
+    private void Awake()
+    {
+        ComponentValidator.CheckAndLog(roadPrefabs, nameof(roadPrefabs), this);
 
+    }
     private void Start()
     {
         enabled = false;
@@ -32,7 +37,7 @@ public class RoadGenerator : MonoBehaviour, IArcadeStateListener
     public void OnArcadeRestart() => Restart();
 
     public void Pause()
-    {   
+    {
         speed = 0;
     }
 
@@ -60,20 +65,24 @@ public class RoadGenerator : MonoBehaviour, IArcadeStateListener
             road.transform.position -= new Vector3(0, 0, speed * Time.deltaTime);
         }
         if (speed > startSpeed)
+        {
             speed--;
+
+        }
         else if (speed < startSpeed)
+        {
             speed++;
+        }
 
-
-        if (roads[0].transform.position.z < -200)
+        if (roads[0].transform.position.z < -segmentLength)
         {
             Destroy(roads[0]);
             roads.RemoveAt(0);
             CreateNextRoad();
         }
 
-        speed += 0.005f;
-        startSpeed += 0.005f;
+        speed += speedAdjustmentRate;
+        startSpeed += speedAdjustmentRate;
         prevSpeed = speed;
     }
 
@@ -84,7 +93,7 @@ public class RoadGenerator : MonoBehaviour, IArcadeStateListener
         Vector3 pos = Vector3.zero;
         if (roads.Count > 0)
         {
-            pos = roads[roads.Count - 1].transform.position + new Vector3(0, 0, 200);
+            pos = roads[roads.Count - 1].transform.position + new Vector3(0, 0, segmentLength);
         }
 
         int randInt = 0;
@@ -107,10 +116,9 @@ public class RoadGenerator : MonoBehaviour, IArcadeStateListener
 
         prevRandValue = randInt;
     }
-    
+
     public void ResetLevel()
     {
-       
         speed = 0;
         prevSpeed = 0;
         while (roads.Count > 0)
@@ -129,29 +137,16 @@ public class RoadGenerator : MonoBehaviour, IArcadeStateListener
     {
         enabled = true;
         speed = startSpeed;
-        //YandexGame.FullscreenShow();
-    
+
     }
 
-   
-    //private void PauseRoad()
-    //{
-    //    gameObject.SetActive(false);    
-    //}
-    //private void ContinueRoad()
-    //{
-    //    gameObject.SetActive(true);
-    //}
 
-  
-
-   
     public void ModifySpeed(float buff)
     {
         speed += buff;
     }
     public void StopMovement()
     {
-        speed= 0;
+        speed = 0;
     }
 }

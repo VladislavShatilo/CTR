@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using YG;
 using TMPro;
+using System.Globalization;
 
 public class MainManager : MonoBehaviour
 {
@@ -14,7 +15,6 @@ public class MainManager : MonoBehaviour
 
     [SerializeField] private Material[] carMaterials;
     [SerializeField] private CarProvider carProvider;
-    [SerializeField] private UIArcadeManager uiArcadeManager;
 
     [Header("Settings")]
     [SerializeField] private int _targetFrameRate = 60;
@@ -25,6 +25,7 @@ public class MainManager : MonoBehaviour
 
     private void Awake()
     {
+
         YG2.StartInit();
         Application.targetFrameRate = 60;
       
@@ -40,50 +41,99 @@ public class MainManager : MonoBehaviour
     {
         YG2.GameplayStart();
 
-        StartCor();
-
+        InitializeCarSystem();
+        UpdateUI();
     }
-    void StartCor()
+    private void InitializeCarSystem() 
     {
-        cars = CarProvider.Instance.Cars;
-        carRenderers = new Renderer[cars.Length];
-        for (int i = 0; i < carRenderers.Length; i++)
-        {
-            carRenderers[i] = cars[i].GetComponent<Renderer>();
-        }
-        UIArcadeManager.Instance.MenuManager.UpdateStatesInfo();
-      
+        ComponentValidator.CheckAndLog(carProvider, nameof(carProvider), this);
+        cars = carProvider.Cars;
 
+        InitializeCarRenderers();
+        ActivateSelectedCar();
+        ApplySelectedColor();
+    }
+    private void InitializeCarRenderers()
+    {
+        carRenderers = new Renderer[cars.Length];
+        for (int i = 0; i < cars.Length; i++)
+        {
+            if (cars[i] != null)
+            {
+                carRenderers[i] = cars[i].GetComponent<Renderer>();
+            }
+        }
+    }
+    private void ActivateSelectedCar()
+    {
         foreach (var car in cars)
         {
             car.SetActive(false);
+
         }
 
-        cars[Storage.Instance.SelectedCar].SetActive(true);
-        Material[] materials = carRenderers[Storage.Instance.SelectedCar].materials;
+        int selectedIndex = Mathf.Clamp(Storage.Instance.selectedCar, 0, cars.Length - 1);
+        cars[selectedIndex].SetActive(true);
+    }
+    private void ApplySelectedColor()
+    {
+        int selectedCar = Storage.Instance.selectedCar;
+        if (selectedCar < 0 || selectedCar >= carRenderers.Length || carRenderers[selectedCar] == null)
+        {
+            return;
+        }
+           
+
+        var materials = carRenderers[selectedCar].materials;
         for (int i = 0; i < materials.Length; i++)
         {
-            if (materials[i].name.Contains("!"))
+            if (IsBodyMaterial(materials[i]))
             {
-                materials[i] = carMaterials[Storage.Instance.SelectedColor[Storage.Instance.SelectedCar]];
+                int colorIndex = Mathf.Clamp(Storage.Instance.SelectedColor[selectedCar], 0, carMaterials.Length - 1);
+                materials[i] = carMaterials[colorIndex];
+                break;
             }
+         
         }
-        carRenderers[Storage.Instance.SelectedCar].materials = materials;
-        //YandexGame.NewLeaderboardScores("Record", Storage.Instance.score);
+        carRenderers[selectedCar].materials = materials;
     }
-   
+    private bool IsBodyMaterial(Material mat)
+    {
+        string lowerName = mat.name.ToLower();
+        return lowerName.Contains("Body");
+              
+    }
+    private void UpdateUI()
+    {
+        ComponentValidator.CheckAndLog(UIArcadeManager.Instance.MenuManager, nameof(UIArcadeManager.Instance.MenuManager), this);
+
+        UIArcadeManager.Instance.MenuManager.UpdateStatesInfo();
+    }
+
 
 
     public void SaveCoinsInLevel()
     {
-        Storage.Instance.coins += Storage.Instance.coinsInLevel;
-        if (Storage.Instance.score < int.Parse(UIArcadeManager.Instance.ArcadeHUD.ScoreText.text, System.Globalization.NumberStyles.AllowThousands))
+        if (Storage.Instance == null || UIArcadeManager.Instance.ArcadeHUD.ScoreText == null)
         {
-            Storage.Instance.score = int.Parse(UIArcadeManager.Instance.ArcadeHUD.ScoreText.text, System.Globalization.NumberStyles.AllowThousands);
+            return;
         }
+        if (int.TryParse(UIArcadeManager.Instance.ArcadeHUD.ScoreText.text,
+          NumberStyles.AllowThousands,
+          CultureInfo.InvariantCulture,
+          out int currentScore))
+        {
+            Storage.Instance.coins += Storage.Instance.coinsInLevel;
 
-        Storage.Instance.Save();
+            if (Storage.Instance.highScore < currentScore)
+            {
+                Storage.Instance.highScore = currentScore;
+            }
+
+            Storage.Instance.Save();
+        }
     }
+
 
     public void ShowRewardArcade()
     {

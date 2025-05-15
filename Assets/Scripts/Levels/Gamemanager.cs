@@ -43,31 +43,5 @@ public class Gamemanager : MonoBehaviour
     {
         cachedCamera.GetComponent<CameraMovement>().enabled = false;
     }
-    public void EarnMoneyForLevel()
-    {
-        int level = int.Parse(SceneManager.GetActiveScene().name);
-
-        if (Storage.Instance.levelsDones[level - 1] != 1)
-        {
-            if(level >= 1 && level <= 12)
-            {
-                Storage.Instance.coins = Storage.Instance.coins + Storage.Instance.Season1Money;
-            }
-            else if(level >= 13 && level <= 24)
-            {
-                Storage.Instance.coins = Storage.Instance.coins + Storage.Instance.Season2Money;
-
-            }
-            else
-            {
-                Storage.Instance.coins = Storage.Instance.coins + Storage.Instance.Season3Money;
-            }
-
-            Storage.Instance.Save();
-        }
-        else
-        {
-            //UIController.Instance.LevelCoinsWinText.text = "0";
-        }
-    }
+   
 }

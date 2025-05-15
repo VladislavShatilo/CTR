@@ -15,10 +15,8 @@ public class ProtectionBuff : MonoBehaviour
         if (buffManager != null)
         {
             if (isProtection)
-            {
-                
+            {             
                 buffManager.ActivateBuff(BuffType.Immortality);
-
             }
             else
             {

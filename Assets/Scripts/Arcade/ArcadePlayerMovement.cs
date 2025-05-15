@@ -37,10 +37,10 @@ public class ArcadePlayerMovement : MonoBehaviour, IArcadeStateListener
 
     private void OnEnable()
     {
-        ComponentValidator.CheckAndLog(CarProvider.Instance.Cars[Storage.Instance.SelectedCar],
+        ComponentValidator.CheckAndLog(CarProvider.Instance.Cars[Storage.Instance.selectedCar],
             nameof(gameObject), this);
 
-        if (!CarProvider.Instance.Cars[Storage.Instance.SelectedCar].TryGetComponent(out carMesh))
+        if (!CarProvider.Instance.Cars[Storage.Instance.selectedCar].TryGetComponent(out carMesh))
         {
             Debug.LogError("ArcadePlayerMovement: Car mesh is missing!");
             enabled = false;

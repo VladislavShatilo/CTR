@@ -10,18 +10,39 @@ public class PlayerObstacleHandler : MonoBehaviour
     [SerializeField] private GameObject crashParticles;
     [SerializeField] private GameObject particlePoint;
 
+    [Header("Referencies")]
+    [SerializeField] private MainManager mainManager;
+    [SerializeField] private ArcadeManager arcadeManager;
+
+    [Header("Referencies")]
+    [SerializeField] private float crashDelay = 0.2f;
+
+
     private BuffManager buffManager;
     private ArcadePlayerMovement movement;
     private CameraShakeEffect cameraShake;
+
+    private void Awake()
+    {
+        ComponentValidator.CheckAndLog(immortalityParticles, nameof(immortalityParticles), this);
+        ComponentValidator.CheckAndLog(crashParticles, nameof(crashParticles), this);
+        ComponentValidator.CheckAndLog(particlePoint, nameof(particlePoint), this);
+        ComponentValidator.CheckAndLog(mainManager, nameof(mainManager), this);
+        ComponentValidator.CheckAndLog(arcadeManager, nameof(arcadeManager), this);
+     
+    }
     void Start()
     {
+       
+
         cameraShake = Camera.main.GetComponent<CameraShakeEffect>();
         buffManager = GetComponent<BuffManager>();
         movement = GetComponent<ArcadePlayerMovement>();
-        if (movement == null || buffManager == null || cameraShake == null)
-        {
-            throw new System.NullReferenceException("PlayerObstacleHandler: Missing critical components!");
-        }
+
+        ComponentValidator.CheckAndLog(cameraShake, nameof(cameraShake), this);
+        ComponentValidator.CheckAndLog(buffManager, nameof(buffManager), this);
+        ComponentValidator.CheckAndLog(movement, nameof(movement), this);
+
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -50,13 +71,14 @@ public class PlayerObstacleHandler : MonoBehaviour
 
     private IEnumerator HandleCrashCollision()
     {
-        MainManager.Instance.SaveCoinsInLevel();
+        mainManager.SaveCoinsInLevel();
 
-       
         Instantiate(crashParticles, particlePoint.transform);
         movement.DestroyCar();
-        ArcadeManager.Instance.StopRoadMovement();
-        yield return new WaitForSeconds(0.2f);
+        arcadeManager.StopRoadMovement();
+        yield return new WaitForSeconds(crashDelay);
+
+        ComponentValidator.CheckAndLog(UIArcadeManager.Instance.Windows, nameof(UIArcadeManager.Instance.Windows), this);
         UIArcadeManager.Instance.Windows.ShowWindow<UIAdvWindow>();
        
     }

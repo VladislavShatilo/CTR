@@ -7,8 +7,7 @@ public class boosterBuff : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] bool isNegative;
-    [SerializeField] private GameObject negativeBoosterModel;
-    [SerializeField] private GameObject positiveBoosterModel;
+   
 
 
     [Header("Boost Effects")]
@@ -25,23 +24,7 @@ public class boosterBuff : MonoBehaviour
         ComponentValidator.CheckAndLog(cam, nameof(cam), this);
 
     }
-    private void OnValidate()
-    {
-        ComponentValidator.CheckAndLog(negativeBoosterModel, nameof(negativeBoosterModel), this);
-        ComponentValidator.CheckAndLog(positiveBoosterModel, nameof(positiveBoosterModel), this);
-
-        if (isNegative)
-        {
-            negativeBoosterModel.SetActive(true);
-            positiveBoosterModel.SetActive(false);
-        }
-        else
-        {
-            negativeBoosterModel.SetActive(false);
-            positiveBoosterModel.SetActive(true);
-           
-        }
-    }
+  
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))

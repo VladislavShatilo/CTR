@@ -1,179 +1,186 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
-using TMPro;
 using UnityEngine;
+using System.Collections;
+using DG.Tweening.Core.Easing;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
+[RequireComponent(typeof(Collider))]
 public class FinalBuff : MonoBehaviour
 {
-    public float powerForLevel = 60f;
+    [Header("Settings")]
+    [SerializeField] private float powerForLevel = 60f;
+    [SerializeField] private float animationDuration = 1f;
+    [SerializeField] private float delayBetweenAnimations = 0.3f;
 
-    [SerializeField] private ParticleSystem[] confettiEffectParticles;
-    
-    [SerializeField] private Sprite goodStarSprite;
+    [Header("References")]
+    [SerializeField] private ParticleSystem[] confettiEffects;
+    [SerializeField] private Sprite filledStarSprite;
+   
+
+    [Header("Season Settings")]
+    [SerializeField] private int levelsPerSeason = 12;
+    [SerializeField] private int[] seasonStarsThresholds = { 25, 52 };
+    [SerializeField] private int[] seasonRewards = { 200, 500, 2000 }; // Пример значений
 
     private UIFinalLevelWindow finalWindow;
+    private int currentLevelIndex;
+    private bool isInitialized;
+    private PlayerMove player;
+    private UILevelManager uiLevelManager;
 
-    private float durationInSeconds = 1f;
-    private float timer;
-    private int starsEarned = 0;
-
-    void Start()
+    private void Start()
     {
-    
-        enabled = false;
-        timer = 0f;
-       
-        finalWindow = UILevelManager.Instance.Windows.GetWindow<UIFinalLevelWindow>();
+        Initialize();
+    }
 
-        finalWindow.UpdatePowerText(0);
+    private void Initialize()
+    {
+        if (isInitialized) return;
+
+        if (!int.TryParse(SceneManager.GetActiveScene().name, out int levelNumber))
+        {
+            Debug.LogError("Invalid scene name format!", this);
+            enabled = false;
+            return;
+        }
+        ComponentValidator.CheckAndLog(UILevelManager.Instance, nameof(UILevelManager.Instance), this);
+
+        uiLevelManager = UILevelManager.Instance;
+        ComponentValidator.CheckAndLog(PlayerMove.Instance, nameof(PlayerMove.Instance), this);
+        player = PlayerMove.Instance;
+        currentLevelIndex = levelNumber - 1;
+        ComponentValidator.CheckAndLog(UILevelManager.Instance.Windows, nameof(UILevelManager.Instance.Windows), this);
+        finalWindow = UILevelManager.Instance.Windows.GetWindow<UIFinalLevelWindow>();
         finalWindow.SetActiveButtons(false);
 
-
+        enabled = false;
+        isInitialized = true;
     }
-    IEnumerator FinalWindowUICor()
+
+    private void OnTriggerEnter(Collider other)
     {
+        if (!other.attachedRigidbody.TryGetComponent(out PlayerMove _))
+            return;
+
+        if (!isInitialized) Initialize();
+
+        StartFinalSequence();
+    }
+
+    private void StartFinalSequence()
+    {
+        //player.enabled = false;
+        FindObjectOfType<Gamemanager>().StopCamera();
+
+        PlayConfettiEffects();
+
+        UpdateLevelProgress();
+        StartCoroutine(FinalSequenceCoroutine());
+    }
+
+    private IEnumerator FinalSequenceCoroutine()
+    {
+        uiLevelManager.LevelHUD.AllUIActive(false);
         yield return new WaitForSeconds(1f);
 
-        UILevelManager.Instance.Windows.ShowWindow<UIFinalLevelWindow>();
+        uiLevelManager.Windows.ShowWindow<UIFinalLevelWindow>();
 
-        float finPower;
-        float progress;
-        while (timer < durationInSeconds)
+        // Анимация мощности
+        yield return AnimateValue(
+            startValue: 0,
+            endValue: uiLevelManager.LevelHUD.GetCurrentPower(),
+            updateAction: value => finalWindow.UpdatePowerText((int)value)
+        );
+
+        yield return new WaitForSeconds(delayBetweenAnimations);
+
+        // Показ звезд
+        int starsEarned = CalculateStarsEarned();
+        yield return finalWindow.ShowStars(starsEarned, filledStarSprite);
+
+        // Анимация монет (если уровень не был пройден ранее)
+        if (Storage.Instance.levelsCompleted[currentLevelIndex] == 1)
         {
-            progress = timer / durationInSeconds;
-            finPower = Mathf.RoundToInt(Mathf.Lerp(0, UILevelManager.Instance.LevelHUD.GetCurrentPower(), progress));
-            finalWindow.UpdatePowerText((int)finPower);
-           
+            int reward = CalculateLevelReward();
+            yield return AnimateValue(
+                startValue: 0,
+                endValue: reward,
+                updateAction: value => finalWindow.UpdateCoinsText((int)value)
+            );
+            Storage.Instance.coins += reward;
+            Storage.Instance.Save();
+        }
+        else
+        {
+            finalWindow.UpdateCoinsText(0);
+        }
+
+        // Проверка блокировки кнопки "Далее"
+        if (IsLastLevelInSeason() && !HasEnoughSeasonStars())
+        {
+            finalWindow.BlockNextButtonOnLastLevel();
+        }
+
+        finalWindow.SetActiveButtons(true);
+    }
+
+    private int CalculateStarsEarned()
+    {
+        float progress = Mathf.Clamp01(uiLevelManager.LevelHUD.GetCurrentPower() / powerForLevel);
+
+        if (progress >= 0.66f) return 3;
+        if (progress >= 0.33f) return 2;
+        return 1;
+    }
+
+    private void UpdateLevelProgress()
+    {
+        int stars = CalculateStarsEarned();
+        Storage.Instance.levelsCompleted[currentLevelIndex] = 1;
+        Storage.Instance.levelsStars[currentLevelIndex] = stars;
+        Storage.Instance.Save();
+
+    }
+
+    private int CalculateLevelReward()
+    {
+        int seasonIndex = currentLevelIndex / levelsPerSeason;
+        return seasonIndex < seasonRewards.Length ? seasonRewards[seasonIndex] : 0;
+    }
+
+    private bool IsLastLevelInSeason()
+    {
+        return (currentLevelIndex + 1) % levelsPerSeason == 0;
+    }
+
+    private bool HasEnoughSeasonStars()
+    {
+        int seasonIndex = (currentLevelIndex + 1) / levelsPerSeason - 1;
+        return seasonIndex >= 0 &&
+               seasonIndex < seasonStarsThresholds.Length &&
+               Storage.Instance.totalStars >= seasonStarsThresholds[seasonIndex];
+    }
+
+    private void PlayConfettiEffects()
+    {
+        foreach (var effect in confettiEffects)
+        {
+            effect?.Play();
+        }
+    }
+
+    private IEnumerator AnimateValue(float startValue, float endValue, System.Action<float> updateAction)
+    {
+        float timer = 0f;
+        while (timer < animationDuration)
+        {
+            float progress = timer / animationDuration;
+            float currentValue = Mathf.Lerp(startValue, endValue, progress);
+            updateAction?.Invoke(currentValue);
 
             timer += Time.deltaTime;
             yield return null;
         }
 
-        timer = 0f;
-        finPower = UILevelManager.Instance.LevelHUD.GetCurrentPower();
-        finalWindow.UpdatePowerText((int)finPower);
-
-        yield return new WaitForSeconds(0.3f);
-
-        yield return finalWindow.ShowStars(starsEarned,goodStarSprite);
-
-
-        if (Storage.Instance.levelsDones[int.Parse(SceneManager.GetActiveScene().name) - 1] != 1)
-        {
-            int level = int.Parse(SceneManager.GetActiveScene().name);
-            int moneyAmount = 0;
-            if (level >= 1 && level <= 12)
-            {
-                moneyAmount = Storage.Instance.Season1Money;
-            }
-            else if (level >= 13 && level <= 24)
-            {
-                moneyAmount = Storage.Instance.Season2Money;
-
-            }
-            else
-            {
-                moneyAmount = Storage.Instance.Season3Money;
-            }
-
-            while (timer < durationInSeconds)
-            {
-                float progress1 = timer / durationInSeconds;
-                float finCoin1 = Mathf.RoundToInt(Mathf.Lerp(0, moneyAmount, progress1));
-                finalWindow.UpdateCoinsText((int)finCoin1);
-                timer += Time.deltaTime;
-                yield return null;
-            }
-
-            finalWindow.UpdateCoinsText((int)moneyAmount);
-
-        }
-        else 
-        {
-            finalWindow.UpdateCoinsText(0);
-        }
-
-        finalWindow.SetActiveButtons(true);
-
-        if ((int.Parse(SceneManager.GetActiveScene().name) == 12 || 
-            int.Parse(SceneManager.GetActiveScene().name) == 24 ||
-            int.Parse(SceneManager.GetActiveScene().name) == 36) &&
-           Storage.Instance.stars < seasonStars[getNumberOfSeason()]) 
-        {
-           finalWindow.BlockNextButtonOnLastLevel();
-        }
-    }
-
-    private int[] seasonStars = new[] { 25, 52 };
-
-    int getNumberOfSeason()
-    {
-        return int.Parse(SceneManager.GetActiveScene().name) / 12 - 1;
-    }
-   
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.attachedRigidbody.GetComponent<PlayerMove>())
-        {
-            enabled = true;
-            PlayerMove.Instance.enabled = false;
-            FindObjectOfType<Gamemanager>().StopCamera();
-            for(int i= 0;i<confettiEffectParticles.Length; i++)
-            {
-                confettiEffectParticles[i].Play();
-
-            }
-
-            FindObjectOfType<Gamemanager>().EarnMoneyForLevel();
-            UpdateStarsInFinalWindow();
-            StartCoroutine(FinalWindowUICor());          
-            UpdateStarsMenu();
-
-            Storage.Instance.levelsDones[int.Parse(SceneManager.GetActiveScene().name) -1] = 1;
-            Storage.Instance.Save();
-            UILevelManager.Instance.LevelHUD.AllUIActive(false);
-
-        }
-    }
-
-   
-    private void UpdateStarsInFinalWindow()
-    {
-        float progressProcces =(float)UILevelManager.Instance.LevelHUD.GetCurrentPower() / powerForLevel;
-        if ( progressProcces >= 0.66f) 
-        {
-            starsEarned = 3;
-        }
-        else if (progressProcces >= 0.33f && progressProcces < 0.66f )
-        {
-            starsEarned = 2;
-        }
-        else if (progressProcces >= 0 && progressProcces < 0.33f)
-        {
-            starsEarned = 1;
-        }
-          
-    }
-
-    private void UpdateStarsMenu()
-    {
-        float progressProcces = (float)UILevelManager.Instance.LevelHUD.GetCurrentPower() / powerForLevel;
-
-        if (progressProcces >= 0.66f && (Storage.Instance.levelsStars[int.Parse(SceneManager.GetActiveScene().name) - 1] < 3)) 
-        {
-              Storage.Instance.levelsStars[int.Parse(SceneManager.GetActiveScene().name) - 1] = 3; 
-        }
-        else if (progressProcces >= 0.33f && progressProcces < 0.66f && (Storage.Instance.levelsStars[int.Parse(SceneManager.GetActiveScene().name) - 1] < 2))
-        {
-            Storage.Instance.levelsStars[int.Parse(SceneManager.GetActiveScene().name) - 1] = 2;
-        }
-        else if (progressProcces >= 0 && progressProcces < 0.33f)
-        {
-            Storage.Instance.levelsStars[int.Parse(SceneManager.GetActiveScene().name) - 1] = 1;
-        }
-        Storage.Instance.Save();
+        updateAction?.Invoke(endValue);
     }
 }

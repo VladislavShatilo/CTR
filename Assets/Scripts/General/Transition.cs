@@ -9,8 +9,12 @@ public class Transition : MonoBehaviour
 {
     [SerializeField] Image fadeImage;
     [SerializeField] private float fade_speed = 1.0f;
-    
 
+    private void Awake()
+    {
+        ComponentValidator.CheckAndLog(fadeImage, nameof(fadeImage), this);
+
+    }
     private void TransitionFunc()
     {
         fadeImage.gameObject.SetActive(true);
@@ -21,7 +25,6 @@ public class Transition : MonoBehaviour
     public void LoadScenebByName(string nameScene)
     {
         
-       // YG2.InterstitialAdvShow();
         StartCoroutine(LoadScenebByNameCor(nameScene));
     }
 

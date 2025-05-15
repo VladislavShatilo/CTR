@@ -21,7 +21,6 @@ public class UILevelHUDManager : MonoBehaviour
     [Header("Referencies")]
     [SerializeField] private Gamemanager gamemanager;
     [SerializeField] private Transition transition;
-    [SerializeField] private PlayerMove playerMove;
 
     private const string LEVEL_PREFIX = "Level ";
 
@@ -38,7 +37,6 @@ public class UILevelHUDManager : MonoBehaviour
         ComponentValidator.CheckAndLog(levelBGImage, nameof(levelBGImage), this);
         ComponentValidator.CheckAndLog(gamemanager, nameof(gamemanager), this);
         ComponentValidator.CheckAndLog(transition, nameof(transition), this);
-        ComponentValidator.CheckAndLog(playerMove, nameof(playerMove), this);
     }
 
     
@@ -92,7 +90,8 @@ public class UILevelHUDManager : MonoBehaviour
 
         playButton.gameObject.SetActive(false);
         tapToPlayText.gameObject.SetActive(false);
-        playerMove.enabled = true;
+        PlayerMove.Instance.enabled = false;
+        //playerMove.enabled = true;
         quitButton.gameObject.SetActive(false);
         SetGameplayUI(true);
         gamemanager.StartGame();

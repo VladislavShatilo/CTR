@@ -8,30 +8,41 @@ using UnityEngine;
 public class Storage : MonoBehaviour
 {
     public static Storage Instance { get; private set; }
-    public bool isRewardArcadeShown;
-    public bool canShowArcadeRewardTime = true;
-    public bool canShowShopRewardTime = true;
-    public float[] carMultiplier = new float[13];
-    public int  carCount = 13;
+
+    [Header("Game Settings")]
+    public const int carCount = 13;
+    public const int levelCount = 36;
+    public const int seasonCount = 3;
+
+    [Header("Economy Settings")]
+    public float[] carMultiplier = new float[carCount]
+    {
+        1f, 1.3f, 1.6f, 2.1f, 2.7f, 3.5f,
+        4.5f, 5.7f, 7.3f, 9.4f, 12f, 16f, 25f
+    };
+
+    [Header("Player Progress")]
     public int coins;
     public int coinsInLevel;
-    public int stars;
-    public int score;
-    public int[] levelsDones = new int[36];
-    public int[] levelsStars = new int[36];
-    public int activeSeason = 1;
-    public int[] cars = new int[13];
-    public int[] SelectedColor = new int[13];
-    public int SelectedCar = 0;
-    public int starsCount = 0;
-    public int ButtonActivated = 0;
-    public  int Season1Money = 200;
-    public  int Season2Money = 500;
-    public  int Season3Money = 2000;
-
+    public int totalStars;
+    public int highScore;
+    public int selectedCar;
     public float volume = 1;
-    public int[] seasonCar = new int[3];
-    public bool isHintShown = false; 
+
+    [Header("Level Progress")]
+    public int[] levelsCompleted = new int[levelCount];
+    public int[] levelsStars = new int[levelCount];
+
+    [Header("Season Progress")]
+    public int activeSeason = 1;
+    public int[] seasonCarUnlocked = new int [seasonCount];
+
+
+    [Header("Cars")]
+    public int[] cars = new int[carCount];
+    public int[] SelectedColor = new int[carCount];
+
+    
     private const string SaveKey = "game_data";
 
     private void Awake()
@@ -43,13 +54,10 @@ public class Storage : MonoBehaviour
         }
 
         Instance = this;
+
         DontDestroyOnLoad(gameObject);
-        //ResetSave();
         Load();
         Init();
-
-
-
     }
 
     public void Save()
@@ -78,15 +86,15 @@ public class Storage : MonoBehaviour
     }
     private void Init()
     {
-        if (carMultiplier == null || carMultiplier.Length != 13)
+        if (carMultiplier == null || carMultiplier.Length != carCount)
         {
-            carMultiplier = new float[13];
+            carMultiplier = new float[carCount];
         }
-        if (levelsDones == null || levelsDones.Length != 36)
-            levelsDones = new int[36];
+        if (levelsCompleted == null || levelsCompleted.Length != levelCount)
+            levelsCompleted = new int[levelCount];
 
-        if (levelsStars == null || levelsStars.Length != 36)
-            levelsStars = new int[36];
+        if (levelsStars == null || levelsStars.Length != levelCount)
+            levelsStars = new int[levelCount];
 
         if (cars == null || cars.Length != carCount)
             cars = new int[carCount];
@@ -94,30 +102,30 @@ public class Storage : MonoBehaviour
         if (SelectedColor == null || SelectedColor.Length != carCount)
             SelectedColor = new int[carCount];
 
-        if (seasonCar == null || seasonCar.Length != 3)
-            seasonCar = new int[3];
+        if (seasonCarUnlocked == null || seasonCarUnlocked.Length != seasonCount)
+            seasonCarUnlocked = new int[seasonCount];
 
-        if (SelectedCar < 0 || SelectedCar >= carCount)
-            SelectedCar = 0;
+        if (selectedCar < 0 || selectedCar >= carCount)
+            selectedCar = 0;
     }
     public void ResetSave()
     {
 
-        levelsDones = new int[36];
-        levelsStars = new int[36];
-        carMultiplier = new float[13] { 1,1.3f,1.6f,2.1f,2.7f,3.5f,4.5f,5.7f,7.3f,9.4f,12,16,25 };
+        levelsCompleted = new int[levelCount];
+        levelsStars = new int[levelCount];
+        carMultiplier = new float[carCount] { 1,1.3f,1.6f,2.1f,2.7f,3.5f,4.5f,5.7f,7.3f,9.4f,12,16,25 };
         cars = new int[carCount];
         SelectedColor = new int[carCount];
-        seasonCar = new int[3];
-        for (int i = 0; i < 36; i++)
+        seasonCarUnlocked = new int[seasonCount];
+        for (int i = 0; i < levelCount; i++)
         {
-            levelsDones[i] = 0;
+            levelsCompleted[i] = 0;
             levelsStars[i] = 0;
         }
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < seasonCount; i++)
         {
-            seasonCar[i] = 0;
+            seasonCarUnlocked[i] = 0;
         }
 
         for (int i = 0; i < carCount; i++)

@@ -1944,7 +1944,10 @@ MonoBehaviour:
   hideOnAwake: 1
   rectTransform: {fileID: 3260249291169977331}
   hiddenPositionOffset: 1.5
+  delay: 0.05
   transition: {fileID: 3354122434687081155}
+  quitToMenuDelay: 0.7
+  restartLevelDelay: 0.7
   quitButton: {fileID: 803914448439139428}
   restartButton: {fileID: 1296932576841385980}
   powerText: {fileID: 6569014074828780251}
@@ -2754,7 +2757,10 @@ MonoBehaviour:
   hideOnAwake: 1
   rectTransform: {fileID: 4320069024527885244}
   hiddenPositionOffset: 1.5
+  delay: 0.05
   transition: {fileID: 3354122434687081155}
+  quitToMenuDelay: 0.7
+  restartLevelDelay: 0.7
   quitButton: {fileID: 3238489071761248051}
   restartButton: {fileID: 539432873359744592}
   nextLevelButton: {fileID: 7161317740139469576}
@@ -2764,6 +2770,9 @@ MonoBehaviour:
   - {fileID: 5324611994781952282}
   - {fileID: 150831666454826954}
   - {fileID: 6885586944136988429}
+  starAppearDelay: 0.2
+  finalDelayAfterStars: 0.3
+  nextLevelDelay: 0.7
 --- !u!1 &2918738439129358057
 GameObject:
   m_ObjectHideFlags: 0
@@ -5152,6 +5161,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 26, z: -35}
   followSpeed: 2000
+  eulerX: 26
 --- !u!1 &4604504733881993899
 GameObject:
   m_ObjectHideFlags: 0
@@ -10098,10 +10108,14 @@ MonoBehaviour:
   hideOnAwake: 1
   rectTransform: {fileID: 8956166708774775330}
   hiddenPositionOffset: 1.5
+  delay: 0.05
   transition: {fileID: 3354122434687081155}
+  quitToMenuDelay: 0.7
+  restartLevelDelay: 0.7
   quitButton: {fileID: 1035737679874830887}
   resumeButton: {fileID: 7761950629154478745}
   restartButton: {fileID: 7974027001650378246}
+  gameManager: {fileID: 1391516933529522129}
 --- !u!1 &9193137065804432275
 GameObject:
   m_ObjectHideFlags: 0

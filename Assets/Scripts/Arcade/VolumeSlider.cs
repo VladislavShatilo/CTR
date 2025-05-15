@@ -5,10 +5,11 @@ using UnityEngine.UI;
 
 public class volumeSlider : MonoBehaviour
 {
-    public Slider slider;
+    [SerializeField] private Slider slider;
 
     void Start()
     {
+        ComponentValidator.CheckAndLog(slider, nameof(slider), this);
         slider.value = Storage.Instance.volume;
     }
 

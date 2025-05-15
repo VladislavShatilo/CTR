@@ -41,7 +41,7 @@ public class UIFinalLevelWindow : UIBaseLevelWindow
         for (int i = 0; i < starImages.Length; i++)
         {
             ComponentValidator.CheckAndLog(starImages[i], nameof(starImages), this);
-            starImages[i].gameObject.SetActive(false);
+           // starImages[i].gameObject.SetActive(false);
             
         }
     }

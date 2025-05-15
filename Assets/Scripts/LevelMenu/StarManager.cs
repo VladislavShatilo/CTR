@@ -61,7 +61,7 @@ public class StarManager : MonoBehaviour
                 levelsG[i - 3].transform.GetChild(2).gameObject.SetActive(false);
             }
         }
-        Storage.Instance.stars = starsCount;
+        Storage.Instance.totalStars = starsCount;
         for (int i = 0; i < starsToUnlock.Length; i++)
         {
             starsToUnlock[i].text = starsCount.ToString() + "/" + starsToUnlockNum[i].ToString();

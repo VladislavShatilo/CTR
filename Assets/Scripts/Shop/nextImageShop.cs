@@ -36,7 +36,7 @@ public class CarShop : MonoBehaviour
 
     void Awake()
     {
-        selectedCarIndex = Storage.Instance.SelectedCar;
+        selectedCarIndex = Storage.Instance.selectedCar;
         carRenderer = new Renderer[13];
         for (int i = 0; i < carRenderer.Length; i++)
         {
@@ -103,17 +103,11 @@ public class CarShop : MonoBehaviour
         }
         else
         {
-            if (Storage.Instance.canShowShopRewardTime)
-            {
+            //if (Storage.Instance.canShowShopRewardTime)
+           
                 rewardImage.gameObject.SetActive(true);
                 rewardButton.gameObject.SetActive(true);
-            }
-            else
-            {
-                rewardImage.gameObject.SetActive(false);
-
-                rewardButton.gameObject.SetActive(false);
-            }
+           
             int moneyNeeded = int.Parse(carPrices[selectedCarIndex]) - Storage.Instance.coins;
             if(YG2.envir.language == "ru")
             {
@@ -144,7 +138,7 @@ public class CarShop : MonoBehaviour
         calculateSeason();
 
         int numberOfSeason = int.Parse(priceText.text[priceText.text.Length - 1].ToString());        
-        if ( Storage.Instance.seasonCar[numberOfSeason - 1] == 1)
+        if ( Storage.Instance.seasonCarUnlocked[numberOfSeason - 1] == 1)
         {
             block.SetActive(false);
             Storage.Instance.cars[selectedCarIndex] = 1;
@@ -159,7 +153,7 @@ public class CarShop : MonoBehaviour
     }
     public void SelectCar()
     {
-        Storage.Instance.SelectedCar = selectedCarIndex;
+        Storage.Instance.selectedCar = selectedCarIndex;
         Storage.Instance.Save();
     }
 
@@ -270,7 +264,7 @@ public class CarShop : MonoBehaviour
     public int CalculateRewardCoins()
     {
         int amoutOfCoins = 100;
-        for (int i = Storage.Instance.carCount - 1; i >= 0; i--)
+        for (int i = Storage.carCount-1; i >= 0; i--)
         {
             if (Storage.Instance.cars[i] == 1)
             {
@@ -314,21 +308,21 @@ public class CarShop : MonoBehaviour
      
         for (int i = 1; i <= 12; i++)
         {
-            if (Storage.Instance.levelsDones[i - 1] != 1)
+            if (Storage.Instance.levelsCompleted[i - 1] != 1)
             {
                  season1= false;
             }
         }
         for (int i = 13; i <= 24; i++)
         {
-            if (Storage.Instance.levelsDones[i - 1] != 1)
+            if (Storage.Instance.levelsCompleted[i - 1] != 1)
             {
                 season2 = false;
             }
         }
         for (int i = 25; i <= 36; i++)
         {
-            if (Storage.Instance.levelsDones[i - 1] != 1)
+            if (Storage.Instance.levelsCompleted[i - 1] != 1)
             {
                 season3 = false;
 
@@ -337,15 +331,15 @@ public class CarShop : MonoBehaviour
        
         if (season1)
         {
-            Storage.Instance.seasonCar[0] = 1;
+            Storage.Instance.seasonCarUnlocked[0] = 1;
         }
         if (season2)
         {
-            Storage.Instance.seasonCar[1] = 1;
+            Storage.Instance.seasonCarUnlocked[1] = 1;
         }
         if (season3)
         {
-            Storage.Instance.seasonCar[2] = 1;
+            Storage.Instance.seasonCarUnlocked[2] = 1;
         }
         Storage.Instance.Save();
 

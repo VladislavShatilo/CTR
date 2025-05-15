@@ -462,6 +462,8 @@ MonoBehaviour:
   shopButton: {fileID: 293440567}
   settingsButton: {fileID: 1878785184}
   transition: {fileID: 1705118130}
+  arcadeManager: {fileID: 731675460}
+  audioScript: {fileID: 1946592442}
 --- !u!4 &7714972
 Transform:
   m_ObjectHideFlags: 0
@@ -665,8 +667,11 @@ MonoBehaviour:
   hideOnAwake: 1
   rectTransform: {fileID: 966427683}
   hiddenPositionOffset: 1.5
+  delay: 0.05
   arcadeManager: {fileID: 731675460}
   transition: {fileID: 1705118130}
+  quitDelay: 0.7
+  _restartDelay: 0.5
   quitButton: {fileID: 2098300207}
   resumeButton: {fileID: 279824853}
   restartButton: {fileID: 1483649847}
@@ -3349,7 +3354,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1994829298}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BackToMainMenu, Assembly-CSharp
         m_MethodName: LoadShop
         m_Mode: 1
@@ -3454,9 +3459,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d062fd7896e0984e964d91b22cdd660, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.01
-  minX: -7
-  maxX: 8
+  dragSpeed: 0.05
+  minXPosition: -7
+  maxXPosition: 8
+  rotationSpeed: 0.03
+  minRotation: 160
+  maxRotation: 200
 --- !u!81 &304022700
 AudioListener:
   m_ObjectHideFlags: 0
@@ -4419,8 +4427,11 @@ MonoBehaviour:
   hideOnAwake: 1
   rectTransform: {fileID: 1063899365}
   hiddenPositionOffset: 1.5
+  delay: 0.05
   arcadeManager: {fileID: 731675460}
   transition: {fileID: 1705118130}
+  quitDelay: 0.7
+  _restartDelay: 0.5
   scoreText: {fileID: 2074398937}
   coinsText: {fileID: 1162932555}
   quitButton: {fileID: 792566139}
@@ -5108,8 +5119,10 @@ MonoBehaviour:
   hideOnAwake: 1
   rectTransform: {fileID: 1985477374}
   hiddenPositionOffset: 1.5
+  delay: 0.05
   closeButton: {fileID: 1544582718}
   watchAdvButton: {fileID: 237830124}
+  closeDelay: 0.35
 --- !u!1 &663205949
 GameObject:
   m_ObjectHideFlags: 0
@@ -6126,7 +6139,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1994829298}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BackToMainMenu, Assembly-CSharp
         m_MethodName: LoadLevelMenu
         m_Mode: 1
@@ -7711,6 +7724,7 @@ MonoBehaviour:
   hideOnAwake: 1
   rectTransform: {fileID: 166513570}
   hiddenPositionOffset: 1.5
+  delay: 0.05
   closeButton: {fileID: 179277765}
 --- !u!1 &860538526
 GameObject:
@@ -9020,8 +9034,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0036fcff8e838df439a84992f3d1b3b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rewardID: Arcade
-  timerDurationLock: 60
 --- !u!1 &1122991004
 GameObject:
   m_ObjectHideFlags: 0
@@ -14282,6 +14294,8 @@ MonoBehaviour:
   - {fileID: 8478825234143402157, guid: c5fb3aa1c4780e74e93f5871891e699b, type: 3}
   startSpeed: 150
   maxRoadCount: 4
+  segmentLength: 200
+  speedAdjustmentRate: 0.005
   speed: 0
 --- !u!4 &1829388819
 Transform:
@@ -14502,6 +14516,7 @@ MonoBehaviour:
   hideOnAwake: 1
   rectTransform: {fileID: 1426751555}
   hiddenPositionOffset: 1.5
+  delay: 0.05
   closeButton: {fileID: 148390454}
   volumeSlider: {fileID: 2128033364}
   openInfoButton: {fileID: 777422108}
@@ -15816,7 +15831,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1994829300}
   - component: {fileID: 1994829299}
-  - component: {fileID: 1994829298}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -15824,18 +15838,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1994829298
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1994829297}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ff20bf8d6d71a24f9cb634fa842ad89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1994829299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15855,6 +15857,8 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 9bd058681f5ebab41b4b7f3355b6826b, type: 2}
   - {fileID: 2100000, guid: eaffd99a576709542b3901554efa43c8, type: 2}
   - {fileID: 2100000, guid: 2e33795e1943dbe49a35bfb7cc0deaf2, type: 2}
+  carProvider: {fileID: 1392105149}
+  _targetFrameRate: 60
 --- !u!4 &1994829300
 Transform:
   m_ObjectHideFlags: 0
@@ -15904,9 +15908,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfdbefdfdd0dcea4bb1c3962bdb8e5a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRewardArcadeShown: 0
-  canShowArcadeRewardTime: 0
-  canShowShopRewardTime: 1
   carMultiplier:
   - 0
   - 0
@@ -15921,25 +15922,18 @@ MonoBehaviour:
   - 0
   - 0
   - 0
-  carCount: 13
   coins: 0
   coinsInLevel: 0
-  stars: 0
-  score: 0
-  levelsDones: 
+  totalStars: 0
+  highScore: 0
+  selectedCar: 0
+  volume: 1
+  levelsCompleted: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   levelsStars: 
   activeSeason: 1
+  seasonCarUnlocked: 000000000000000000000000
   cars: 
   SelectedColor: 
-  SelectedCar: 0
-  starsCount: 0
-  ButtonActivated: 0
-  Season1Money: 200
-  Season2Money: 500
-  Season3Money: 2000
-  volume: 1
-  seasonCar: 
-  isHintShown: 0
 --- !u!4 &2021489192
 Transform:
   m_ObjectHideFlags: 0
@@ -16394,9 +16388,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 558503579b0537d4c995adb51a80b7a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.2
+  scoreMultiplier: 0.0013333333
   roadGenerator: {fileID: 1829388818}
-  currentScore: 0
 --- !u!4 &2094924500
 Transform:
   m_ObjectHideFlags: 0
@@ -16708,6 +16701,14 @@ PrefabInstance:
       propertyPath: timers.Array.data[2]
       value: 
       objectReference: {fileID: 188288543}
+    - target: {fileID: 2587765419588543158, guid: 27dafab9345d5ba4c851d824d4e63a69, type: 3}
+      propertyPath: mainManager
+      value: 
+      objectReference: {fileID: 1994829299}
+    - target: {fileID: 2587765419588543158, guid: 27dafab9345d5ba4c851d824d4e63a69, type: 3}
+      propertyPath: arcadeManager
+      value: 
+      objectReference: {fileID: 731675460}
     - target: {fileID: 2587765419588543158, guid: 27dafab9345d5ba4c851d824d4e63a69, type: 3}
       propertyPath: crashParticles
       value: 

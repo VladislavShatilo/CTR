@@ -14,7 +14,6 @@ public class CoinPlayer : MonoBehaviour
     {
         ComponentValidator.CheckAndLog(buffManager, nameof(buffManager), this);
         ComponentValidator.CheckAndLog(particlesPrefab, nameof(particlesPrefab), this);
-        ComponentValidator.CheckAndLog(Storage.Instance.coinsInLevel, nameof(Storage.Instance.coinsInLevel), this);
 
     }
     private void Start()
