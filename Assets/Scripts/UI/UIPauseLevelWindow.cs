@@ -16,24 +16,16 @@ public class UIPauseLevelWindow : UIBaseLevelWindow
 
     void Start()
     {
-        if(quitButton == null || resumeButton == null || restartButton == null)
-        {
-            LogErrorAndEnabled("Buttons are missing");
-        }
-        if(gameManager == null)
-        {
-            LogErrorAndEnabled("GameManager is missing");
-        }
+        ComponentValidator.CheckAndLog(quitButton, nameof(quitButton), this);
+        ComponentValidator.CheckAndLog(resumeButton, nameof(resumeButton), this);
+        ComponentValidator.CheckAndLog(restartButton, nameof(restartButton), this);
+        ComponentValidator.CheckAndLog(gameManager, nameof(gameManager), this);
 
         resumeButton.onClick.AddListener(OnResume);
         quitButton.onClick.AddListener(() => StartCoroutine(OnQuitCoroutine()));
         restartButton.onClick.AddListener(() => StartCoroutine(OnRestartCoroutine()));
     }
-    private void LogErrorAndEnabled(string message)
-    {
-        Debug.LogError(message, this);
-        enabled = false;
-    }
+
     private void OnDestroy()
     {
         resumeButton.onClick.RemoveAllListeners();
@@ -43,16 +35,8 @@ public class UIPauseLevelWindow : UIBaseLevelWindow
     }
     private void OnResume()
     {
-        if (UILevelManager.Instance.Windows == null)
-        {
-            LogErrorAndEnabled("UILevelManager.Instance.Windows is missing");
-        }
-        else
-        {
-            UILevelManager.Instance.Windows.HideTopWindow();
-
-        }
-
+        ComponentValidator.CheckAndLog(UILevelManager.Instance.Windows, nameof(UILevelManager.Instance.Windows), this);
+        UILevelManager.Instance.Windows.HideTopWindow();
         gameManager.PauseFunction(false);
 
     }

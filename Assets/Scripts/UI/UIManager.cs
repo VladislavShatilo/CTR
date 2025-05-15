@@ -7,5 +7,12 @@ public class UIManager : MonoBehaviour
 
     public UIWindowManager Windows => windowManager;
     public UIAnimationHandler Animation => animationHandler;
-   
+
+    private void Awake()
+    {
+        ComponentValidator.CheckAndLog(windowManager, nameof(windowManager), this);
+        ComponentValidator.CheckAndLog(animationHandler, nameof(animationHandler), this);
+
+    }
+
 }

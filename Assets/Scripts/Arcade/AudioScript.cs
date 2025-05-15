@@ -7,6 +7,14 @@ public class AudioScript : MonoBehaviour
     [SerializeField] AudioSource menuMusic;
     [SerializeField] AudioSource inGameMusic;
     [SerializeField] ArcadePlayerMovement arcadePlayerMovement;
+
+    private void Awake()
+    {
+        ComponentValidator.CheckAndLog(menuMusic, nameof(menuMusic), this);
+        ComponentValidator.CheckAndLog(inGameMusic, nameof(inGameMusic), this);
+        ComponentValidator.CheckAndLog(arcadePlayerMovement, nameof(arcadePlayerMovement), this);
+
+    }
     private void Start()
     {
         SetMenuMusicON();

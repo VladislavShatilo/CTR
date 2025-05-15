@@ -7,26 +7,16 @@ public class UIInfoWindow : UIWindow
 {
     [SerializeField] private Button closeButton;
     void Start()
-    { 
-        if (closeButton == null)
-        {
-            Debug.LogError("closeButton is missing"); 
-            enabled = false;
-        }
+    {
+        ComponentValidator.CheckAndLog(closeButton, nameof(closeButton), this);
         closeButton.onClick.AddListener(OnClose);
     }
     private void OnClose()
     {
         CloseArcadeWindow();
-        if (UIArcadeManager.Instance.Windows.GetWindow<UISettingsWindow>() != null)
-        {
-            UIArcadeManager.Instance.Windows.GetWindow<UISettingsWindow>().BGSetTrue();
+        ComponentValidator.CheckAndLog(UIArcadeManager.Instance.Windows.GetWindow<UISettingsWindow>(),
+            nameof(UIArcadeManager.Instance.Windows), this);
 
-        }
-        else
-        {
-            Debug.LogError("UISettingsWindow problem");
-            enabled = false;
-        }
+        UIArcadeManager.Instance.Windows.GetWindow<UISettingsWindow>().BGSetTrue();
     }
 }

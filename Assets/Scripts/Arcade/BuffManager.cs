@@ -23,6 +23,16 @@ public class BuffManager : MonoBehaviour, IArcadeStateListener
 
     private void Awake()
     {
+        for (int i = 0; i < timers.Count; i++)
+        {
+            ComponentValidator.CheckAndLog(timers[i], nameof(timers), this);
+
+        }
+        for (int i = 0; i < buffImages.Count; i++)
+        {
+            ComponentValidator.CheckAndLog(buffImages[i], nameof(buffImages), this);
+
+        }
         InitializeBuffs();
         InitializeSlots();
         SubscribeToTimers();

@@ -20,12 +20,13 @@ public class UIArcadeFinalWindow : UIBaseArcadeWindow
  
     void Start()
     {
-     
-        if (quitButton == null || restartButton == null || scoreText == null || coinsText== null) 
-        {
-            Debug.LogError("Buttons are missing");
-            enabled = false;
-        }
+
+        ComponentValidator.CheckAndLog(quitButton, nameof(quitButton), this);
+        ComponentValidator.CheckAndLog(restartButton, nameof(restartButton), this);
+        ComponentValidator.CheckAndLog(scoreText, nameof(scoreText), this);
+        ComponentValidator.CheckAndLog(coinsText, nameof(coinsText), this);
+
+
         quitButton.onClick.AddListener(OnQuit);
         restartButton.onClick.AddListener(OnRestart);
 
@@ -52,18 +53,12 @@ public class UIArcadeFinalWindow : UIBaseArcadeWindow
         StartCoroutine(UpdateScoreCoroutine());
     }
 
-   
-
     IEnumerator UpdateScoreCoroutine()
     {
         currentScore = 0;
         timer = 0f;
-        if(UIArcadeManager.Instance == null)
-        {
-            Debug.LogError(" UIArcadeManager.Instance is missing");
-            enabled = false;
-        }
-       
+      
+        ComponentValidator.CheckAndLog(UIArcadeManager.Instance, nameof(UIArcadeManager.Instance), this);
         var arcadeHUD = UIArcadeManager.Instance.ArcadeHUD;
 
 
@@ -92,12 +87,7 @@ public class UIArcadeFinalWindow : UIBaseArcadeWindow
     }
     private int  GetTargetScore(TextMeshProUGUI textField)
     {
-        if (textField == null)
-        {
-            Debug.LogError("Text is missing");
-            enabled = false;
-
-        }
+        ComponentValidator.CheckAndLog(textField, nameof(textField), this);
         return int.Parse(textField.text, System.Globalization.NumberStyles.AllowThousands);
     }
     private string FormatNumber(int number)

@@ -21,6 +21,7 @@ public class ArcadePlayerMovement : MonoBehaviour, IArcadeStateListener
 
     [Header("References")]
     [SerializeField] private InputHandler inputHandler;
+
     private Vector3 currentPos;
     private Vector3 lastPos;
     private readonly float minMoveDistanceToRotate = 0.02f;
@@ -28,10 +29,17 @@ public class ArcadePlayerMovement : MonoBehaviour, IArcadeStateListener
     private Renderer carMesh;
     private Transform carTransform;
 
+    private void Awake()
+    {
+        ComponentValidator.CheckAndLog(inputHandler, nameof(inputHandler), this);
 
-   
+    }
+
     private void OnEnable()
     {
+        ComponentValidator.CheckAndLog(CarProvider.Instance.Cars[Storage.Instance.SelectedCar],
+            nameof(gameObject), this);
+
         if (!CarProvider.Instance.Cars[Storage.Instance.SelectedCar].TryGetComponent(out carMesh))
         {
             Debug.LogError("ArcadePlayerMovement: Car mesh is missing!");

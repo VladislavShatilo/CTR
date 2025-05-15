@@ -2,38 +2,62 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))] 
 public class boosterBuff : MonoBehaviour
 {
+    [Header("Settings")]
     [SerializeField] bool isNegative;
-    [SerializeField] List<GameObject> boosterModels;
+    [SerializeField] private GameObject negativeBoosterModel;
+    [SerializeField] private GameObject positiveBoosterModel;
 
+
+    [Header("Boost Effects")]
+    [SerializeField] private float speedModifier = 250f;
+    [SerializeField] private float negativeSpeedModifier = -100f;
+    [SerializeField] private float fovEffect = 80f;
+    [SerializeField] private float negativeFovEffect = 45f;
+
+    private Camera cam;
+
+    private void Awake()
+    {
+        cam = Camera.main;
+        ComponentValidator.CheckAndLog(cam, nameof(cam), this);
+
+    }
     private void OnValidate()
     {
-        if(isNegative)
+        ComponentValidator.CheckAndLog(negativeBoosterModel, nameof(negativeBoosterModel), this);
+        ComponentValidator.CheckAndLog(positiveBoosterModel, nameof(positiveBoosterModel), this);
+
+        if (isNegative)
         {
-            boosterModels[0].SetActive(false);
-            boosterModels[1].SetActive(true);
+            negativeBoosterModel.SetActive(true);
+            positiveBoosterModel.SetActive(false);
         }
         else
         {
-            boosterModels[0].SetActive(true);
-            boosterModels[1].SetActive(false);
+            negativeBoosterModel.SetActive(false);
+            positiveBoosterModel.SetActive(true);
+           
         }
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("134");
+            ComponentValidator.CheckAndLog(ArcadeManager.Instance, nameof(ArcadeManager.Instance), this);
+            var arcadeManager = ArcadeManager.Instance;
+
             if (!isNegative)
             {
-                ArcadeManager.Instance.AddSpeed(250);
-                Camera.main.fieldOfView = 80;
+                arcadeManager.ModifyRoadSpeed(250);
+                cam.fieldOfView = 80;
             }
             else
             {
-                ArcadeManager.Instance.AddSpeed(-100);
-                Camera.main.fieldOfView = 45;
+                arcadeManager.ModifyRoadSpeed(-100);
+                cam.fieldOfView = 45;
 
             }
             Destroy(gameObject);

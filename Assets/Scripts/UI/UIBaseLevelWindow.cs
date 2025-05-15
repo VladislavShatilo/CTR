@@ -14,11 +14,7 @@ public class UIBaseLevelWindow : UIWindow
 
     private void Start()
     {
-        if(transition == null)
-        {
-            Debug.LogError("Transition is missing");
-            enabled = false;
-        }
+        ComponentValidator.CheckAndLog(transition, nameof(transition), this);
     }
     protected IEnumerator OnQuitCoroutine()
     {

@@ -14,11 +14,11 @@ public class UISettingsWindow : UIWindow
     [SerializeField] private Image BGImage;
     void Start()
     {
-        if(closeButton == null || volumeSlider == null || openInfoButton == null || BGImage == null)
-        {
-            Debug.LogError("UI elements are missing");
-            enabled = false;
-        }
+        ComponentValidator.CheckAndLog(closeButton, nameof(closeButton), this);
+        ComponentValidator.CheckAndLog(volumeSlider, nameof(volumeSlider), this);
+        ComponentValidator.CheckAndLog(openInfoButton, nameof(openInfoButton), this);
+        ComponentValidator.CheckAndLog(BGImage, nameof(BGImage), this);
+
         closeButton.onClick.AddListener(CloseArcadeWindow);
         openInfoButton.onClick.AddListener(OnOpenInfo);
     }
@@ -33,16 +33,8 @@ public class UISettingsWindow : UIWindow
     {
         CloseArcadeWindow();
         BGImage.gameObject.SetActive(false);
-        if(UIArcadeManager.Instance.Windows == null)
-        {
-            Debug.LogError("UIArcadeManager.Instance.Windows is missing");
-            enabled = false;
-        }
-        else
-        {
-            UIArcadeManager.Instance.Windows.ShowWindow<UIInfoWindow>();
-
-        }
+        ComponentValidator.CheckAndLog(UIArcadeManager.Instance.Windows, nameof(UIArcadeManager.Instance.Windows), this);
+        UIArcadeManager.Instance.Windows.ShowWindow<UIInfoWindow>();
     }
 
     public void BGSetTrue()

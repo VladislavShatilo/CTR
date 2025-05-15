@@ -22,18 +22,13 @@ public class UIArcadeHUDManager : MonoBehaviour
 
     private void Awake()
     {
-        if (hudCanvas == null || countDownText == null || scoreText == null || coinsText == null
-           || pauseButton == null)
-        {
-            Debug.LogError("UI elements are missing");
-            enabled = false;
-        }
-        if (UIArcadeManager.Instance == null)
-        {
-            Debug.LogError("UIArcadeManager.Instance is null");
-            enabled = false;
-        }
-        // Инициализация кэшированных объектов ожидания
+        ComponentValidator.CheckAndLog(hudCanvas, nameof(hudCanvas), this);
+        ComponentValidator.CheckAndLog(countDownText, nameof(countDownText), this);
+        ComponentValidator.CheckAndLog(scoreText, nameof(scoreText), this);
+        ComponentValidator.CheckAndLog(coinsText, nameof(coinsText), this);
+        ComponentValidator.CheckAndLog(pauseButton, nameof(pauseButton), this);
+        ComponentValidator.CheckAndLog(UIArcadeManager.Instance, nameof(UIArcadeManager.Instance), this);
+
         countdownDelay = new WaitForSecondsRealtime(0.2f);
         countdownInterval = new WaitForSecondsRealtime(0.7f);
     }
@@ -80,12 +75,10 @@ public class UIArcadeHUDManager : MonoBehaviour
 
     private void OnPauseClicked()
     {
-       
+        ComponentValidator.CheckAndLog(UIArcadeManager.Instance.Windows, nameof(UIArcadeManager.Instance.Windows), this);
+        ComponentValidator.CheckAndLog(arcadeManager, nameof(arcadeManager), this);
+
         UIArcadeManager.Instance.Windows.ShowWindow<UIPauseWindow>();
-        if (arcadeManager == null)
-        {
-            Debug.LogError("arcadeManager is missing");
-        }
         arcadeManager.PauseGame();
     }
 

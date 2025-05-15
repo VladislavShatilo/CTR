@@ -10,11 +10,7 @@ public class UILevelManager : UIManager
     public static UILevelManager Instance { get; private set; }
     void Awake()
     {
-        if(levelHudManager = null)
-        {
-            Debug.LogError("levelHudManager is missing");
-            enabled = false;
-        }
+        ComponentValidator.CheckAndLog(levelHudManager, nameof(levelHudManager), this);
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject); // Удалить дубликат

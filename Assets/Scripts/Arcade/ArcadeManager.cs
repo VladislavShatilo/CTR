@@ -28,23 +28,13 @@ public class ArcadeManager : MonoBehaviour
 
     void Awake()
     {
-        if(roadGenerator == null)
-        {
-            Debug.LogError("roadGenerator is null");
-            enabled = false;
-        }
-        if (cityBackgroundGO == null)
-        {
-            Debug.LogError("cityBackgroundGO is null");
-            enabled = false;
+        ComponentValidator.CheckAndLog(roadGenerator, nameof(roadGenerator), this);
+        ComponentValidator.CheckAndLog(cityBackgroundGO, nameof(cityBackgroundGO), this);
+        ComponentValidator.CheckAndLog(playerGO, nameof(playerGO), this);
+        ComponentValidator.CheckAndLog(FindObjectsOfType<MonoBehaviour>().OfType<IArcadeStateListener>(),
+            nameof(gameObject), this);
 
-        }
-        if (playerGO == null)
-        {
-            Debug.LogError("playerGO is null");
-            enabled = false;
-
-        }
+        pauseListeners = FindObjectsOfType<MonoBehaviour>().OfType<IArcadeStateListener>().ToList();
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -52,14 +42,8 @@ public class ArcadeManager : MonoBehaviour
         }
 
         Instance = this;
-        if(FindObjectsOfType<MonoBehaviour>().OfType<IArcadeStateListener>() == null)
-        {
-            Debug.LogError("cityBackgroundGO is null");
-            enabled = false;
 
-
-        }
-        pauseListeners = FindObjectsOfType<MonoBehaviour>().OfType<IArcadeStateListener>().ToList();
+        
     }
     private void Start()
     {
@@ -120,11 +104,11 @@ public class ArcadeManager : MonoBehaviour
         cityBackgroundGO.SetActive(false);
     }
 
-    public void AddSpeed(float buff)
+    public void ModifyRoadSpeed(float speed)
     {
-        roadGenerator.ModifySpeed(buff);
+        roadGenerator.ModifySpeed(speed);
     }
-    public void SetZeroSpeed()
+    public void StopRoadMovement()
     {
         roadGenerator.StopMovement();
     }

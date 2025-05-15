@@ -10,8 +10,16 @@ public class CoinPlayer : MonoBehaviour
 
     private UIArcadeHUDManager hudManager;
 
+    private void Awake()
+    {
+        ComponentValidator.CheckAndLog(buffManager, nameof(buffManager), this);
+        ComponentValidator.CheckAndLog(particlesPrefab, nameof(particlesPrefab), this);
+        ComponentValidator.CheckAndLog(Storage.Instance.coinsInLevel, nameof(Storage.Instance.coinsInLevel), this);
+
+    }
     private void Start()
     {
+        ComponentValidator.CheckAndLog(UIArcadeManager.Instance.ArcadeHUD, nameof(UIArcadeManager.Instance.ArcadeHUD), this);
         hudManager = UIArcadeManager.Instance.ArcadeHUD;
     }
 
@@ -21,13 +29,13 @@ public class CoinPlayer : MonoBehaviour
         {
             if (buffManager.IsBuffActive(BuffType.DoubleCoins))
             {
-                Storage.Instance.coinsInLevel += 2;
-                
+                Storage.Instance.coinsInLevel += 2;            
             }
             else
             {
                 Storage.Instance.coinsInLevel++;
             }
+
             hudManager.UpdateCoins(Storage.Instance.coinsInLevel);
             Destroy(other.gameObject);
             coinSound.volume = Storage.Instance.volume;

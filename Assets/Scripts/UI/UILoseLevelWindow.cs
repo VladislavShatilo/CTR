@@ -14,11 +14,10 @@ public class UILoseLevelWindow : UIBaseLevelWindow
 
     void Start()
     {
-        if(quitButton == null || restartButton == null || powerText == null)
-        {
-            Debug.LogError("UI is missing");
-            enabled = false;
-        }
+        ComponentValidator.CheckAndLog(quitButton, nameof(quitButton), this);
+        ComponentValidator.CheckAndLog(restartButton, nameof(restartButton), this);
+        ComponentValidator.CheckAndLog(powerText, nameof(powerText), this);
+
         quitButton.onClick.AddListener(()=>StartCoroutine(OnQuitCoroutine()));
         restartButton.onClick.AddListener(() => StartCoroutine(OnRestartCoroutine()));
     }

@@ -6,18 +6,27 @@ using UnityEngine.XR;
 
 public class CameraMovementArcade : MonoBehaviour
 {
-    [SerializeField] private float speed = 0.05f;
-    [SerializeField] private float minX = -7f;
-    [SerializeField] private float maxX = 8f;
+    [Header("Movement Settings")]
+    [SerializeField] private float dragSpeed = 0.05f;
+    [SerializeField] private float minXPosition = -7f;
+    [SerializeField] private float maxXPosition = 8f;
+
+    [Header("Rotation Settings")]
+    [SerializeField] private float rotationSpeed = 0.03f;
+    [SerializeField] private float minRotation = 160f;
+    [SerializeField] private float maxRotation = 200f;
 
     private Camera cachedCamera;
     private Vector3 dragOrigin;
     private bool isDragging = false;
-    private float eyler;
+    private float euler;
 
     void Start()
     {
         cachedCamera = Camera.main;
+        ComponentValidator.CheckAndLog(cachedCamera, nameof(cachedCamera), this);
+        ComponentValidator.CheckAndLog(EventSystem.current, nameof(EventSystem.current), this);
+
     }
 
     void LateUpdate()
@@ -39,14 +48,14 @@ public class CameraMovementArcade : MonoBehaviour
             Vector3 difference = Input.mousePosition - dragOrigin;
             dragOrigin = Input.mousePosition;
 
-            float newX = cachedCamera.transform.position.x + difference.x * speed;
-            newX = Mathf.Clamp(newX, minX, maxX);
+            float newX = cachedCamera.transform.position.x + difference.x * dragSpeed;
+            newX = Mathf.Clamp(newX, minXPosition, maxXPosition);
 
             cachedCamera.transform.position = new Vector3(newX, cachedCamera.transform.position.y, cachedCamera.transform.position.z);
 
-            eyler += difference.x * 0.03f;
-            eyler = Mathf.Clamp(eyler, 160f, 200f);
-            cachedCamera.transform.eulerAngles = new Vector3(cachedCamera.transform.eulerAngles.x, eyler, cachedCamera.transform.eulerAngles.z);
+            euler += difference.x * rotationSpeed;
+            euler = Mathf.Clamp(euler, minRotation, minRotation);
+            cachedCamera.transform.eulerAngles = new Vector3(cachedCamera.transform.eulerAngles.x, euler, cachedCamera.transform.eulerAngles.z);
         }
     }
 }

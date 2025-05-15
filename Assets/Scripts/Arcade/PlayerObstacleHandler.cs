@@ -55,7 +55,7 @@ public class PlayerObstacleHandler : MonoBehaviour
        
         Instantiate(crashParticles, particlePoint.transform);
         movement.DestroyCar();
-        ArcadeManager.Instance.SetZeroSpeed();
+        ArcadeManager.Instance.StopRoadMovement();
         yield return new WaitForSeconds(0.2f);
         UIArcadeManager.Instance.Windows.ShowWindow<UIAdvWindow>();
        

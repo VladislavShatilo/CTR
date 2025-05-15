@@ -24,17 +24,12 @@ public class UIFinalLevelWindow : UIBaseLevelWindow
 
     void Start()
     {
-        if(quitButton == null || restartButton == null || nextLevelButton == null)
-        {
-            Debug.LogError("Buttons are missing");
-            enabled = false;
-        }
-        if(powerText == null || coinsText == null)
-        {
-            Debug.LogError("Texts are missing");
-            enabled = false;
-        }
-        
+        ComponentValidator.CheckAndLog(quitButton, nameof(quitButton), this);
+        ComponentValidator.CheckAndLog(restartButton, nameof(restartButton), this);
+        ComponentValidator.CheckAndLog(nextLevelButton, nameof(nextLevelButton), this);
+        ComponentValidator.CheckAndLog(powerText, nameof(powerText), this);
+        ComponentValidator.CheckAndLog(coinsText, nameof(coinsText), this);
+
         quitButton.onClick.AddListener(() => StartCoroutine(OnQuitCoroutine()));
         restartButton.onClick.AddListener(() => StartCoroutine(OnRestartCoroutine()));
         nextLevelButton.onClick.AddListener(() => StartCoroutine(OnNextLevelCoroutine()));
@@ -45,15 +40,9 @@ public class UIFinalLevelWindow : UIBaseLevelWindow
     {
         for (int i = 0; i < starImages.Length; i++)
         {
-            if (starImages[i] == null)
-            {
-                Debug.LogError("StarImages are missing");
-                enabled = false;
-            }
-            else
-            {
-                starImages[i].gameObject.SetActive(false);
-            }
+            ComponentValidator.CheckAndLog(starImages[i], nameof(starImages), this);
+            starImages[i].gameObject.SetActive(false);
+            
         }
     }
     private IEnumerator OnNextLevelCoroutine()
@@ -98,11 +87,7 @@ public class UIFinalLevelWindow : UIBaseLevelWindow
 
     public IEnumerator ShowStars(int starsEarned, Sprite starSprite )
     {
-        if(starSprite == null)
-        {
-            Debug.LogError("StarSprite is missing");
-            yield break;
-        }
+        ComponentValidator.CheckAndLog(starSprite, nameof(starSprite), this);
        
         switch (starsEarned)
         {

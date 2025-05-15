@@ -21,16 +21,9 @@ public class UIArcadeManager : UIManager
         }
 
         Instance = this;
-        if(arcadeHudManager == null)
-        {
-            Debug.LogError("arcadeHudManager is missing");
-            enabled = false;
-        }
-        if(menuManager == null)
-        {
-            Debug.LogError("menuManager is missing");
-            enabled = false;
-        }
+        ComponentValidator.CheckAndLog(arcadeHudManager, nameof(arcadeHudManager), this);
+        ComponentValidator.CheckAndLog(menuManager, nameof(menuManager), this);
+
         arcadeHudManager.Initialize();
         menuManager.Initialize();
       

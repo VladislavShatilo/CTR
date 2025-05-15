@@ -10,18 +10,23 @@ using TMPro;
 
 public class MainManager : MonoBehaviour
 {
+    [Header("Dependencies")]
 
     [SerializeField] private Material[] carMaterials;
+    [SerializeField] private CarProvider carProvider;
+    [SerializeField] private UIArcadeManager uiArcadeManager;
+
+    [Header("Settings")]
+    [SerializeField] private int _targetFrameRate = 60;
+
     private GameObject[] cars;
-    private TextMeshProUGUI moneyInGame;
-    private Renderer[] carRenderer;
+    private Renderer[] carRenderers;
     public static MainManager Instance { get; private set; }
 
     private void Awake()
     {
         YG2.StartInit();
         Application.targetFrameRate = 60;
-        Camera.main.transform.SetParent(null);
       
         if (Instance != null && Instance != this)
         {
@@ -41,10 +46,10 @@ public class MainManager : MonoBehaviour
     void StartCor()
     {
         cars = CarProvider.Instance.Cars;
-        carRenderer = new Renderer[cars.Length];
-        for (int i = 0; i < carRenderer.Length; i++)
+        carRenderers = new Renderer[cars.Length];
+        for (int i = 0; i < carRenderers.Length; i++)
         {
-            carRenderer[i] = cars[i].GetComponent<Renderer>();
+            carRenderers[i] = cars[i].GetComponent<Renderer>();
         }
         UIArcadeManager.Instance.MenuManager.UpdateStatesInfo();
       
@@ -55,7 +60,7 @@ public class MainManager : MonoBehaviour
         }
 
         cars[Storage.Instance.SelectedCar].SetActive(true);
-        Material[] materials = carRenderer[Storage.Instance.SelectedCar].materials;
+        Material[] materials = carRenderers[Storage.Instance.SelectedCar].materials;
         for (int i = 0; i < materials.Length; i++)
         {
             if (materials[i].name.Contains("!"))
@@ -63,7 +68,7 @@ public class MainManager : MonoBehaviour
                 materials[i] = carMaterials[Storage.Instance.SelectedColor[Storage.Instance.SelectedCar]];
             }
         }
-        carRenderer[Storage.Instance.SelectedCar].materials = materials;
+        carRenderers[Storage.Instance.SelectedCar].materials = materials;
         //YandexGame.NewLeaderboardScores("Record", Storage.Instance.score);
     }
    

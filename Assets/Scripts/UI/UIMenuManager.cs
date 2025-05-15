@@ -23,31 +23,20 @@ public class UIMenuManager : MonoBehaviour
     [SerializeField] private AudioScript audioScript;
     private void Awake()
     {
-        if(UIMenuCanvas == null)
-        {
-            LogAndDisable("Menu Canvas reference is missing!");
+        ComponentValidator.CheckAndLog(UIMenuCanvas, nameof(UIMenuCanvas), this);
+        ComponentValidator.CheckAndLog(levelMenuButton, nameof(levelMenuButton), this);
+        ComponentValidator.CheckAndLog(arcadeButton, nameof(arcadeButton), this);
+        ComponentValidator.CheckAndLog(shopButton, nameof(shopButton), this);
+        ComponentValidator.CheckAndLog(settingsButton, nameof(settingsButton), this);
+        ComponentValidator.CheckAndLog(coinsText, nameof(coinsText), this);
+        ComponentValidator.CheckAndLog(starsText, nameof(starsText), this);
+        ComponentValidator.CheckAndLog(recordText, nameof(recordText), this);
+        ComponentValidator.CheckAndLog(transition, nameof(transition), this);
+        ComponentValidator.CheckAndLog(arcadeManager, nameof(arcadeManager), this);
+        ComponentValidator.CheckAndLog(audioScript, nameof(audioScript), this);
 
-        }
-        if(levelMenuButton == null || arcadeButton == null|| shopButton == null|| settingsButton == null)
-        {
-            LogAndDisable("One or more button references are missing!");
-
-        }
-        if (coinsText == null || starsText == null || recordText == null)
-        {
-            LogAndDisable("One or more button references are missing!");
-
-        }
-        if (transition == null || arcadeManager == null || audioScript == null)
-        {
-            LogAndDisable("Transition reference is missing!");
-        }
     }
-    private void LogAndDisable(string message)
-    {
-        Debug.LogError(message, this);
-        enabled = false;
-    }
+  
     public void Initialize()
     {
 
@@ -89,16 +78,8 @@ public class UIMenuManager : MonoBehaviour
     }
     private void OnSettingsClicked()
     {
-        if(UIArcadeManager.Instance.Windows != null)
-        {
-            UIArcadeManager.Instance.Windows.ShowWindow<UISettingsWindow>();
-
-        }
-        else
-        {
-            Debug.LogError("IArcadeManager.Instance.Windows is missing");
-
-        }
+        ComponentValidator.CheckAndLog(UIArcadeManager.Instance.Windows, nameof(UIArcadeManager.Instance.Windows), this);    
+        UIArcadeManager.Instance.Windows.ShowWindow<UISettingsWindow>();
     }
 
 

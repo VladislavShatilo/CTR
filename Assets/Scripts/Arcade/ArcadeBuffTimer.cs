@@ -21,16 +21,9 @@ public class ArcadeBuffTimer : MonoBehaviour
 
     private void Awake()
     {
-        if(timerText == null)
-        {
-            Debug.LogError("timerText is missing");
-            enabled = false;
-        }
-        if (buffImage == null)
-        {
-            Debug.LogError("buffImage is missing");
-            enabled = false;
-        }
+        ComponentValidator.CheckAndLog(timerText, nameof(timerText), this);
+        ComponentValidator.CheckAndLog(buffImage, nameof(buffImage), this);
+
     }
     void Start()
     {

@@ -16,14 +16,9 @@ public class CameraShakeEffect : MonoBehaviour
     private void Awake()
     {
         cameraArcade = Camera.main;
-        if (cameraArcade == null)
-        {
-            Debug.LogError("Camera is null");
-            enabled = false;
-        }
+        ComponentValidator.CheckAndLog(cameraArcade, nameof(cameraArcade), this);
     }
 
-    // Update is called once per frame
     void LateUpdate()
     {
         HandleShake();

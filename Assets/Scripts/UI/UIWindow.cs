@@ -17,12 +17,9 @@ public class UIWindow : MonoBehaviour
     private  
     protected virtual void Awake()
     {
-        if(root == null || rectTransform == null)
-        {
-            Debug.LogError("root or rectTransform are null");
-            enabled = false;
+        ComponentValidator.CheckAndLog(root, nameof(root), this);
+        ComponentValidator.CheckAndLog(rectTransform, nameof(rectTransform), this);
 
-        }
         if (hideOnAwake)
         {
             HideInstant();
@@ -36,30 +33,15 @@ public class UIWindow : MonoBehaviour
     }
     protected void CloseArcadeWindow()
     {
-        if (UIArcadeManager.Instance.Windows == null)
-        {
-            Debug.LogError("UIArcadeManager.Instance.Windows is null");
-            enabled = false;
-        }
-        else
-        {
-            UIArcadeManager.Instance.Windows.HideTopWindow();
-        }
-      
+        ComponentValidator.CheckAndLog(UIArcadeManager.Instance.Windows, nameof(UIArcadeManager.Instance.Windows), this);
+        UIArcadeManager.Instance.Windows.HideTopWindow();
 
     }
 
     protected void CloseLevelWindow()
     {
-        if (UILevelManager.Instance.Windows == null)
-        {
-            Debug.LogError("UILevelManager.Instance.Windows is null");
-            enabled = false;
-        }
-        else
-        {
-            UILevelManager.Instance.Windows.HideTopWindow();
-        }
+        ComponentValidator.CheckAndLog(UILevelManager.Instance.Windows, nameof(UILevelManager.Instance.Windows), this);
+        UILevelManager.Instance.Windows.HideTopWindow();
 
     }
     public virtual void Show()
@@ -75,11 +57,7 @@ public class UIWindow : MonoBehaviour
 
     private IEnumerator ShowRoutine()
     {
-        if(UIArcadeManager.Instance.Animation == null)
-        {
-            Debug.LogError("(UIArcadeManager.Instance.Animation is null");
-            enabled = false;
-        }
+        ComponentValidator.CheckAndLog(UIArcadeManager.Instance.Animation, nameof(UIArcadeManager.Instance.Animation), this);       
         yield return UIArcadeManager.Instance.Animation.AnimateMove(
             rectTransform,
             visiblePosition,
@@ -101,11 +79,7 @@ public class UIWindow : MonoBehaviour
 
     private IEnumerator HideRoutine()
     {
-        if (UIArcadeManager.Instance.Animation == null)
-        {
-            Debug.LogError("(UIArcadeManager.Instance.Animation is null");
-            enabled = false;
-        }
+        ComponentValidator.CheckAndLog(UIArcadeManager.Instance.Animation, nameof(UIArcadeManager.Instance.Animation), this);
         yield return UIArcadeManager.Instance.Animation.AnimateMove(
             rectTransform,
             highPosition,

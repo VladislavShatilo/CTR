@@ -14,11 +14,10 @@ public class UIPauseWindow : UIBaseArcadeWindow
 
     void Start()
     {
-        if(quitButton == null || resumeButton == null || restartButton == null)
-        {
-            Debug.LogError("Buttons are missing");
-            enabled = false;
-        }
+        ComponentValidator.CheckAndLog(quitButton, nameof(quitButton), this);
+        ComponentValidator.CheckAndLog(resumeButton, nameof(resumeButton), this);
+        ComponentValidator.CheckAndLog(restartButton, nameof(restartButton), this);
+
         resumeButton.onClick.AddListener(OnResume);
         quitButton.onClick.AddListener(() => StartCoroutine(OnQuitCor()));
         restartButton.onClick.AddListener(() => StartCoroutine(OnRestartCor()));
@@ -32,27 +31,15 @@ public class UIPauseWindow : UIBaseArcadeWindow
 
     private void OnResume()
     {
-        if (UIArcadeManager.Instance.Windows == null)
-        {
-            Debug.LogError("UIArcadeManager.Instance.Windows is missing");
-            enabled = false;
-        }
-        else
-        {
-            UIArcadeManager.Instance.Windows.HideTopWindow();
-
-        }
+        ComponentValidator.CheckAndLog(UIArcadeManager.Instance.Windows, nameof(UIArcadeManager.Instance.Windows), this);
+        UIArcadeManager.Instance.Windows.HideTopWindow();
         StartCoroutine(ResumeCorutine());
 
     }
 
     private IEnumerator ResumeCorutine()
     {
-        if(UIArcadeManager.Instance.ArcadeHUD == null)
-        {
-            Debug.LogError("UIArcadeManager.Instance.ArcadeHUD is missing");
-            enabled = false;
-        }
+        ComponentValidator.CheckAndLog(UIArcadeManager.Instance.ArcadeHUD, nameof(UIArcadeManager.Instance.ArcadeHUD), this);
         yield return UIArcadeManager.Instance.ArcadeHUD.StartCountdown();
         arcadeManager.ContinueGame();
 

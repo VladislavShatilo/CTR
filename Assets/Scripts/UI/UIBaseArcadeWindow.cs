@@ -14,16 +14,8 @@ public abstract class UIBaseArcadeWindow : UIWindow
 
     private void Start()
     {
-        if (arcadeManager == null) 
-        {
-            Debug.LogError("arcadeManager is missing");
-            enabled = false;
-        }
-        if (transition == null)
-        {
-            Debug.LogError("transition is missing");
-            enabled = false;
-        }
+        ComponentValidator.CheckAndLog(arcadeManager, nameof(arcadeManager), this);
+        ComponentValidator.CheckAndLog(transition, nameof(transition), this);
     }
     protected IEnumerator OnQuitCor()
     {

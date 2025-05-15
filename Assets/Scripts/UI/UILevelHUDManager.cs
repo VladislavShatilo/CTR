@@ -27,26 +27,18 @@ public class UILevelHUDManager : MonoBehaviour
 
     private void Awake()
     {
-        if (pauseButton == null || quitButton == null || playButton == null)
-        {
-            Debug.LogError("Buttons are missing");
-            enabled = false;
-        }
-        if (powerText == null || levelText == null || tapToPlayText == null)
-        {
-            Debug.LogError("Texts are missing");
-            enabled = false;
-        }
-        if (powerBGImage == null || powerImage == null || levelBGImage == null)
-        {
-            Debug.LogError("Images are missing");
-            enabled = false;
-        }
-        if (gamemanager == null || transition == null || playerMove == null)
-        {
-            Debug.LogError("Referencies are missing");
-            enabled = false;
-        }
+        ComponentValidator.CheckAndLog(pauseButton, nameof(pauseButton), this);
+        ComponentValidator.CheckAndLog(quitButton, nameof(quitButton), this);
+        ComponentValidator.CheckAndLog(playButton, nameof(playButton), this);
+        ComponentValidator.CheckAndLog(powerText, nameof(powerText), this);
+        ComponentValidator.CheckAndLog(levelText, nameof(levelText), this);
+        ComponentValidator.CheckAndLog(tapToPlayText, nameof(tapToPlayText), this);
+        ComponentValidator.CheckAndLog(powerBGImage, nameof(powerBGImage), this);
+        ComponentValidator.CheckAndLog(powerImage, nameof(powerImage), this);
+        ComponentValidator.CheckAndLog(levelBGImage, nameof(levelBGImage), this);
+        ComponentValidator.CheckAndLog(gamemanager, nameof(gamemanager), this);
+        ComponentValidator.CheckAndLog(transition, nameof(transition), this);
+        ComponentValidator.CheckAndLog(playerMove, nameof(playerMove), this);
     }
 
     
@@ -86,12 +78,8 @@ public class UILevelHUDManager : MonoBehaviour
 
     }
     private void OnPause()
-    {   
-        if(UILevelManager.Instance.Windows == null)
-        {
-            Debug.LogError("ILevelManager.Instance.Windows mising");
-            enabled = false;
-        }
+    {
+        ComponentValidator.CheckAndLog(UILevelManager.Instance.Windows, nameof(UILevelManager.Instance.Windows), this);  
         UILevelManager.Instance.Windows.ShowWindow<UIPauseLevelWindow>();
         gamemanager.PauseFunction(true);
     }

@@ -16,11 +16,9 @@ public class UIAdvWindow : UIWindow
     [SerializeField] private float closeDelay = 0.35f;
     void Start()
     {
-        if (closeButton == null || watchAdvButton == null)
-        {
-            Debug.LogError($"{name}: Button references are not set!", this);
-            enabled = false;
-        }
+        ComponentValidator.CheckAndLog(closeButton, nameof(closeButton), this);
+        ComponentValidator.CheckAndLog(watchAdvButton, nameof(watchAdvButton), this);
+
         closeButton.onClick.AddListener(OnClose);
         watchAdvButton.onClick.AddListener(OnReward);
     }
@@ -34,16 +32,13 @@ public class UIAdvWindow : UIWindow
     {
         CloseArcadeWindow();
         yield return new WaitForSeconds(closeDelay);
-        try
-        {
-            var windowManager = UIArcadeManager.Instance.Windows;
-            windowManager.ShowWindow<UIArcadeFinalWindow>();
-            windowManager.GetWindow<UIArcadeFinalWindow>().CountScore();
-        }
-        catch (System.Exception e)
-        {
-            Debug.LogError($"Failed to show final window: {e.Message}", this);
-        }
+
+        ComponentValidator.CheckAndLog(UIArcadeManager.Instance.Windows, nameof(UIArcadeManager.Instance.Windows), this);
+
+        var windowManager = UIArcadeManager.Instance.Windows;
+        windowManager.ShowWindow<UIArcadeFinalWindow>();
+        windowManager.GetWindow<UIArcadeFinalWindow>().CountScore();
+
 
     }
 
