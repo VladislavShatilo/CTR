@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,12 +9,14 @@ public class UIBaseLevelWindow : UIWindow
 
     [Header("Transition settings")]
     [SerializeField, Range(0.1f, 2f)] private float quitToMenuDelay = 0.7f;
+
     [SerializeField, Range(0.1f, 2f)] private float restartLevelDelay = 0.7f;
 
     private void Start()
     {
         ComponentValidator.CheckAndLog(transition, nameof(transition), this);
     }
+
     protected IEnumerator OnQuitCoroutine()
     {
         CloseLevelWindow();

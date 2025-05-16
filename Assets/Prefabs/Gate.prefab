@@ -532,7 +532,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointGateEffect: {fileID: 6181478488470675978}
   power: 16
-  gate1: {fileID: 410629288216418372}
+  gate: {fileID: 410629288216418372}
 --- !u!1 &8943474150467917984
 GameObject:
   m_ObjectHideFlags: 0

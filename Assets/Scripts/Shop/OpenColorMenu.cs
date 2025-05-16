@@ -1,98 +1,128 @@
 using DG.Tweening;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static System.TimeZoneInfo;
 
-public class OpenColorMenu : MonoBehaviour
+public class ColorMenuManager : MonoBehaviour
 {
-    [SerializeField] private RectTransform[] canvases; // массив из 3 кнопок
-    [SerializeField] private float transitionTime = 0.5f;
-    [SerializeField] private Button OpenColorButton;
-    [SerializeField] private Button CloseColorButton;
+    [Header("UI References")]
+    [SerializeField] private RectTransform[] panels;
 
-    private int currentIndex = 0;
-    private Vector2 center = Vector2.zero;
-    private Vector2 offLeft;
-    private Vector2 offRight;
+    [SerializeField] private Button openButton;
+    [SerializeField] private Button closeButton;
+    [SerializeField] private CarShop carShop;
 
-    void Start()
+    [Header("Animation Settings")]
+    [SerializeField] private float transitionDuration = 0.5f;
+
+    [SerializeField] private Ease transitionEase = Ease.InOutCubic;
+    [SerializeField] private float buttonsDisableDuration = 0.25f;
+
+    private int _currentIndex = 0;
+    private Vector2 _centerPosition = Vector2.zero;
+    private Vector2 _leftOffscreen;
+    private Vector2 _rightOffscreen;
+    private bool _isTransitioning;
+
+    private void Start()
     {
-        currentIndex = 0;
-        OpenColorButton.onClick.AddListener(delegate { SlideRight(); });
-        CloseColorButton.onClick.AddListener(delegate { SlideLeft(); });
+        ValidateReferences();
+        CalculateOffscreenPositions();
+        InitializeButtons();
+        ResetPanelsPosition();
+    }
 
+    private void ValidateReferences()
+    {
+        ComponentValidator.CheckAndLog(panels, nameof(panels), this);
+        ComponentValidator.CheckAndLog(openButton, nameof(openButton), this);
+        ComponentValidator.CheckAndLog(closeButton, nameof(closeButton), this);
+        ComponentValidator.CheckAndLog(carShop, nameof(carShop), this);
+    }
 
+    private void CalculateOffscreenPositions()
+    {
         float screenWidth = Screen.width * 1.5f;
-        offLeft = new Vector2(-screenWidth, 0);
-        offRight = new Vector2(screenWidth, 0);
+        _leftOffscreen = new Vector2(-screenWidth, 0);
+        _rightOffscreen = new Vector2(screenWidth, 0);
 
-        if (canvases.Length > 0)
+        if (panels.Length > 0 && panels[0] != null)
         {
-            float elementWidth = canvases[0].rect.width;
-            if (elementWidth > Screen.width)
+            float panelWidth = panels[0].rect.width;
+            if (panelWidth > Screen.width)
             {
-                offLeft = new Vector2(-elementWidth * 1.5f, 0);
-                offRight = new Vector2(elementWidth * 1.5f, 0);
+                _leftOffscreen = new Vector2(-panelWidth * 1.5f, 0);
+                _rightOffscreen = new Vector2(panelWidth * 1.5f, 0);
             }
         }
-        // Ставим все кнопки вне экрана, кроме активной
-        for (int i = 0; i < canvases.Length; i++)
+    }
+
+    private void InitializeButtons()
+    {
+        openButton.onClick.AddListener(OpenMenu);
+        closeButton.onClick.AddListener(CloseMenu);
+    }
+
+    private void ResetPanelsPosition()
+    {
+        for (int i = 0; i < panels.Length; i++)
         {
-            if (i == currentIndex)
-                canvases[i].anchoredPosition = center;
-            else
-                canvases[i].anchoredPosition = offRight;
+            if (panels[i] != null)
+                panels[i].anchoredPosition = i == _currentIndex ? _centerPosition : _rightOffscreen;
         }
     }
-    public void SlideRight()
-    {
-        StartCoroutine(SlideRightCor());
 
+    public void OpenMenu() => StartCoroutine(TransitionCoroutine(1));
+
+    public void CloseMenu() => StartCoroutine(TransitionCoroutine(-1));
+
+    private IEnumerator TransitionCoroutine(int direction)
+    {
+        if (_isTransitioning || panels.Length == 0) yield break;
+
+        _isTransitioning = true;
+        SetButtonsInteractable(false);
+
+        int newIndex = (_currentIndex + direction + panels.Length) % panels.Length;
+
+        if (panels[_currentIndex] != null)
+        {
+            panels[_currentIndex].DOAnchorPos(
+                direction > 0 ? _leftOffscreen : _rightOffscreen,
+                transitionDuration
+            ).SetEase(transitionEase);
+        }
+
+        if (panels[newIndex] != null)
+        {
+            panels[newIndex].anchoredPosition = direction > 0 ? _rightOffscreen : _leftOffscreen;
+            panels[newIndex].DOAnchorPos(_centerPosition, transitionDuration).SetEase(transitionEase);
+        }
+
+        carShop.UpdateUI();
+
+        yield return new WaitForSeconds(buttonsDisableDuration);
+
+        _currentIndex = newIndex;
+        SetButtonsInteractable(true);
+        _isTransitioning = false;
     }
-    private IEnumerator SlideRightCor()
+
+    private void SetButtonsInteractable(bool state)
     {
-        FindObjectOfType<CarShop>().UpdateUI();
-        int nextIndex = (currentIndex + 1) % canvases.Length;
-
-        // текущая уходит влево
-        canvases[currentIndex].DOAnchorPos(offLeft, transitionTime).SetEase(Ease.InOutCubic);
-
-        // следующая выезжает справа
-        canvases[nextIndex].anchoredPosition = offRight;
-        canvases[nextIndex].DOAnchorPos(center, transitionTime).SetEase(Ease.InOutCubic);
-
-        currentIndex = nextIndex;
-       
-        OpenColorButton.enabled = false;
-        CloseColorButton.enabled = false;
-        yield return new WaitForSeconds(transitionTime / 2);
-        OpenColorButton.enabled = true;
-        CloseColorButton.enabled = true;
+        openButton.interactable = state;
+        closeButton.interactable = state;
     }
 
-    public void SlideLeft()
+    private void OnDestroy()
     {
-        StartCoroutine(SlideLeftCor());
+        openButton.onClick.RemoveAllListeners();
+        closeButton.onClick.RemoveAllListeners();
 
-    }
-    private IEnumerator SlideLeftCor()
-    {
-        int nextIndex = (currentIndex - 1 + canvases.Length) % canvases.Length;
-
-        canvases[currentIndex].DOAnchorPos(offRight, transitionTime).SetEase(Ease.InOutCubic);
-
-        canvases[nextIndex].anchoredPosition = offLeft;
-        canvases[nextIndex].DOAnchorPos(center, transitionTime).SetEase(Ease.InOutCubic);
-
-        currentIndex = nextIndex;
-
-        OpenColorButton.enabled = false;
-        CloseColorButton.enabled = false;
-        yield return new WaitForSeconds(transitionTime / 2);
-        OpenColorButton.enabled = true;
-        CloseColorButton.enabled = true;
-
+        foreach (var panel in panels)
+        {
+            if (panel != null)
+                panel.DOKill();
+        }
     }
 }

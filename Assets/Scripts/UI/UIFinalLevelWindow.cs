@@ -1,8 +1,5 @@
-using DG.Tweening;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,18 +8,20 @@ public class UIFinalLevelWindow : UIBaseLevelWindow
 {
     [Header("UI Elements")]
     [SerializeField] private Button quitButton;
+
     [SerializeField] private Button restartButton;
     [SerializeField] private Button nextLevelButton;
     [SerializeField] private TextMeshProUGUI powerText;
     [SerializeField] private TextMeshProUGUI coinsText;
-    [SerializeField] private Image [] starImages;
+    [SerializeField] private Image[] starImages;
 
     [Header("Animation Settings")]
     [SerializeField] private float starAppearDelay = 0.2f;
+
     [SerializeField] private float finalDelayAfterStars = 0.3f;
     [SerializeField] private float nextLevelDelay = 0.7f;
 
-    void Start()
+    private void Start()
     {
         ComponentValidator.CheckAndLog(quitButton, nameof(quitButton), this);
         ComponentValidator.CheckAndLog(restartButton, nameof(restartButton), this);
@@ -36,15 +35,15 @@ public class UIFinalLevelWindow : UIBaseLevelWindow
 
         InitializeStars();
     }
+
     private void InitializeStars()
     {
         for (int i = 0; i < starImages.Length; i++)
         {
             ComponentValidator.CheckAndLog(starImages[i], nameof(starImages), this);
-           // starImages[i].gameObject.SetActive(false);
-            
         }
     }
+
     private IEnumerator OnNextLevelCoroutine()
     {
         CloseLevelWindow();
@@ -53,13 +52,13 @@ public class UIFinalLevelWindow : UIBaseLevelWindow
         {
             string nextLevel = (currentLevel + 1).ToString();
             transition.LoadScenebByName(nextLevel);
-           
         }
         else
         {
             Debug.LogError("Failed to parse current scene name");
         }
     }
+
     public void UpdatePowerText(int power)
     {
         powerText.text = power.ToString();
@@ -85,16 +84,17 @@ public class UIFinalLevelWindow : UIBaseLevelWindow
         nextLevelButton.colors = colors;
     }
 
-    public IEnumerator ShowStars(int starsEarned, Sprite starSprite )
+    public IEnumerator ShowStars(int starsEarned, Sprite starSprite)
     {
         ComponentValidator.CheckAndLog(starSprite, nameof(starSprite), this);
-       
+
         switch (starsEarned)
         {
             case 1:
                 starImages[0].sprite = starSprite;
 
                 break;
+
             case 2:
                 starImages[0].sprite = starSprite;
                 yield return new WaitForSeconds(starAppearDelay);
@@ -102,6 +102,7 @@ public class UIFinalLevelWindow : UIBaseLevelWindow
                 starImages[1].sprite = starSprite;
 
                 break;
+
             case 3:
                 starImages[0].sprite = starSprite;
                 yield return new WaitForSeconds(starAppearDelay);
@@ -113,8 +114,6 @@ public class UIFinalLevelWindow : UIBaseLevelWindow
                 break;
         }
         yield return new WaitForSeconds(finalDelayAfterStars);
-
-
     }
 
     private void OnDestroy()
@@ -123,5 +122,4 @@ public class UIFinalLevelWindow : UIBaseLevelWindow
         restartButton.onClick.RemoveAllListeners();
         nextLevelButton.onClick.RemoveAllListeners();
     }
-
 }

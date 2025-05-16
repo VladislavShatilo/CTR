@@ -1,31 +1,32 @@
+using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using System;
-using Unity.VisualScripting;
+
 public class ArcadeBuffTimer : MonoBehaviour
 {
     public event Action<BuffType> OnTimerCompleted;
 
     [Header("Settings")]
-    [SerializeField] private float countdownTime = 5f;
+    [SerializeField] private readonly float countdownTime = 5f;
 
     [Header("UI References")]
     [SerializeField] private TextMeshProUGUI timerText;
+
     [SerializeField] private Image buffImage;
 
-    private bool isTimerActive = false;
-    private float currentTime = 0f;
-    private bool isCountingDown = false;
+    private bool isTimerActive;
+    private float currentTime;
+    private bool isCountingDown;
     private BuffType currentBuffType;
 
     private void Awake()
     {
         ComponentValidator.CheckAndLog(timerText, nameof(timerText), this);
         ComponentValidator.CheckAndLog(buffImage, nameof(buffImage), this);
-
     }
-    void Start()
+
+    private void Start()
     {
         EnableTimer(false);
     }
@@ -40,10 +41,9 @@ public class ArcadeBuffTimer : MonoBehaviour
         {
             UpdateTimerDisplay();
         }
-            
     }
 
-    void Update()
+    private void Update()
     {
         if (isCountingDown)
         {
@@ -57,7 +57,6 @@ public class ArcadeBuffTimer : MonoBehaviour
         }
     }
 
-
     public void StartTimer(BuffType type, Sprite buffIcon)
     {
         currentBuffType = type;
@@ -65,12 +64,14 @@ public class ArcadeBuffTimer : MonoBehaviour
         currentTime = countdownTime;
         EnableTimer(true);
     }
+
     private void CompleteTimer()
     {
         currentTime = 0f;
         EnableTimer(false);
-        OnTimerCompleted?.Invoke(currentBuffType); 
+        OnTimerCompleted?.Invoke(currentBuffType);
     }
+
     public void PauseTimer()
     {
         isCountingDown = false;
@@ -81,7 +82,7 @@ public class ArcadeBuffTimer : MonoBehaviour
         if (isTimerActive)
         {
             isCountingDown = true;
-        }     
+        }
     }
 
     private void UpdateTimerDisplay()

@@ -3,8 +3,11 @@ using UnityEditor;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEditor.SceneManagement;
+
 #if TMP_YG2
+
 using TMPro;
+
 #endif
 
 namespace YG.LanguageLegacy
@@ -17,8 +20,8 @@ namespace YG.LanguageLegacy
             GetWindow<AutoLocalizationMasse>("Auto Localization Masse");
         }
 
-        Vector2 scrollPosition = Vector2.zero;
-        List<GameObject> objectsTranlate = new List<GameObject>();
+        private Vector2 scrollPosition = Vector2.zero;
+        private List<GameObject> objectsTranlate = new List<GameObject>();
 
         private void OnGUI()
         {
@@ -163,4 +166,3 @@ namespace YG.LanguageLegacy
         }
     }
 }
-

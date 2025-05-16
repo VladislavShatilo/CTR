@@ -1,22 +1,21 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class PlayerObstacleHandler : MonoBehaviour
 {
     [Header("Effects")]
     [SerializeField] private GameObject immortalityParticles;
+
     [SerializeField] private GameObject crashParticles;
     [SerializeField] private GameObject particlePoint;
 
     [Header("Referencies")]
     [SerializeField] private MainManager mainManager;
+
     [SerializeField] private ArcadeManager arcadeManager;
 
     [Header("Referencies")]
     [SerializeField] private float crashDelay = 0.2f;
-
 
     private BuffManager buffManager;
     private ArcadePlayerMovement movement;
@@ -29,12 +28,10 @@ public class PlayerObstacleHandler : MonoBehaviour
         ComponentValidator.CheckAndLog(particlePoint, nameof(particlePoint), this);
         ComponentValidator.CheckAndLog(mainManager, nameof(mainManager), this);
         ComponentValidator.CheckAndLog(arcadeManager, nameof(arcadeManager), this);
-     
     }
-    void Start()
-    {
-       
 
+    private void Start()
+    {
         cameraShake = Camera.main.GetComponent<CameraShakeEffect>();
         buffManager = GetComponent<BuffManager>();
         movement = GetComponent<ArcadePlayerMovement>();
@@ -42,8 +39,8 @@ public class PlayerObstacleHandler : MonoBehaviour
         ComponentValidator.CheckAndLog(cameraShake, nameof(cameraShake), this);
         ComponentValidator.CheckAndLog(buffManager, nameof(buffManager), this);
         ComponentValidator.CheckAndLog(movement, nameof(movement), this);
-
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (!other.gameObject.CompareTag("Obstacle"))
@@ -58,15 +55,13 @@ public class PlayerObstacleHandler : MonoBehaviour
         }
         else
         {
-            StartCoroutine( HandleCrashCollision());
+            StartCoroutine(HandleCrashCollision());
         }
     }
-
 
     private void HandleImmortalCollision()
     {
         Instantiate(immortalityParticles, particlePoint.transform);
-       
     }
 
     private IEnumerator HandleCrashCollision()
@@ -80,9 +75,5 @@ public class PlayerObstacleHandler : MonoBehaviour
 
         ComponentValidator.CheckAndLog(UIArcadeManager.Instance.Windows, nameof(UIArcadeManager.Instance.Windows), this);
         UIArcadeManager.Instance.Windows.ShowWindow<UIAdvWindow>();
-       
     }
-
-
-
 }

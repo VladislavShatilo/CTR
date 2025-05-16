@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,6 +7,7 @@ public class UILevelHUDManager : MonoBehaviour
 {
     [Header("UI")]
     [SerializeField] private Button pauseButton;
+
     [SerializeField] private Button quitButton;
     [SerializeField] private Button playButton;
     [SerializeField] private TextMeshProUGUI powerText;
@@ -19,7 +18,6 @@ public class UILevelHUDManager : MonoBehaviour
     [SerializeField] private Image levelBGImage;
 
     [Header("Referencies")]
-    [SerializeField] private Gamemanager gamemanager;
     [SerializeField] private Transition transition;
 
     private const string LEVEL_PREFIX = "Level ";
@@ -35,14 +33,11 @@ public class UILevelHUDManager : MonoBehaviour
         ComponentValidator.CheckAndLog(powerBGImage, nameof(powerBGImage), this);
         ComponentValidator.CheckAndLog(powerImage, nameof(powerImage), this);
         ComponentValidator.CheckAndLog(levelBGImage, nameof(levelBGImage), this);
-        ComponentValidator.CheckAndLog(gamemanager, nameof(gamemanager), this);
         ComponentValidator.CheckAndLog(transition, nameof(transition), this);
     }
 
-    
     public void Initialize()
     {
-
         UpdateLevelText(SceneManager.GetActiveScene().name);
 
         pauseButton.onClick.AddListener(OnPause);
@@ -63,7 +58,6 @@ public class UILevelHUDManager : MonoBehaviour
 
     public void UpdateLevelText(string levelName)
     {
-
         if (int.TryParse(levelName, out int levelNumber))
         {
             levelText.text = $"{LEVEL_PREFIX}{levelNumber}";
@@ -73,36 +67,38 @@ public class UILevelHUDManager : MonoBehaviour
             levelText.text = $"{LEVEL_PREFIX}{levelName}";
             Debug.LogWarning($"Failed to parse level number from: {levelName}", this);
         }
-
     }
+
     private void OnPause()
     {
-        ComponentValidator.CheckAndLog(UILevelManager.Instance.Windows, nameof(UILevelManager.Instance.Windows), this);  
+        ComponentValidator.CheckAndLog(UILevelManager.Instance.Windows, nameof(UILevelManager.Instance.Windows), this);
         UILevelManager.Instance.Windows.ShowWindow<UIPauseLevelWindow>();
-        gamemanager.PauseFunction(true);
+
+        Storage.Instance.isPauseGlobal = true;
+        PlayerMove.Instance.enabled = false;
     }
+
     private void OnQuit()
     {
         transition.LoadScenebByName("LevelMenu");
     }
+
     private void OnPlay()
     {
-
         playButton.gameObject.SetActive(false);
         tapToPlayText.gameObject.SetActive(false);
         PlayerMove.Instance.enabled = false;
-        //playerMove.enabled = true;
         quitButton.gameObject.SetActive(false);
         SetGameplayUI(true);
-        gamemanager.StartGame();
+        PlayerMove.Instance.enabled = true;
     }
+
     public void SetGameplayUI(bool enable)
     {
         pauseButton.gameObject.SetActive(enable);
         powerBGImage.gameObject.SetActive(enable);
         powerImage.gameObject.SetActive(enable);
         powerText.gameObject.SetActive(enable);
-
     }
 
     public void AllUIActive(bool enable)
@@ -110,12 +106,13 @@ public class UILevelHUDManager : MonoBehaviour
         SetGameplayUI(enable);
         levelText.gameObject.SetActive(enable);
         levelBGImage.gameObject.SetActive(enable);
-
     }
+
     public void UpdatePowerText(int power)
     {
         powerText.text = power.ToString();
     }
+
     public int GetCurrentPower()
     {
         int power = 0;

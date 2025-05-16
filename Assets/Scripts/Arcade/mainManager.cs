@@ -1,23 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using YG;
-using TMPro;
 using System.Globalization;
+using UnityEngine;
+using YG;
 
 public class MainManager : MonoBehaviour
 {
     [Header("Dependencies")]
-
     [SerializeField] private Material[] carMaterials;
+
     [SerializeField] private CarProvider carProvider;
 
     [Header("Settings")]
-    [SerializeField] private int _targetFrameRate = 60;
+    [SerializeField] private int targetFrameRate = 60;
 
     private GameObject[] cars;
     private Renderer[] carRenderers;
@@ -25,26 +18,27 @@ public class MainManager : MonoBehaviour
 
     private void Awake()
     {
-
         YG2.StartInit();
-        Application.targetFrameRate = 60;
-      
+        Application.targetFrameRate = targetFrameRate;
+
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject); // Удалить дубликат
+            Destroy(gameObject);
             return;
         }
 
         Instance = this;
     }
-    void Start()
+
+    private void Start()
     {
         YG2.GameplayStart();
 
         InitializeCarSystem();
         UpdateUI();
     }
-    private void InitializeCarSystem() 
+
+    private void InitializeCarSystem()
     {
         ComponentValidator.CheckAndLog(carProvider, nameof(carProvider), this);
         cars = carProvider.Cars;
@@ -53,6 +47,7 @@ public class MainManager : MonoBehaviour
         ActivateSelectedCar();
         ApplySelectedColor();
     }
+
     private void InitializeCarRenderers()
     {
         carRenderers = new Renderer[cars.Length];
@@ -64,17 +59,18 @@ public class MainManager : MonoBehaviour
             }
         }
     }
+
     private void ActivateSelectedCar()
     {
         foreach (var car in cars)
         {
             car.SetActive(false);
-
         }
 
         int selectedIndex = Mathf.Clamp(Storage.Instance.selectedCar, 0, cars.Length - 1);
         cars[selectedIndex].SetActive(true);
     }
+
     private void ApplySelectedColor()
     {
         int selectedCar = Storage.Instance.selectedCar;
@@ -82,7 +78,6 @@ public class MainManager : MonoBehaviour
         {
             return;
         }
-           
 
         var materials = carRenderers[selectedCar].materials;
         for (int i = 0; i < materials.Length; i++)
@@ -93,24 +88,22 @@ public class MainManager : MonoBehaviour
                 materials[i] = carMaterials[colorIndex];
                 break;
             }
-         
         }
         carRenderers[selectedCar].materials = materials;
     }
+
     private bool IsBodyMaterial(Material mat)
     {
         string lowerName = mat.name.ToLower();
         return lowerName.Contains("Body");
-              
     }
+
     private void UpdateUI()
     {
         ComponentValidator.CheckAndLog(UIArcadeManager.Instance.MenuManager, nameof(UIArcadeManager.Instance.MenuManager), this);
 
         UIArcadeManager.Instance.MenuManager.UpdateStatesInfo();
     }
-
-
 
     public void SaveCoinsInLevel()
     {
@@ -134,7 +127,6 @@ public class MainManager : MonoBehaviour
         }
     }
 
-
     public void ShowRewardArcade()
     {
         YG2.RewardedAdvShow("Arcade");
@@ -143,8 +135,5 @@ public class MainManager : MonoBehaviour
     public void ShowMidgame()
     {
         YG2.InterstitialAdvShow();
-
     }
-
-  
 }

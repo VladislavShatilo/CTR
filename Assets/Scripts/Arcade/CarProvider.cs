@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CarProvider : MonoBehaviour
@@ -13,15 +11,13 @@ public class CarProvider : MonoBehaviour
         for (int i = 0; i < cars.Length; i++)
         {
             ComponentValidator.CheckAndLog(cars[i], nameof(cars), this);
-
         }
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject); // Удалить дубликат
+            Destroy(gameObject);
             return;
         }
 
         Instance = this;
     }
-  
 }

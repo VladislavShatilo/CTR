@@ -1230,48 +1230,84 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cars:
-  - {fileID: 215088769}
-  - {fileID: 1687951519}
-  - {fileID: 1043180658}
-  - {fileID: 1759358043}
-  - {fileID: 224182080}
-  - {fileID: 472438898}
-  - {fileID: 96101275}
-  - {fileID: 1289037372}
-  - {fileID: 1273713100}
-  - {fileID: 2072793344}
-  - {fileID: 453220172}
-  - {fileID: 1838918030}
-  - {fileID: 1121611391}
-  buyButton: {fileID: 1167905339}
-  selectButton: {fileID: 1739055911}
-  unlockButton: {fileID: 1515778204}
-  colorButton: {fileID: 1582493910}
-  priceText: {fileID: 976410847}
-  moneyText: {fileID: 1616084677}
-  selectedCarIndex: 0
-  carPrices:
-  - 0
-  - 1000
-  - 2500
-  - Season 1
-  - 5000
-  - Season 2
-  - 10000
-  - 15000
-  - 30000
-  - 50000
-  - Season 3
-  - 75000
-  - 250000
-  colorToggle: {fileID: 1384083169}
-  colorToggles:
-  - {fileID: 1384083169}
-  - {fileID: 931025603}
-  - {fileID: 9513378}
-  - {fileID: 1940357460}
-  - {fileID: 1657021216}
-  - {fileID: 799887253}
+  - carObject: {fileID: 215088769}
+    price: 0
+    isSeasonCar: 0
+    seasonNumber: 0
+    multiplier: 1
+    carSize: 0.032
+  - carObject: {fileID: 1687951519}
+    price: 1000
+    isSeasonCar: 0
+    seasonNumber: 0
+    multiplier: 1.3
+    carSize: 0.032
+  - carObject: {fileID: 1043180658}
+    price: 2500
+    isSeasonCar: 0
+    seasonNumber: 0
+    multiplier: 1.6
+    carSize: 0.032
+  - carObject: {fileID: 1759358043}
+    price: 0
+    isSeasonCar: 1
+    seasonNumber: 1
+    multiplier: 2.1
+    carSize: 0.032
+  - carObject: {fileID: 224182080}
+    price: 5000
+    isSeasonCar: 0
+    seasonNumber: 0
+    multiplier: 2.7
+    carSize: 0.032
+  - carObject: {fileID: 472438898}
+    price: 0
+    isSeasonCar: 1
+    seasonNumber: 2
+    multiplier: 3.5
+    carSize: 0.032
+  - carObject: {fileID: 96101275}
+    price: 10000
+    isSeasonCar: 0
+    seasonNumber: 0
+    multiplier: 4.5
+    carSize: 0.032
+  - carObject: {fileID: 1289037372}
+    price: 15000
+    isSeasonCar: 0
+    seasonNumber: 0
+    multiplier: 5.7
+    carSize: 30
+  - carObject: {fileID: 1273713100}
+    price: 30000
+    isSeasonCar: 0
+    seasonNumber: 0
+    multiplier: 7.3
+    carSize: 0.032
+  - carObject: {fileID: 2072793344}
+    price: 50000
+    isSeasonCar: 0
+    seasonNumber: 0
+    multiplier: 9.4
+    carSize: 15
+  - carObject: {fileID: 453220172}
+    price: 0
+    isSeasonCar: 1
+    seasonNumber: 3
+    multiplier: 12
+    carSize: 31
+  - carObject: {fileID: 1838918030}
+    price: 75000
+    isSeasonCar: 0
+    seasonNumber: 0
+    multiplier: 16
+    carSize: 0.037
+  - carObject: {fileID: 1121611391}
+    price: 250000
+    isSeasonCar: 0
+    seasonNumber: 0
+    multiplier: 25
+    carSize: 17
   carMaterials:
   - {fileID: 2100000, guid: bc8576f12d9a5e24b8aa889e0a419b0a, type: 2}
   - {fileID: 2100000, guid: 139d5d8dfb9c71e48882f1b527ee09ca, type: 2}
@@ -1279,14 +1315,29 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 9bd058681f5ebab41b4b7f3355b6826b, type: 2}
   - {fileID: 2100000, guid: eaffd99a576709542b3901554efa43c8, type: 2}
   - {fileID: 2100000, guid: 2e33795e1943dbe49a35bfb7cc0deaf2, type: 2}
-  rewardButton: {fileID: 2082707358}
-  block: {fileID: 1387066097}
-  NoMoneyWindow: {fileID: 7619432}
-  NoSeasonWindow: {fileID: 1392932283}
-  noMoneyTxt: {fileID: 2103068203}
-  noMoneyRewardTxt: {fileID: 310974619}
+  priceText: {fileID: 976410847}
+  moneyText: {fileID: 1616084677}
   carMultiplierText: {fileID: 937626708}
+  noMoneyText: {fileID: 2103068203}
+  noMoneyRewardText: {fileID: 310974619}
   rewardImage: {fileID: 1540049938}
+  buyButton: {fileID: 1167905339}
+  selectButton: {fileID: 1739055911}
+  unlockButton: {fileID: 1515778204}
+  colorButton: {fileID: 1582493910}
+  rewardButton: {fileID: 2082707358}
+  previousCarButton: {fileID: 1410558009}
+  nextCarButton: {fileID: 2085850644}
+  block: {fileID: 1387066097}
+  noMoneyWindow: {fileID: 7619432}
+  noSeasonWindow: {fileID: 1392932283}
+  colorToggles:
+  - {fileID: 1384083169}
+  - {fileID: 931025603}
+  - {fileID: 9513378}
+  - {fileID: 1940357460}
+  - {fileID: 1657021216}
+  - {fileID: 799887253}
 --- !u!1 &294570717
 GameObject:
   m_ObjectHideFlags: 0
@@ -3114,12 +3165,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d02598e66c6931e429f2a7d37482f0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvases:
+  panels:
   - {fileID: 74988346}
   - {fileID: 1010063985}
-  transitionTime: 0.5
-  OpenColorButton: {fileID: 1582493910}
-  CloseColorButton: {fileID: 1684685025}
+  openButton: {fileID: 1582493910}
+  closeButton: {fileID: 1684685025}
+  carShop: {fileID: 278449046}
+  transitionDuration: 0.5
+  transitionEase: 10
+  buttonsDisableDuration: 0.25
 --- !u!4 &786216065
 Transform:
   m_ObjectHideFlags: 0
@@ -4637,7 +4691,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff20bf8d6d71a24f9cb634fa842ad89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trans: {fileID: 1093580755}
 --- !u!95 &992417271
 Animator:
   serializedVersion: 5
@@ -5209,7 +5262,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa552931c4dc7c343b681440e530d39e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fade_speed: 1.75
 --- !u!1 &1108972186
 GameObject:
   m_ObjectHideFlags: 0
@@ -8390,7 +8442,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff20bf8d6d71a24f9cb634fa842ad89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trans: {fileID: 1093580755}
 --- !u!114 &1739055911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8690,8 +8741,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0036fcff8e838df439a84992f3d1b3b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rewardID: Shop
-  timerDurationLock: 60
 --- !u!4 &1810914788
 Transform:
   m_ObjectHideFlags: 0
@@ -8717,7 +8766,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1823884261}
   - component: {fileID: 1823884260}
-  - component: {fileID: 1823884262}
   m_Layer: 0
   m_Name: Car
   m_TagString: Untagged
@@ -8766,19 +8814,6 @@ Transform:
   - {fileID: 1121611390}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -93.07, z: 0}
---- !u!114 &1823884262
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1823884259}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6cdab532b8c60a4ea40160b9e6f54ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cylinder: {fileID: 1093093359}
 --- !u!1001 &1838918028
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10124,6 +10159,7 @@ GameObject:
   - component: {fileID: 2131798901}
   - component: {fileID: 2131798900}
   - component: {fileID: 2131798899}
+  - component: {fileID: 2131798902}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -10205,6 +10241,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 23.53, y: 0, z: 0}
+--- !u!114 &2131798902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2131798898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6cdab532b8c60a4ea40160b9e6f54ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetObject: {fileID: 1093093360}
+  portraitScale: 0.015
+  portraitTargetScale: {x: 0.6, y: 0.6, z: 0.6}
+  landscapeScale: 0.02
+  landscapeTargetScale: {x: 1, y: 1, z: 1}
+  adjustmentSpeed: 5
+  updateContinuously: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

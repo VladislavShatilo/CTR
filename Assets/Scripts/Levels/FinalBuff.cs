@@ -1,6 +1,5 @@
-using UnityEngine;
 using System.Collections;
-using DG.Tweening.Core.Easing;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Collider))]
@@ -8,16 +7,18 @@ public class FinalBuff : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private float powerForLevel = 60f;
+
     [SerializeField] private float animationDuration = 1f;
     [SerializeField] private float delayBetweenAnimations = 0.3f;
 
     [Header("References")]
     [SerializeField] private ParticleSystem[] confettiEffects;
+
     [SerializeField] private Sprite filledStarSprite;
-   
 
     [Header("Season Settings")]
     [SerializeField] private int levelsPerSeason = 12;
+
     [SerializeField] private int[] seasonStarsThresholds = { 25, 52 };
     [SerializeField] private int[] seasonRewards = { 200, 500, 2000 }; // Пример значений
 
@@ -68,11 +69,12 @@ public class FinalBuff : MonoBehaviour
 
     private void StartFinalSequence()
     {
-        //player.enabled = false;
-        FindObjectOfType<Gamemanager>().StopCamera();
+        ComponentValidator.CheckAndLog(Camera.main, nameof(Camera.main), this);
+        var cameraMovement = Camera.main.GetComponent<CameraMovement>();
+        ComponentValidator.CheckAndLog(cameraMovement, nameof(cameraMovement), this);
+        cameraMovement.enabled = false;
 
         PlayConfettiEffects();
-
         UpdateLevelProgress();
         StartCoroutine(FinalSequenceCoroutine());
     }
@@ -84,7 +86,6 @@ public class FinalBuff : MonoBehaviour
 
         uiLevelManager.Windows.ShowWindow<UIFinalLevelWindow>();
 
-        // Анимация мощности
         yield return AnimateValue(
             startValue: 0,
             endValue: uiLevelManager.LevelHUD.GetCurrentPower(),
@@ -93,12 +94,10 @@ public class FinalBuff : MonoBehaviour
 
         yield return new WaitForSeconds(delayBetweenAnimations);
 
-        // Показ звезд
         int starsEarned = CalculateStarsEarned();
         yield return finalWindow.ShowStars(starsEarned, filledStarSprite);
 
-        // Анимация монет (если уровень не был пройден ранее)
-        if (Storage.Instance.levelsCompleted[currentLevelIndex] == 1)
+        if (Storage.Instance.levelsCompleted[currentLevelIndex] != 1)
         {
             int reward = CalculateLevelReward();
             yield return AnimateValue(
@@ -113,8 +112,7 @@ public class FinalBuff : MonoBehaviour
         {
             finalWindow.UpdateCoinsText(0);
         }
-
-        // Проверка блокировки кнопки "Далее"
+        Storage.Instance.levelsCompleted[currentLevelIndex] = 1;
         if (IsLastLevelInSeason() && !HasEnoughSeasonStars())
         {
             finalWindow.BlockNextButtonOnLastLevel();
@@ -135,10 +133,17 @@ public class FinalBuff : MonoBehaviour
     private void UpdateLevelProgress()
     {
         int stars = CalculateStarsEarned();
-        Storage.Instance.levelsCompleted[currentLevelIndex] = 1;
-        Storage.Instance.levelsStars[currentLevelIndex] = stars;
-        Storage.Instance.Save();
 
+        CalculateMenuStars(stars);
+        Storage.Instance.Save();
+    }
+
+    private void CalculateMenuStars(int stars)
+    {
+        if (Storage.Instance.levelsStars[currentLevelIndex] <= stars)
+        {
+            Storage.Instance.levelsStars[currentLevelIndex] = stars;
+        }
     }
 
     private int CalculateLevelReward()

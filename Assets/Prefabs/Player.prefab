@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 3871166865514870797}
   - component: {fileID: 3220231308120347883}
   - component: {fileID: 911283162567138811}
+  - component: {fileID: 6980788304847148792}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -80,7 +81,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f587ee8c6ef18a24290d3282bf8e9c02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerCar: 100
   forwardSpeed: 100
   steeringSpeed: 135
   maxSteerOffset: 20
@@ -89,6 +89,7 @@ MonoBehaviour:
   rotationSmooth: 20
   positionSmooth: 20
   carDestroyEffectPosition: {fileID: 372825752704805031}
+  inputHandler: {fileID: 6980788304847148792}
 --- !u!114 &3871166865514870797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,6 +150,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 7.06, y: 5, z: 17.6}
   m_Center: {x: 0, y: 3.72, z: 0.56}
+--- !u!114 &6980788304847148792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3329021993211376647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e77ce66164a80104a9f7e4befb27c3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mobileMoveMultiplier: 35
+  keyboardMoveMultiplier: 1
 --- !u!1001 &2356345909390641294
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,23 +1,14 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using YG;
 
-
-/// <summary>
-/// Central game manager for arcade mode handling game state, events, and core systems
-/// </summary>
 public class ArcadeManager : MonoBehaviour
 {
-
-    public event Action OnArcadePause;
-    public event Action OnArcadeContinue;
-    public event Action OnArcadeRestart;
-
     [Header("References")]
     [SerializeField] private RoadGenerator roadGenerator;
+
     [SerializeField] private GameObject cityBackgroundGO;
     [SerializeField] private GameObject playerGO;
     public static ArcadeManager Instance { get; private set; }
@@ -26,7 +17,7 @@ public class ArcadeManager : MonoBehaviour
     private List<IArcadeStateListener> pauseListeners = new();
     private ArcadeCameraController cameraController;
 
-    void Awake()
+    private void Awake()
     {
         ComponentValidator.CheckAndLog(roadGenerator, nameof(roadGenerator), this);
         ComponentValidator.CheckAndLog(cityBackgroundGO, nameof(cityBackgroundGO), this);
@@ -42,9 +33,8 @@ public class ArcadeManager : MonoBehaviour
         }
 
         Instance = this;
-
-        
     }
+
     private void Start()
     {
         if (!Camera.main.TryGetComponent(out cameraController))
@@ -78,7 +68,7 @@ public class ArcadeManager : MonoBehaviour
     public void RestartGame()
     {
         Storage.Instance.coinsInLevel = 0;
-        
+
         UIArcadeManager.Instance.ArcadeHUD.CoinsText.text = "0";
         foreach (var listener in pauseListeners)
         {
@@ -97,8 +87,11 @@ public class ArcadeManager : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
         cameraController.PlayIntroAnimation(playerGO.transform);
+
         RestartGame();
+
         UIArcadeManager.Instance.ArcadeHUD.SetActiveHUD(true);
+
         cameraMovement.enabled = false;
         yield return new WaitForSeconds(0.15f);
         cityBackgroundGO.SetActive(false);
@@ -108,6 +101,7 @@ public class ArcadeManager : MonoBehaviour
     {
         roadGenerator.ModifySpeed(speed);
     }
+
     public void StopRoadMovement()
     {
         roadGenerator.StopMovement();

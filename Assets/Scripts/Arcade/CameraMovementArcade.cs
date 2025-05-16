@@ -1,18 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.XR;
 
 public class CameraMovementArcade : MonoBehaviour
 {
     [Header("Movement Settings")]
     [SerializeField] private float dragSpeed = 0.05f;
+
     [SerializeField] private float minXPosition = -7f;
     [SerializeField] private float maxXPosition = 8f;
 
     [Header("Rotation Settings")]
     [SerializeField] private float rotationSpeed = 0.03f;
+
     [SerializeField] private float minRotation = 160f;
     [SerializeField] private float maxRotation = 200f;
 
@@ -21,17 +20,15 @@ public class CameraMovementArcade : MonoBehaviour
     private bool isDragging = false;
     private float euler;
 
-    void Start()
+    private void Start()
     {
         cachedCamera = Camera.main;
         ComponentValidator.CheckAndLog(cachedCamera, nameof(cachedCamera), this);
         ComponentValidator.CheckAndLog(EventSystem.current, nameof(EventSystem.current), this);
-
     }
 
-    void LateUpdate()
+    private void LateUpdate()
     {
-       
         if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             isDragging = true;
@@ -54,7 +51,7 @@ public class CameraMovementArcade : MonoBehaviour
             cachedCamera.transform.position = new Vector3(newX, cachedCamera.transform.position.y, cachedCamera.transform.position.z);
 
             euler += difference.x * rotationSpeed;
-            euler = Mathf.Clamp(euler, minRotation, minRotation);
+            euler = Mathf.Clamp(euler, minRotation, maxRotation);
             cachedCamera.transform.eulerAngles = new Vector3(cachedCamera.transform.eulerAngles.x, euler, cachedCamera.transform.eulerAngles.z);
         }
     }

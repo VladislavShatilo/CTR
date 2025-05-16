@@ -1,32 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Canvas))]
 public class ScreenManager : MonoBehaviour
 {
-    [SerializeField] private GameObject levelSwitchVert;
-    [SerializeField] private GameObject levelSwitchGor;
-    [SerializeField] private Canvas levelVertCanvas;
-    [SerializeField] private Canvas levelGorCanvas;
+    [Header("UI References")]
+    [SerializeField] private LevelSwitch portraitLevelSwitch;
 
-    void Start()
+    [SerializeField] private LevelSwitch landscapeLevelSwitch;
+    [SerializeField] private Canvas portraitCanvas;
+    [SerializeField] private Canvas landscapeCanvas;
+
+    [Header("Settings")]
+    [SerializeField] private float aspectRatioThreshold = 1f;
+
+    private void Start()
     {
-        if((float)Screen.width/(float)Screen.height < 1f)
-        {
-            levelSwitchVert.SetActive(true);
-            levelSwitchGor.SetActive(false);
-            levelVertCanvas.gameObject.SetActive(true);
-            levelGorCanvas.gameObject.SetActive(false);
-        }
-        else
-        {
-            levelSwitchVert.SetActive(false);
-            levelSwitchGor.SetActive(true);
-            levelVertCanvas.gameObject.SetActive(false);
-            levelGorCanvas.gameObject.SetActive(true);
-        }
+        ValidateReferences();
+        UpdateLayout();
     }
 
-    
-    
+    private void ValidateReferences()
+    {
+        ComponentValidator.CheckAndLog(portraitLevelSwitch, nameof(portraitLevelSwitch), this);
+        ComponentValidator.CheckAndLog(landscapeLevelSwitch, nameof(landscapeLevelSwitch), this);
+        ComponentValidator.CheckAndLog(portraitCanvas, nameof(portraitCanvas), this);
+        ComponentValidator.CheckAndLog(landscapeCanvas, nameof(landscapeCanvas), this);
+    }
+
+    public void UpdateLayout()
+    {
+        bool isPortrait = GetAspectRatio() < aspectRatioThreshold;
+
+        if (portraitLevelSwitch != null) portraitLevelSwitch.gameObject.SetActive(isPortrait);
+        if (landscapeLevelSwitch != null) landscapeLevelSwitch.gameObject.SetActive(!isPortrait);
+        if (portraitCanvas != null) portraitCanvas.gameObject.SetActive(isPortrait);
+        if (landscapeCanvas != null) landscapeCanvas.gameObject.SetActive(!isPortrait);
+    }
+
+    private float GetAspectRatio()
+    {
+        return (float)Screen.width / Screen.height;
+    }
 }

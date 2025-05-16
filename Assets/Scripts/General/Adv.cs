@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 using YG;
 
 public class Adv : MonoBehaviour
@@ -12,8 +8,7 @@ public class Adv : MonoBehaviour
 
     private void OnEnable()
     {
-        YG2.onRewardAdv += OnReward;    
-       
+        YG2.onRewardAdv += OnReward;
     }
 
     private void OnDisable()
@@ -21,22 +16,21 @@ public class Adv : MonoBehaviour
         YG2.onRewardAdv -= OnReward;
     }
 
-    
     public void OnReward(string id)
     {
-        if(id == rewardIDArcade)
+        if (id == rewardIDArcade)
         {
             //FindObjectOfType<WindowAnimation>().CloseAdvWindow();
-          
+
             FindObjectOfType<ArcadePlayerMovement>().RestartCar();
             FindAnyObjectByType<BuffManager>().ActivateBuff(BuffType.Immortality);
             FindObjectOfType<RoadGenerator>().Continue();
         }
-        else if(id == rewardIDShop)
+        else if (id == rewardIDShop)
         {
             CarShop carShop = FindObjectOfType<CarShop>();
-            Storage.Instance.coins  += carShop.CalculateRewardCoins();
-            carShop.UpdateCoinText();
+            // Storage.Instance.coins  += carShop.CalculateRewardCoins();
+            //carShop.UpdateCoinText();
             Storage.Instance.Save();
         }
     }

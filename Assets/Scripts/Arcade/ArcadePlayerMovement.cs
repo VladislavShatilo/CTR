@@ -1,18 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro.Examples;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.EventSystems;
-using UnityEngine.TestTools;
-using UnityEngine.UIElements;
-using UnityEngine.XR;
-using YG;
 
 public class ArcadePlayerMovement : MonoBehaviour, IArcadeStateListener
 {
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed;
+
     [SerializeField] private float moveRange;
     [SerializeField] private int maxSteerRotation;
     [SerializeField] private float steerRotationSpeed;
@@ -32,7 +24,6 @@ public class ArcadePlayerMovement : MonoBehaviour, IArcadeStateListener
     private void Awake()
     {
         ComponentValidator.CheckAndLog(inputHandler, nameof(inputHandler), this);
-
     }
 
     private void OnEnable()
@@ -46,21 +37,21 @@ public class ArcadePlayerMovement : MonoBehaviour, IArcadeStateListener
             enabled = false;
         }
         carTransform = carMesh.gameObject.transform;
-       
     }
 
     public void OnArcadePaused() => StopCar();
+
     public void OnArcadeContinued() => StartCar();
+
     public void OnArcadeRestart() => RestartCar();
 
-    void LateUpdate()
+    private void LateUpdate()
     {
         UpdateRotation();
-        float moveDirection = inputHandler.GetMoveDirection();
+        float moveDirection = inputHandler.GetMoveDirectionArcade();
 
         if (Mathf.Abs(moveDirection) > 0.01f)
         {
-
             float newX = transform.position.x + moveDirection * moveSpeed * Time.deltaTime;
             newX = Mathf.Clamp(newX, -moveRange, moveRange);
 
@@ -69,12 +60,10 @@ public class ArcadePlayerMovement : MonoBehaviour, IArcadeStateListener
                 transform.position.y,
                 transform.position.z
             );
-
         }
-
     }
 
-    void UpdateRotation()
+    private void UpdateRotation()
     {
         currentPos = transform.position;
 
@@ -109,23 +98,23 @@ public class ArcadePlayerMovement : MonoBehaviour, IArcadeStateListener
         rotation = Mathf.Clamp(rotation, -maxSteerRotation, maxSteerRotation);
         carTransform.localEulerAngles = new Vector3(carTransform.localEulerAngles.x, rotation * rotationMultiplierY, rotation * rotationMultiplierZ);
     }
-  
+
     private void StopCar()
     {
         enabled = false;
     }
+
     private void StartCar()
     {
         enabled = true;
     }
 
     public void DestroyCar() => SetCarActive(false);
+
     public void RestartCar()
     {
-      
         SetCarActive(true);
         gameObject.SetActive(true);
-      
     }
 
     public void SetCarActive(bool isActive)

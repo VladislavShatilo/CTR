@@ -1,12 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.PackageManager.UI;
 using UnityEngine;
 
 public class UIWindowManager : MonoBehaviour
 {
-    [SerializeField] private List<UIWindow> windows; 
-    private readonly Stack<UIWindow> windowStack = new (); 
+    [SerializeField] private List<UIWindow> windows;
+    private readonly Stack<UIWindow> windowStack = new();
+
     public void ShowWindow<T>() where T : UIWindow
     {
         var window = windows.Find(w => w is T);
@@ -18,8 +17,7 @@ public class UIWindowManager : MonoBehaviour
 
         if (windowStack.Count > 0)
         {
-            windowStack.Peek().Hide(); 
-
+            windowStack.Peek().Hide();
         }
 
         window.Show();
@@ -34,15 +32,13 @@ public class UIWindowManager : MonoBehaviour
         window.Hide();
 
         if (windowStack.Count > 0)
-            windowStack.Peek().Show(); // Показать предыдущее
+            windowStack.Peek().Show();
     }
 
-  
     public T GetWindow<T>() where T : UIWindow
     {
         var window = windows.Find(w => w is T);
-     
+
         return (T)(window);
     }
-
 }

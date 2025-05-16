@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +5,7 @@ public class volumeSlider : MonoBehaviour
 {
     [SerializeField] private Slider slider;
 
-    void Start()
+    private void Start()
     {
         ComponentValidator.CheckAndLog(slider, nameof(slider), this);
         slider.value = Storage.Instance.volume;

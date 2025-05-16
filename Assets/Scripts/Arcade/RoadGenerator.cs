@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class RoadGenerator : MonoBehaviour, IArcadeStateListener
@@ -19,13 +17,14 @@ public class RoadGenerator : MonoBehaviour, IArcadeStateListener
     private void Awake()
     {
         ComponentValidator.CheckAndLog(roadPrefabs, nameof(roadPrefabs), this);
-
     }
+
     private void Start()
     {
         enabled = false;
     }
-    void OnEnable()
+
+    private void OnEnable()
     {
         ResetLevel();
         Pause();
@@ -33,7 +32,9 @@ public class RoadGenerator : MonoBehaviour, IArcadeStateListener
     }
 
     public void OnArcadePaused() => Pause();
+
     public void OnArcadeContinued() => Continue();
+
     public void OnArcadeRestart() => Restart();
 
     public void Pause()
@@ -53,7 +54,7 @@ public class RoadGenerator : MonoBehaviour, IArcadeStateListener
         StartLevel();
     }
 
-    void Update()
+    private void Update()
     {
         if (speed == 0)
         {
@@ -67,7 +68,6 @@ public class RoadGenerator : MonoBehaviour, IArcadeStateListener
         if (speed > startSpeed)
         {
             speed--;
-
         }
         else if (speed < startSpeed)
         {
@@ -137,14 +137,13 @@ public class RoadGenerator : MonoBehaviour, IArcadeStateListener
     {
         enabled = true;
         speed = startSpeed;
-
     }
-
 
     public void ModifySpeed(float buff)
     {
         speed += buff;
     }
+
     public void StopMovement()
     {
         speed = 0;

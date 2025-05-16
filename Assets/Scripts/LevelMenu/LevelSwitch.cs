@@ -1,100 +1,127 @@
 using DG.Tweening;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class LevelSwitch : MonoBehaviour
 {
+    [Header("UI References")]
+    [SerializeField] private RectTransform[] panels;
 
-    [SerializeField] private RectTransform[] buttonsGroups; // массив из 3 кнопок
-    [SerializeField] private  float transitionTime = 0.5f;
-    [SerializeField] private Image BGimage;
-    [SerializeField] private Color[] BGColors;
-    [SerializeField] private Button NextSeasonButton;
-    [SerializeField] private Button BackSeasonButton;
+    [SerializeField] private Image backgroundImage;
+    [SerializeField] private Color[] backgroundColors;
+    [SerializeField] private Button nextButton;
+    [SerializeField] private Button backButton;
+
+    [Header("Animation Settings")]
+    [SerializeField] private float transitionDuration = 0.5f;
+
+    [SerializeField] private Ease transitionEase = Ease.InOutCubic;
+    [SerializeField] private float buttonsDisableDuration = 0.25f;
+
+    [Header("Offscreen Calculation")]
+    [SerializeField] private float offscreenMultiplier = 1.5f;
+
+    [SerializeField] private bool usePanelWidth = true;
 
     private int currentIndex = 0;
-    private Vector2 center = Vector2.zero;
-    private Vector2 offLeft;
-    private Vector2 offRight;
+    private Vector2 centerPosition = Vector2.zero;
+    private Vector2 leftOffscreen;
+    private Vector2 rightOffscreen;
+    private bool isTransitioning;
 
-    void Start()
+    private void Awake()
     {
-        
-        currentIndex = 0;
-        NextSeasonButton.onClick.AddListener(delegate { SlideRight(); });
-        BackSeasonButton.onClick.AddListener(delegate { SlideLeft(); });
+        ValidateReferences();
+        CalculateOffscreenPositions();
+        InitializeNavigationButtons();
+    }
 
-        float screenWidth = Screen.width * 1.5f;
-        offLeft = new Vector2(-screenWidth, 0);
-        offRight = new Vector2(screenWidth, 0);
-        BGimage.color = BGColors[currentIndex];
-        if (buttonsGroups.Length > 0)
+    private void ValidateReferences()
+    {
+        ComponentValidator.CheckAndLog(panels, nameof(panels), this);
+        ComponentValidator.CheckAndLog(backgroundImage, nameof(backgroundImage), this);
+        ComponentValidator.CheckAndLog(backgroundColors, nameof(backgroundColors), this);
+        ComponentValidator.CheckAndLog(nextButton, nameof(nextButton), this);
+        ComponentValidator.CheckAndLog(backButton, nameof(backButton), this);
+    }
+
+    private void CalculateOffscreenPositions()
+    {
+        float screenWidth = Screen.width * offscreenMultiplier;
+        float panelWidth = usePanelWidth && panels.Length > 0 ?
+            panels[0].rect.width * offscreenMultiplier :
+            screenWidth;
+
+        leftOffscreen = new Vector2(-panelWidth, 0);
+        rightOffscreen = new Vector2(panelWidth, 0);
+    }
+
+    private void InitializeNavigationButtons()
+    {
+        nextButton.onClick.AddListener(NextPanel);
+        backButton.onClick.AddListener(PreviousPanel);
+        UpdateNavigationButtonsState();
+    }
+
+    private void NextPanel() => StartCoroutine(TransitionCoroutine(1));
+
+    private void PreviousPanel() => StartCoroutine(TransitionCoroutine(-1));
+
+    private void UpdateNavigationButtonsState()
+    {
+        backButton.interactable = currentIndex > 0;
+        nextButton.interactable = currentIndex < panels.Length - 1;
+    }
+
+    private IEnumerator TransitionCoroutine(int direction)
+    {
+        if (isTransitioning) yield break;
+
+        isTransitioning = true;
+        SetNavigationInteractable(false);
+
+        int newIndex = (currentIndex + direction + panels.Length) % panels.Length;
+
+        panels[currentIndex].DOAnchorPos(
+            direction > 0 ? leftOffscreen : rightOffscreen,
+            transitionDuration
+        ).SetEase(transitionEase);
+
+        panels[newIndex].anchoredPosition = direction > 0 ? rightOffscreen : leftOffscreen;
+        panels[newIndex].DOAnchorPos(centerPosition, transitionDuration).SetEase(transitionEase);
+
+        backgroundImage.DOColor(
+     new Color(
+         backgroundColors[newIndex].r,
+         backgroundColors[newIndex].g,
+         backgroundColors[newIndex].b,
+         backgroundImage.color.a
+     ),
+     transitionDuration
+ );
+
+        yield return new WaitForSeconds(buttonsDisableDuration);
+
+        currentIndex = newIndex;
+        UpdateNavigationButtonsState();
+        isTransitioning = false;
+    }
+
+    private void SetNavigationInteractable(bool state)
+    {
+        nextButton.interactable = state;
+        backButton.interactable = state;
+    }
+
+    private void OnDestroy()
+    {
+        nextButton.onClick.RemoveAllListeners();
+        backButton.onClick.RemoveAllListeners();
+
+        foreach (var panel in panels)
         {
-            float elementWidth = buttonsGroups[0].rect.width;
-            if (elementWidth > Screen.width)
-            {
-                offLeft = new Vector2(-elementWidth * 1.5f, 0);
-                offRight = new Vector2(elementWidth * 1.5f, 0);
-            }
+            panel.DOKill();
         }
-
-        for (int i = 0; i < buttonsGroups.Length; i++)
-        {
-            if (i == currentIndex)
-                buttonsGroups[i].anchoredPosition = center;
-            else
-                buttonsGroups[i].anchoredPosition = offRight;
-        }
-    }
-
-    public void SlideRight()
-    {
-        StartCoroutine(SlideRightCor());
-
-    }
-    private IEnumerator SlideRightCor()
-    {
-        int nextIndex = (currentIndex + 1) % buttonsGroups.Length;
-
-        buttonsGroups[currentIndex].DOAnchorPos(offLeft, transitionTime).SetEase(Ease.InOutCubic);
-
-        buttonsGroups[nextIndex].anchoredPosition = offRight;
-        buttonsGroups[nextIndex].DOAnchorPos(center, transitionTime).SetEase(Ease.InOutCubic);
-
-        currentIndex = nextIndex;
-        NextSeasonButton.enabled = false;
-        BackSeasonButton.enabled = false;
-        yield return new WaitForSeconds(transitionTime/2);
-        BGimage.color = BGColors[currentIndex];
-        NextSeasonButton.enabled = true;
-        BackSeasonButton.enabled = true;
-    }
-
-    public void SlideLeft()
-    {
-        StartCoroutine(SlideLeftCor());
-
-    }
-    private IEnumerator SlideLeftCor()
-    {
-        int nextIndex = (currentIndex - 1 + buttonsGroups.Length) % buttonsGroups.Length;
-
-        buttonsGroups[currentIndex].DOAnchorPos(offRight, transitionTime).SetEase(Ease.InOutCubic);
-
-        buttonsGroups[nextIndex].anchoredPosition = offLeft;
-        buttonsGroups[nextIndex].DOAnchorPos(center, transitionTime).SetEase(Ease.InOutCubic);
-
-        currentIndex = nextIndex;
-
-        NextSeasonButton.enabled = false;
-        BackSeasonButton.enabled = false;
-        yield return new WaitForSeconds(transitionTime/2);
-        BGimage.color = BGColors[currentIndex];
-        NextSeasonButton.enabled = true;
-        BackSeasonButton.enabled = true;
-
     }
 }

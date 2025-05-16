@@ -1,38 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class gate : MonoBehaviour
+public class GateBuff : MonoBehaviour
 {
     [SerializeField] private GameObject pointGateEffect;
     [SerializeField] private int power;
-    [SerializeField] private GateScript gate1;
+    [SerializeField] private GateScript gate;
     private UILevelHUDManager levelHUDManager;
 
-    void Start()
+    private void Start()
     {
+        ComponentValidator.CheckAndLog(UILevelManager.Instance.LevelHUD, nameof(UILevelManager.Instance.LevelHUD), this);
+        ComponentValidator.CheckAndLog(pointGateEffect, nameof(pointGateEffect), this);
+        ComponentValidator.CheckAndLog(gate, nameof(gate), this);
+
         levelHUDManager = UILevelManager.Instance.LevelHUD;
-
-
     }
+
     private void OnValidate()
     {
-        gate1.updateVisual(power);
+        gate.UpdateVisual(power);
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (levelHUDManager.GetCurrentPower() + power > 0)
         {
-            PlayerMove.Instance.addPower(power);
+            PlayerMove.Instance.AddPower(power);
             ParticleManager.Instance.CreateGateDestroyEffect(pointGateEffect.transform.position);
             Destroy(gameObject);
             levelHUDManager.UpdatePowerText(levelHUDManager.GetCurrentPower() + power);
         }
         else
         {
-            PlayerMove.Instance.destroyCar();
+            PlayerMove.Instance.DestroyCar();
         }
     }
 }

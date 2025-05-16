@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PointsCounter : MonoBehaviour, IArcadeStateListener
 {
     [Header("Settings")]
-    [SerializeField] private float scoreMultiplier = 0.2f / 150f; 
+    [SerializeField] private float scoreMultiplier = 0.2f / 150f;
+
     [SerializeField] private RoadGenerator roadGenerator;
 
     private float currentScore = 0f;
@@ -18,9 +17,9 @@ public class PointsCounter : MonoBehaviour, IArcadeStateListener
     private void Awake()
     {
         ComponentValidator.CheckAndLog(roadGenerator, nameof(roadGenerator), this);
-
     }
-    void Start()
+
+    private void Start()
     {
         ComponentValidator.CheckAndLog(UIArcadeManager.Instance.ArcadeHUD, nameof(UIArcadeManager.Instance.ArcadeHUD), this);
         hudManager = UIArcadeManager.Instance.ArcadeHUD;
@@ -29,7 +28,7 @@ public class PointsCounter : MonoBehaviour, IArcadeStateListener
         UpdateCounterText();
     }
 
-    void Update()
+    private void Update()
     {
         if (!isCounting)
         {
@@ -38,7 +37,6 @@ public class PointsCounter : MonoBehaviour, IArcadeStateListener
 
         CalculateScore();
         UpdateCounterText();
-
     }
 
     private void CalculateScore()
@@ -48,16 +46,20 @@ public class PointsCounter : MonoBehaviour, IArcadeStateListener
         currentScore += Time.deltaTime * currentSpeedFactor * carMultiplier;
     }
 
-    void UpdateCounterText()
+    private void UpdateCounterText()
     {
         int displayScore = Mathf.RoundToInt(currentScore * SCORE_DISPLAY_MULTIPLIER);
         hudManager.UpdateScore(displayScore);
-        
     }
+
     public void OnArcadePaused() => StopCounter();
+
     public void OnArcadeContinued() => StartCounter();
+
     public void OnArcadeRestart() => RestartCounter();
+
     private void StartCounter() => isCounting = true;
+
     private void StopCounter() => isCounting = false;
 
     public void RestartCounter()

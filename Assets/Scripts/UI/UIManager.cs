@@ -12,7 +12,5 @@ public class UIManager : MonoBehaviour
     {
         ComponentValidator.CheckAndLog(windowManager, nameof(windowManager), this);
         ComponentValidator.CheckAndLog(animationHandler, nameof(animationHandler), this);
-
     }
-
 }

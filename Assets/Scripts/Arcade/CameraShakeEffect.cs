@@ -1,28 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Camera))]
 public class CameraShakeEffect : MonoBehaviour
 {
-
     [Header("Shake Settings")]
     [SerializeField] private float shakeIntensity = 0.1f;
+
     [SerializeField] private float shakeDuration = 0.3f;
 
     private float shakeTimer;
     private Vector3 originalPosition;
-    private Camera cameraArcade;
-    private void Awake()
-    {
-        cameraArcade = Camera.main;
-        ComponentValidator.CheckAndLog(cameraArcade, nameof(cameraArcade), this);
-    }
 
-    void LateUpdate()
+    private void LateUpdate()
     {
         HandleShake();
     }
+
     private void HandleShake()
     {
         originalPosition = transform.localPosition;
@@ -39,6 +32,4 @@ public class CameraShakeEffect : MonoBehaviour
     }
 
     public void TriggerShake() => shakeTimer = shakeDuration;
-
-
 }

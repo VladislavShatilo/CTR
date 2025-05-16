@@ -1,17 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider))] 
-public class boosterBuff : MonoBehaviour
+[RequireComponent(typeof(Collider))]
+public class BoosterBuff : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] bool isNegative;
-   
-
+    [SerializeField] private bool isNegative;
 
     [Header("Boost Effects")]
     [SerializeField] private float speedModifier = 250f;
+
     [SerializeField] private float negativeSpeedModifier = -100f;
     [SerializeField] private float fovEffect = 80f;
     [SerializeField] private float negativeFovEffect = 45f;
@@ -22,9 +19,8 @@ public class boosterBuff : MonoBehaviour
     {
         cam = Camera.main;
         ComponentValidator.CheckAndLog(cam, nameof(cam), this);
-
     }
-  
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -34,14 +30,13 @@ public class boosterBuff : MonoBehaviour
 
             if (!isNegative)
             {
-                arcadeManager.ModifyRoadSpeed(250);
-                cam.fieldOfView = 80;
+                arcadeManager.ModifyRoadSpeed(speedModifier);
+                cam.fieldOfView = fovEffect;
             }
             else
             {
-                arcadeManager.ModifyRoadSpeed(-100);
-                cam.fieldOfView = 45;
-
+                arcadeManager.ModifyRoadSpeed(negativeSpeedModifier);
+                cam.fieldOfView = negativeFovEffect;
             }
             Destroy(gameObject);
         }

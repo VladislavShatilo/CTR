@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 
 public class ProtectionBuff : MonoBehaviour
@@ -15,12 +12,11 @@ public class ProtectionBuff : MonoBehaviour
         if (buffManager != null)
         {
             if (isProtection)
-            {             
+            {
                 buffManager.ActivateBuff(BuffType.Immortality);
             }
             else
             {
-               
                 buffManager.ActivateBuff(BuffType.DoubleCoins);
             }
             Destroy(gameObject);

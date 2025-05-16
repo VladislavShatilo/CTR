@@ -1,90 +1,109 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class StarManager : MonoBehaviour
 {
-    [SerializeField] private Button[] levels;
-    [SerializeField] private Sprite star, blackStar;
-    [SerializeField] private int starsCount = 0;
-    [SerializeField] private Text[] starsToUnlock;
-    [SerializeField] private GameObject[] lockLevel;
-    [SerializeField] private Button[] levelsG;
-    [SerializeField] private Text[] starsToUnlockG;
-    [SerializeField] private GameObject[] lockLevelG;
-    private  int [] starsToUnlockNum = new int[2] {25,52};
-
-
-    void Start()
+    [System.Serializable]
+    public class LevelUI
     {
-        for (int i = 3; i <= levels.Length + 2; i++)
-        {
-            if (Storage.Instance.levelsStars[i - 3] == 1)
-            {
-                levels[i - 3].transform.GetChild(0).GetComponent<Image>().sprite = star;
-                levels[i - 3].transform.GetChild(1).GetComponent<Image>().sprite = blackStar;
-                levels[i - 3].transform.GetChild(2).GetComponent<Image>().sprite = blackStar;
-                levelsG[i - 3].transform.GetChild(0).GetComponent<Image>().sprite = star;
-                levelsG[i - 3].transform.GetChild(1).GetComponent<Image>().sprite = blackStar;
-                levelsG[i - 3].transform.GetChild(2).GetComponent<Image>().sprite = blackStar;
-                starsCount += 1;
-
-            }
-            else if (Storage.Instance.levelsStars[i - 3] == 2)
-            {
-                levels[i - 3].transform.GetChild(0).GetComponent<Image>().sprite = star;
-                levels[i - 3].transform.GetChild(1).GetComponent<Image>().sprite = star;
-                levels[i - 3].transform.GetChild(2).GetComponent<Image>().sprite = blackStar;
-                levelsG[i - 3].transform.GetChild(0).GetComponent<Image>().sprite = star;
-                levelsG[i - 3].transform.GetChild(1).GetComponent<Image>().sprite = star;
-                levelsG[i - 3].transform.GetChild(2).GetComponent<Image>().sprite = blackStar;
-                starsCount += 2;
-            }
-            else if (Storage.Instance.levelsStars[i - 3] == 3)
-            {
-                levels[i - 3].transform.GetChild(0).GetComponent<Image>().sprite = star;
-                levels[i - 3].transform.GetChild(1).GetComponent<Image>().sprite = star;
-                levels[i - 3].transform.GetChild(2).GetComponent<Image>().sprite = star;
-                levelsG[i - 3].transform.GetChild(0).GetComponent<Image>().sprite = star;
-                levelsG[i - 3].transform.GetChild(1).GetComponent<Image>().sprite = star;
-                levelsG[i - 3].transform.GetChild(2).GetComponent<Image>().sprite = star;
-                starsCount += 3;
-            }
-            else
-            {
-                levels[i - 3].transform.GetChild(0).gameObject.SetActive(false);
-                levels[i - 3].transform.GetChild(1).gameObject.SetActive(false);
-                levels[i - 3].transform.GetChild(2).gameObject.SetActive(false);
-                levelsG[i - 3].transform.GetChild(0).gameObject.SetActive(false);
-                levelsG[i - 3].transform.GetChild(1).gameObject.SetActive(false);
-                levelsG[i - 3].transform.GetChild(2).gameObject.SetActive(false);
-            }
-        }
-        Storage.Instance.totalStars = starsCount;
-        for (int i = 0; i < starsToUnlock.Length; i++)
-        {
-            starsToUnlock[i].text = starsCount.ToString() + "/" + starsToUnlockNum[i].ToString();
-            starsToUnlockG[i].text = starsCount.ToString() + "/" + starsToUnlockNum[i].ToString();
-
-        }
-        for (int i = 0; i < lockLevel.Length; i++)
-        {
-            if (starsCount >= starsToUnlockNum[i])
-            {
-                lockLevel[i].SetActive(false);
-                lockLevelG[i].SetActive(false);
-            }
-            else
-            {
-                lockLevel[i].SetActive(true);
-                lockLevelG[i].SetActive(true);
-            }
-        }
-        Storage.Instance.Save();
-
-
+        public Button button;
+        public Image[] stars;
     }
 
+    [Header("Settings")]
+    [SerializeField] private Sprite filledStar;
 
+    [SerializeField] private Sprite emptyStar;
+
+    [Header("Portrait UI")]
+    [SerializeField] private LevelUI[] portraitLevels;
+
+    [SerializeField] private TextMeshProUGUI[] starsUnlockTextPortrait;
+    [SerializeField] private GameObject[] blockSeasontPortrait;
+
+    [Header("Landscape UI")]
+    [SerializeField] private LevelUI[] landscapeLevels;
+
+    [SerializeField] private TextMeshProUGUI[] starsUnlockTextLandscape;
+    [SerializeField] private GameObject[] blockSeasontLandscape;
+
+    private int totalStars;
+    private int[] starsToUnlockNum = new int[2] { 25, 52 };
+
+    private void Awake()
+    {
+        ComponentValidator.CheckAndLog(filledStar, nameof(filledStar), this);
+        ComponentValidator.CheckAndLog(emptyStar, nameof(emptyStar), this);
+        ComponentValidator.CheckAndLog(portraitLevels, nameof(portraitLevels), this);
+        ComponentValidator.CheckAndLog(starsUnlockTextPortrait, nameof(starsUnlockTextPortrait), this);
+        ComponentValidator.CheckAndLog(blockSeasontPortrait, nameof(blockSeasontPortrait), this);
+        ComponentValidator.CheckAndLog(landscapeLevels, nameof(landscapeLevels), this);
+        ComponentValidator.CheckAndLog(starsUnlockTextLandscape, nameof(starsUnlockTextLandscape), this);
+        ComponentValidator.CheckAndLog(blockSeasontLandscape, nameof(blockSeasontLandscape), this);
+    }
+
+    private void Start()
+    {
+        InitializeLevels();
+        UpdateUnlcokTexts();
+        Storage.Instance.Save();
+    }
+
+    private void InitializeLevels()
+    {
+        totalStars = 0;
+
+        for (int i = 0; i < Storage.Instance.levelsStars.Length; i++)
+        {
+            int stars = Storage.Instance.levelsStars[i];
+            totalStars += stars;
+
+            UpdateLevelStars(portraitLevels[i], stars);
+            UpdateLevelStars(landscapeLevels[i], stars);
+        }
+
+        Storage.Instance.totalStars = totalStars;
+    }
+
+    private void UpdateLevelStars(LevelUI level, int starsCount)
+    {
+        if (level == null) return;
+
+        bool hasStars = starsCount > 0;
+
+        for (int j = 0; j < level.stars.Length; j++)
+        {
+            if (level.stars[j] != null)
+            {
+                level.stars[j].gameObject.SetActive(hasStars);
+                level.stars[j].sprite = j < starsCount ? filledStar : emptyStar;
+            }
+        }
+    }
+
+    private void UpdateUnlcokTexts()
+    {
+        for (int i = 0; i < starsUnlockTextLandscape.Length; i++)
+        {
+            starsUnlockTextLandscape[i].text = starsUnlockTextPortrait[i].text = totalStars.ToString() + "/" + starsToUnlockNum[i].ToString();
+        }
+    }
+
+    private void UnlockSeason()
+    {
+        for (int i = 0; i < blockSeasontPortrait.Length; i++)
+        {
+            if (totalStars >= starsToUnlockNum[i])
+            {
+                blockSeasontPortrait[i].SetActive(false);
+                blockSeasontLandscape[i].SetActive(false);
+            }
+            else
+            {
+                blockSeasontPortrait[i].SetActive(true);
+                blockSeasontLandscape[i].SetActive(true);
+            }
+        }
+    }
 }

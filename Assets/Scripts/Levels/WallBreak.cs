@@ -1,26 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
 
-public class wallBreak : MonoBehaviour
+public class WallBreak : MonoBehaviour
 {
-    [SerializeField] int wallPower;
-    [SerializeField] TextMeshProUGUI textWallPower;
-    [SerializeField] GameObject bricksEffect;
+    [SerializeField] private int wallPower;
+    [SerializeField] private TextMeshProUGUI textWallPower;
+    [SerializeField] private GameObject bricksEffect;
     private UILevelHUDManager levelHud;
+
+    private void Awake()
+    {
+        ComponentValidator.CheckAndLog(textWallPower, nameof(textWallPower), this);
+        ComponentValidator.CheckAndLog(bricksEffect, nameof(bricksEffect), this);
+    }
 
     private void Start()
     {
         levelHud = UILevelManager.Instance.LevelHUD;
-        if (levelHud == null)
-        {
-            Debug.LogError("LevelHud is null");
-            enabled = false;
-        }
+        ComponentValidator.CheckAndLog(levelHud, nameof(levelHud), this);
     }
 
     private void OnValidate()
@@ -29,12 +26,10 @@ public class wallBreak : MonoBehaviour
         {
             textWallPower.text = wallPower.ToString();
         }
-       
     }
+
     private void OnTriggerEnter(Collider other)
     {
-       
-
         if (levelHud.GetCurrentPower() >= wallPower)
         {
             Destroy(gameObject);
@@ -43,8 +38,7 @@ public class wallBreak : MonoBehaviour
         }
         else
         {
-            PlayerMove.Instance.destroyCar();
-
+            PlayerMove.Instance.DestroyCar();
         }
     }
 }

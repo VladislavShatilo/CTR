@@ -1,20 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioScript : MonoBehaviour
 {
-    [SerializeField] AudioSource menuMusic;
-    [SerializeField] AudioSource inGameMusic;
-    [SerializeField] ArcadePlayerMovement arcadePlayerMovement;
+    [SerializeField] private AudioSource menuMusic;
+    [SerializeField] private AudioSource inGameMusic;
+    [SerializeField] private ArcadePlayerMovement arcadePlayerMovement;
 
     private void Awake()
     {
         ComponentValidator.CheckAndLog(menuMusic, nameof(menuMusic), this);
         ComponentValidator.CheckAndLog(inGameMusic, nameof(inGameMusic), this);
         ComponentValidator.CheckAndLog(arcadePlayerMovement, nameof(arcadePlayerMovement), this);
-
     }
+
     private void Start()
     {
         SetMenuMusicON();
@@ -47,10 +45,10 @@ public class AudioScript : MonoBehaviour
     {
         inGameMusic.Play();
     }
-    
-    public void advMusic()
+
+    public void AdvMusic()
     {
-        if (arcadePlayerMovement.enabled == true)
+        if (arcadePlayerMovement.enabled)
         {
             inGameMusic.UnPause();
         }

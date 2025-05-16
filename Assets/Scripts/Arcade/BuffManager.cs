@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class BuffManager : MonoBehaviour, IArcadeStateListener
 {
     [System.Serializable]
-    private class BuffData
+    private sealed class BuffData
     {
         public BuffType Type;
         public Sprite Icon;
@@ -15,8 +14,8 @@ public class BuffManager : MonoBehaviour, IArcadeStateListener
 
     [Header("Settings")]
     [SerializeField] private List<ArcadeBuffTimer> timers;
-    [SerializeField] private List<Sprite> buffImages;
 
+    [SerializeField] private List<Sprite> buffImages;
 
     private Dictionary<BuffType, BuffData> buffs;
     private List<bool> isSlotFree;
@@ -26,12 +25,10 @@ public class BuffManager : MonoBehaviour, IArcadeStateListener
         for (int i = 0; i < timers.Count; i++)
         {
             ComponentValidator.CheckAndLog(timers[i], nameof(timers), this);
-
         }
         for (int i = 0; i < buffImages.Count; i++)
         {
             ComponentValidator.CheckAndLog(buffImages[i], nameof(buffImages), this);
-
         }
         InitializeBuffs();
         InitializeSlots();
@@ -73,7 +70,6 @@ public class BuffManager : MonoBehaviour, IArcadeStateListener
     {
         foreach (var timer in timers)
         {
-          
             timer.OnTimerCompleted -= HandleTimerCompleted;
         }
     }
@@ -130,7 +126,6 @@ public class BuffManager : MonoBehaviour, IArcadeStateListener
         buff.TimerId = freeSlotId;
         timers[freeSlotId].StartTimer(buff.Type, buff.Icon);
         isSlotFree[freeSlotId] = false;
-        
     }
 
     private int FindFreeSlot()
@@ -168,19 +163,18 @@ public class BuffManager : MonoBehaviour, IArcadeStateListener
             if (isActive)
             {
                 timer.ContinueTimer();
-
             }
             else
             {
                 timer.PauseTimer();
-
             }
         }
     }
 
-    // IArcadePauseListener implementation
     public void OnArcadePaused() => SetAllTimersActive(false);
+
     public void OnArcadeContinued() => SetAllTimersActive(true);
+
     public void OnArcadeRestart()
     {
         SetAllTimersActive(false);

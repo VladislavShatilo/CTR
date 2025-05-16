@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
 
 [RequireComponent(typeof(TextMeshProUGUI))]
 public class TextPingPong : MonoBehaviour
@@ -11,12 +8,14 @@ public class TextPingPong : MonoBehaviour
     [SerializeField] private float minSize = 1.0f;
     [SerializeField] private float maxSize = 1.5f;
     private TextMeshProUGUI text;
-    void Start()
+
+    private void Start()
     {
         text = GetComponent<TextMeshProUGUI>();
+        ComponentValidator.CheckAndLog(text, nameof(text), this);
     }
 
-    void Update()
+    private void Update()
     {
         float t = Mathf.PingPong(Time.time * pulseSpeed, 1.0f);
         float size = Mathf.SmoothStep(minSize, maxSize, t);

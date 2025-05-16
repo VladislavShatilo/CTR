@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UIArcadeManager : UIManager
@@ -11,12 +9,11 @@ public class UIArcadeManager : UIManager
     public UIMenuManager MenuManager => menuManager;
     public static UIArcadeManager Instance { get; private set; }
 
-
-    void Awake()
+    private void Awake()
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject); // Удалить дубликат
+            Destroy(gameObject);
             return;
         }
 
@@ -26,6 +23,5 @@ public class UIArcadeManager : UIManager
 
         arcadeHudManager.Initialize();
         menuManager.Initialize();
-      
     }
 }

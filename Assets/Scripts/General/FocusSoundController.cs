@@ -1,15 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FocusSoundController : MonoBehaviour
 {
-    void OnApplicationFocus(bool hasFocus)
+    private void OnApplicationFocus(bool hasFocus)
     {
         Silence(!hasFocus);
     }
 
-    void OnApplicationPause(bool isPaused)
+    private void OnApplicationPause(bool isPaused)
     {
         Silence(isPaused);
     }

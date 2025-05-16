@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 [Serializable]
@@ -11,6 +8,7 @@ public class Storage : MonoBehaviour
 
     [Header("Game Settings")]
     public const int carCount = 13;
+
     public const int levelCount = 36;
     public const int seasonCount = 3;
 
@@ -23,6 +21,7 @@ public class Storage : MonoBehaviour
 
     [Header("Player Progress")]
     public int coins;
+
     public int coinsInLevel;
     public int totalStars;
     public int highScore;
@@ -31,18 +30,20 @@ public class Storage : MonoBehaviour
 
     [Header("Level Progress")]
     public int[] levelsCompleted = new int[levelCount];
+
     public int[] levelsStars = new int[levelCount];
 
     [Header("Season Progress")]
     public int activeSeason = 1;
-    public int[] seasonCarUnlocked = new int [seasonCount];
 
+    public int[] seasonCarUnlocked = new int[seasonCount];
 
     [Header("Cars")]
     public int[] cars = new int[carCount];
+
     public int[] SelectedColor = new int[carCount];
 
-    
+    public bool isPauseGlobal = false;
     private const string SaveKey = "game_data";
 
     private void Awake()
@@ -69,7 +70,6 @@ public class Storage : MonoBehaviour
 
     public void Load()
     {
-       
         if (PlayerPrefs.HasKey(SaveKey))
         {
             string json = PlayerPrefs.GetString(SaveKey);
@@ -80,10 +80,10 @@ public class Storage : MonoBehaviour
         }
         else
         {
-
             ResetSave();
         }
     }
+
     private void Init()
     {
         if (carMultiplier == null || carMultiplier.Length != carCount)
@@ -108,12 +108,12 @@ public class Storage : MonoBehaviour
         if (selectedCar < 0 || selectedCar >= carCount)
             selectedCar = 0;
     }
+
     public void ResetSave()
     {
-
         levelsCompleted = new int[levelCount];
         levelsStars = new int[levelCount];
-        carMultiplier = new float[carCount] { 1,1.3f,1.6f,2.1f,2.7f,3.5f,4.5f,5.7f,7.3f,9.4f,12,16,25 };
+        carMultiplier = new float[carCount] { 1, 1.3f, 1.6f, 2.1f, 2.7f, 3.5f, 4.5f, 5.7f, 7.3f, 9.4f, 12, 16, 25 };
         cars = new int[carCount];
         SelectedColor = new int[carCount];
         seasonCarUnlocked = new int[seasonCount];

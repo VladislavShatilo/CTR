@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using YG;
@@ -12,61 +10,92 @@ public class InputHandler : MonoBehaviour
     [Header("Desktop Settings")]
     [SerializeField] private float keyboardMoveMultiplier = 5f;
 
-    private bool _isMobile;
-    private float _currentMoveDirection;
+    private bool isMobile;
+    private float currentMoveDirection;
+    private float input;
 
     private void Awake()
     {
-        _isMobile = YG2.envir.isMobile;
+        isMobile = YG2.envir.isMobile;
     }
 
-    public float GetMoveDirection()
+    public float GetMoveDirectionArcade()
     {
-        _currentMoveDirection = 0f;
-
-        if (_isMobile)
+        if (isMobile)
         {
-            HandleMobileInput();
+            HandleMobileInputArcade();
         }
         else
         {
-            HandleDesktopInput();
+            HandleDesktopInputArcade();
         }
 
-        return _currentMoveDirection;
+        return currentMoveDirection;
     }
 
-    private void HandleMobileInput()
+    public float GetMoveDirectionLevel()
+    {
+        if (isMobile)
+        {
+            HandleMobileInputLevel();
+        }
+        else
+        {
+            HandleDesktopInputLevel();
+        }
+        return input;
+    }
+
+    private void HandleMobileInputLevel()
+    {
+        float targetInput = 0f;
+        if (Input.GetMouseButton(0))
+        {
+            if (Input.mousePosition.x < Screen.width / 2)
+            {
+                targetInput = -1f;
+            }
+            else
+            {
+                targetInput = 1f;
+            }
+        }
+        input = Mathf.Lerp(input, targetInput, mobileMoveMultiplier * Time.deltaTime);
+    }
+
+    private void HandleDesktopInputLevel()
+    {
+        input = Input.GetAxis("Horizontal");
+    }
+
+    private void HandleMobileInputArcade()
     {
         if (Input.GetMouseButton(0) && !IsPointerOverUI())
         {
-           
-                if (Input.mousePosition.x < Screen.width / 2)
-                {
-                    _currentMoveDirection = -mobileMoveMultiplier;
-                }
-                else
-                {
-                    _currentMoveDirection = mobileMoveMultiplier;
-                }
-            
-           
+            if (Input.mousePosition.x < Screen.width / 2)
+            {
+                currentMoveDirection = -mobileMoveMultiplier;
+            }
+            else
+            {
+                currentMoveDirection = mobileMoveMultiplier;
+            }
         }
     }
 
-    private void HandleDesktopInput()
+    private void HandleDesktopInputArcade()
     {
         if (Input.GetKey(KeyCode.A))
         {
-            _currentMoveDirection = -keyboardMoveMultiplier;
+            currentMoveDirection = -keyboardMoveMultiplier;
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            _currentMoveDirection = keyboardMoveMultiplier;
+            currentMoveDirection = keyboardMoveMultiplier;
         }
     }
 
-    private bool IsPointerOverUI()
+    private static bool IsPointerOverUI()
     {
         return EventSystem.current.IsPointerOverGameObject();
     }

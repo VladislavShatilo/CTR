@@ -1,10 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-
 
 public class UIArcadeFinalWindow : UIBaseArcadeWindow
 {
@@ -17,21 +14,20 @@ public class UIArcadeFinalWindow : UIBaseArcadeWindow
     private int currentScore;
     private int currentMoney;
     private float timer;
- 
-    void Start()
-    {
 
+    private void Start()
+    {
         ComponentValidator.CheckAndLog(quitButton, nameof(quitButton), this);
         ComponentValidator.CheckAndLog(restartButton, nameof(restartButton), this);
         ComponentValidator.CheckAndLog(scoreText, nameof(scoreText), this);
         ComponentValidator.CheckAndLog(coinsText, nameof(coinsText), this);
 
-
         quitButton.onClick.AddListener(OnQuit);
         restartButton.onClick.AddListener(OnRestart);
-
     }
+
     private void OnQuit() => StartCoroutine(OnQuitCor());
+
     private void OnRestart() => StartCoroutine(OnRestartCor());
 
     private void OnDestroy()
@@ -39,7 +35,6 @@ public class UIArcadeFinalWindow : UIBaseArcadeWindow
         quitButton.onClick.RemoveListener(OnQuit);
         restartButton.onClick.RemoveListener(OnRestart);
     }
-
 
     private void ButtonsEnable(bool enable)
     {
@@ -53,14 +48,13 @@ public class UIArcadeFinalWindow : UIBaseArcadeWindow
         StartCoroutine(UpdateScoreCoroutine());
     }
 
-    IEnumerator UpdateScoreCoroutine()
+    private IEnumerator UpdateScoreCoroutine()
     {
         currentScore = 0;
         timer = 0f;
-      
+
         ComponentValidator.CheckAndLog(UIArcadeManager.Instance, nameof(UIArcadeManager.Instance), this);
         var arcadeHUD = UIArcadeManager.Instance.ArcadeHUD;
-
 
         int targetScore = GetTargetScore(arcadeHUD.ScoreText);
         int targetCoins = GetTargetScore(arcadeHUD.CoinsText);
@@ -83,13 +77,14 @@ public class UIArcadeFinalWindow : UIBaseArcadeWindow
         scoreText.text = FormatNumber(currentScore);
         coinsText.text = FormatNumber(currentMoney);
         ButtonsEnable(true);
-
     }
-    private int  GetTargetScore(TextMeshProUGUI textField)
+
+    private int GetTargetScore(TextMeshProUGUI textField)
     {
         ComponentValidator.CheckAndLog(textField, nameof(textField), this);
         return int.Parse(textField.text, System.Globalization.NumberStyles.AllowThousands);
     }
+
     private string FormatNumber(int number)
     {
         if (number >= 1_000_000)

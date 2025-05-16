@@ -1,34 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ParticleManager : MonoBehaviour
 {
-
     [SerializeField] private GameObject carDestroyEffect;
     [SerializeField] private GameObject gateDestroyEffect;
 
     public static ParticleManager Instance { get; private set; }
 
-    void Awake()
+    private void Awake()
     {
-        // Проверка, существует ли уже экземпляр
+        ComponentValidator.CheckAndLog(carDestroyEffect, nameof(carDestroyEffect), this);
+        ComponentValidator.CheckAndLog(carDestroyEffect, nameof(carDestroyEffect), this);
+
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject); // Удалить дубликат
+            Destroy(gameObject);
             return;
         }
 
         Instance = this;
-        // DontDestroyOnLoad(gameObject); // Не уничтожать при смене сцены
     }
+
     public void CreateCarDestroyEffect(Vector3 pos)
     {
-        Instantiate(carDestroyEffect, pos,Quaternion.identity);
+        Instantiate(carDestroyEffect, pos, Quaternion.identity);
     }
+
     public void CreateGateDestroyEffect(Vector3 pos)
     {
         Instantiate(gateDestroyEffect, pos, Quaternion.identity);
     }
-   
 }

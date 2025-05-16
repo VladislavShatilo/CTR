@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CoinPlayer : MonoBehaviour
@@ -14,8 +12,8 @@ public class CoinPlayer : MonoBehaviour
     {
         ComponentValidator.CheckAndLog(buffManager, nameof(buffManager), this);
         ComponentValidator.CheckAndLog(particlesPrefab, nameof(particlesPrefab), this);
-
     }
+
     private void Start()
     {
         ComponentValidator.CheckAndLog(UIArcadeManager.Instance.ArcadeHUD, nameof(UIArcadeManager.Instance.ArcadeHUD), this);
@@ -28,7 +26,7 @@ public class CoinPlayer : MonoBehaviour
         {
             if (buffManager.IsBuffActive(BuffType.DoubleCoins))
             {
-                Storage.Instance.coinsInLevel += 2;            
+                Storage.Instance.coinsInLevel += 2;
             }
             else
             {
@@ -41,6 +39,5 @@ public class CoinPlayer : MonoBehaviour
             Instantiate(coinSound, transform.position, transform.rotation);
             Instantiate(particlesPrefab, other.gameObject.transform.position, other.gameObject.transform.rotation);
         }
-       
     }
 }

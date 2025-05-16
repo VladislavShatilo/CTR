@@ -1,32 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
+[RequireComponent(typeof(Collider))]
 public class PreFinish : MonoBehaviour
 {
-    [SerializeField] float speed;
+    [SerializeField] private float speed;
     private GameObject player;
-    private Gamemanager gamemanager;
+
     private void Start()
     {
         enabled = false;
+        ComponentValidator.CheckAndLog(PlayerMove.Instance, nameof(PlayerMove.Instance), this);
         player = PlayerMove.Instance.gameObject;
-        gamemanager = FindObjectOfType<Gamemanager>();
-
     }
 
     private void Update()
     {
-        if (!gamemanager.isPauseGlobal)
+        if (!Storage.Instance.isPauseGlobal)
         {
             float x = Mathf.MoveTowards(player.transform.position.x, 0, Time.deltaTime * 15f);
             float z = player.transform.position.z + speed * Time.deltaTime;
-            player.transform.position = new Vector3(x, 0, z);
-            player.transform.rotation = Quaternion.Slerp(player.transform.rotation, Quaternion.Euler(0f, 0, 0), Time.deltaTime * 10);
-
+            player.transform.SetPositionAndRotation(new Vector3(x, 0, z), Quaternion.Slerp(player.transform.rotation, Quaternion.Euler(0f, 0, 0), Time.deltaTime * 10));
         }
-       
     }
 
     private void OnTriggerEnter(Collider other)

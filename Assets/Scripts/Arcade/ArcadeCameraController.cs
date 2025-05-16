@@ -1,18 +1,14 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
-/// <summary>
-/// Controls camera intro animation with smooth transition and parenting to target.
-/// </summary>
 [RequireComponent(typeof(Camera))]
 public class ArcadeCameraController : MonoBehaviour
 {
-
     [Header("Intro Animation")]
     [SerializeField] private bool enableIntro = true;
-    [SerializeField, Min(0.1f)] private float introDuration = 3f;
-    [SerializeField] private Vector3 introTargetPosition = new Vector3(0, 24, -25);
+
+    [SerializeField, Min(0.1f)] private readonly float introDuration = 3f;
+    [SerializeField] private Vector3 introTargetPosition = new(0, 24, -25);
     [SerializeField] private Vector3 introTargetRotation = new Vector3(26, 0, 0);
     [SerializeField] private AnimationCurve introMovementCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
@@ -21,18 +17,13 @@ public class ArcadeCameraController : MonoBehaviour
 
     private void Awake()
     {
-        cameraArcade = GetComponent<Camera>();
-        if(cameraArcade == null)
+        if (!TryGetComponent(out cameraArcade))
         {
             Debug.LogError("Camera is null");
             enabled = false;
         }
     }
 
-    /// <summary>
-    /// Starts the intro animation sequence
-    /// </summary>
-    /// <param name="target">Target transform to follow after intro</param>
     public void PlayIntroAnimation(Transform playerTransform)
     {
         if (!enableIntro) return;
@@ -46,6 +37,7 @@ public class ArcadeCameraController : MonoBehaviour
 
         StartCoroutine(IntroAnimationRoutine());
     }
+
     private IEnumerator IntroAnimationRoutine()
     {
         float elapsed = 0f;
@@ -71,7 +63,6 @@ public class ArcadeCameraController : MonoBehaviour
             yield return null;
         }
 
-        cameraArcade.gameObject.transform.SetParent(introTarget);       
-     
-    }  
+        cameraArcade.gameObject.transform.SetParent(introTarget);
+    }
 }

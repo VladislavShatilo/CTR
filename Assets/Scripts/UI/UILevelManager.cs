@@ -1,14 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UILevelManager : UIManager
 {
-    [SerializeField] private UILevelHUDManager levelHudManager;     
+    [SerializeField] private UILevelHUDManager levelHudManager;
     public UILevelHUDManager LevelHUD => levelHudManager;
 
     public static UILevelManager Instance { get; private set; }
-    void Awake()
+
+    private void Awake()
     {
         ComponentValidator.CheckAndLog(levelHudManager, nameof(levelHudManager), this);
         if (Instance != null && Instance != this)
@@ -19,6 +18,5 @@ public class UILevelManager : UIManager
 
         Instance = this;
         levelHudManager.Initialize();
-      
     }
 }
