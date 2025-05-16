@@ -95,7 +95,7 @@ public class CarShop : MonoBehaviour
         rewardButton.onClick.AddListener(OpenReward);
         previousCarButton.onClick.AddListener(PreviousCar);
         nextCarButton.onClick.AddListener(NextCar);
-        colorBtton.onClick.AddListener(UpdateColorToggles);
+        colorButton.onClick.AddListener(UpdateColorToggles);
         for (int i = 0; i < colorToggles.Length; i++)
         {
             int index = i;
@@ -114,7 +114,6 @@ public class CarShop : MonoBehaviour
         //UpdateCarDisplay();
         UpdateButtonStates();
         UpdateTexts();
-       // UpdateColorToggles();
     }
 
     private void UpdateCarDisplay()
