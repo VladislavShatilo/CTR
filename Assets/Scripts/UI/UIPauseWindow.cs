@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
 
 public class UIPauseWindow : UIBaseArcadeWindow
 {
@@ -17,8 +18,21 @@ public class UIPauseWindow : UIBaseArcadeWindow
         ComponentValidator.CheckAndLog(restartButton, nameof(restartButton), this);
 
         resumeButton.onClick.AddListener(OnResume);
-        quitButton.onClick.AddListener(() => StartCoroutine(OnQuitCor()));
-        restartButton.onClick.AddListener(() => StartCoroutine(OnRestartCor()));
+        quitButton.onClick.AddListener(OnQuit);
+        restartButton.onClick.AddListener(OnRestart);
+    }
+
+    private void OnQuit()
+    {
+        YG2.InterstitialAdvShow();
+        StartCoroutine(OnQuitCor());
+    }
+
+    private void OnRestart()
+    {
+        YG2.InterstitialAdvShow();
+
+        StartCoroutine(OnRestartCor());
     }
 
     private void OnDestroy()

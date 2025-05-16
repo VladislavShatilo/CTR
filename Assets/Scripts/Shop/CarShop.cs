@@ -25,9 +25,9 @@ public class CarShop : MonoBehaviour
     [Header("UI References")]
     [SerializeField] private TextMeshProUGUI priceText;
 
-    [SerializeField] private TextMeshProUGUI moneyText;
+    [SerializeField] private TextMeshProUGUI coinsText;
     [SerializeField] private TextMeshProUGUI carMultiplierText;
-    [SerializeField] private TextMeshProUGUI noMoneyText;
+    [SerializeField] private TextMeshProUGUI noCoinsText;
     [SerializeField] private TextMeshProUGUI noMoneyRewardText;
     [SerializeField] private Image rewardImage;
 
@@ -40,6 +40,7 @@ public class CarShop : MonoBehaviour
     [SerializeField] private Button rewardButton;
     [SerializeField] private Button previousCarButton;
     [SerializeField] private Button nextCarButton;
+    [SerializeField] private Button colorBtton;
 
     [Header("Windows")]
     [SerializeField] private GameObject block;
@@ -59,8 +60,18 @@ public class CarShop : MonoBehaviour
         SetupEventListeners();
         LoadSelectedCar();
         UpdateUI();
+        UpdateCarDisplay();
+    }
+    private void OnEnable()
+    {
+        YG2.onRewardAdv += OnReward;
     }
 
+    private void OnDisable()
+    {
+        YG2.onRewardAdv -= OnReward;
+
+    }
     private void InitializeComponents()
     {
         carRenderers = new Renderer[cars.Length];
@@ -84,7 +95,7 @@ public class CarShop : MonoBehaviour
         rewardButton.onClick.AddListener(OpenReward);
         previousCarButton.onClick.AddListener(PreviousCar);
         nextCarButton.onClick.AddListener(NextCar);
-
+        colorBtton.onClick.AddListener(UpdateColorToggles);
         for (int i = 0; i < colorToggles.Length; i++)
         {
             int index = i;
@@ -100,10 +111,10 @@ public class CarShop : MonoBehaviour
 
     public void UpdateUI()
     {
-        UpdateCarDisplay();
+        //UpdateCarDisplay();
         UpdateButtonStates();
         UpdateTexts();
-        UpdateColorToggles();
+       // UpdateColorToggles();
     }
 
     private void UpdateCarDisplay()
@@ -136,7 +147,7 @@ public class CarShop : MonoBehaviour
 
     private void UpdateTexts()
     {
-        moneyText.text = Storage.Instance.coins.ToString("N0");
+        coinsText.text = Storage.Instance.coins.ToString("N0");
         carMultiplierText.text = $"x {Storage.Instance.carMultiplier[selectedCarIndex]}";
 
         if (cars[selectedCarIndex].isSeasonCar)
@@ -187,6 +198,8 @@ public class CarShop : MonoBehaviour
             }
         }
         carRenderers[selectedCarIndex].materials = materials;
+        Storage.Instance.Save();
+
     }
 
     public void BuyCar()
@@ -212,13 +225,13 @@ public class CarShop : MonoBehaviour
         int rewardAmount = CalculateRewardCoins();
         if (YG2.envir.language == "ru")
         {
-            noMoneyText.text = ("NOT ENOUGH MONEY").Replace("{amount}", moneyNeeded.ToString("N0"));
-            noMoneyRewardText.text = ("WATCH AD FOR").Replace("{amount}", rewardAmount.ToString());
+            noCoinsText.text = ("Не хватает монет\n{количество} нужно").Replace("{количество}", moneyNeeded.ToString("N0"));
+            noMoneyRewardText.text = ("Смотреть зрекламу за {количество}").Replace("{количество}", rewardAmount.ToString());
         }
         else
         {
-            noMoneyText.text = ("NOT ENOUGH MONEY").Replace("{amount}", moneyNeeded.ToString("N0"));
-            noMoneyRewardText.text = ("WATCH AD FOR").Replace("{amount}", rewardAmount.ToString());
+            noCoinsText.text = ("Not enough coins\n{amount} needed").Replace("{amount}", moneyNeeded.ToString("N0"));
+            noMoneyRewardText.text = ("Watch ad for {amount}").Replace("{amount}", rewardAmount.ToString());
         }
 
         rewardImage.gameObject.SetActive(true);
@@ -253,16 +266,15 @@ public class CarShop : MonoBehaviour
     {
         int newIndex = (selectedCarIndex - 1 + cars.Length) % cars.Length;
         SwitchCarWithAnimation(newIndex);
-        SetCarColor(Storage.Instance.SelectedColor[newIndex]);
-        UpdateUI();
+       
     }
 
     public void NextCar()
     {
         int newIndex = (selectedCarIndex + 1) % cars.Length;
+
         SwitchCarWithAnimation(newIndex);
-        SetCarColor(Storage.Instance.SelectedColor[newIndex]);
-        UpdateUI();
+       
     }
 
     private void SwitchCarWithAnimation(int newIndex)
@@ -277,17 +289,26 @@ public class CarShop : MonoBehaviour
             {
                 cars[selectedCarIndex].carObject.SetActive(false);
                 selectedCarIndex = newIndex;
-
+                SetCarColor(Storage.Instance.SelectedColor[selectedCarIndex]);
                 cars[selectedCarIndex].carObject.SetActive(true);
                 cars[selectedCarIndex].carObject.transform.localScale = Vector3.zero;
                 cars[selectedCarIndex].carObject.transform.DOScale(cars[selectedCarIndex].carSize, 0.3f)
                     .SetEase(Ease.OutBack)
-                    .OnComplete(() => SetButtonsInteractable(true));
+                    .OnComplete(OnAnimationComplete);
             });
     }
-
+    private void OnAnimationComplete()
+    {
+        SetButtonsInteractable(true);
+       
+        UpdateUI();
+    }
     private void SetButtonsInteractable(bool state)
     {
+        buyButton.interactable = state;
+        unlockButton.interactable = state;
+        selectButton.interactable = state;
+        colorButton.interactable = state;
         previousCarButton.interactable = state;
         nextCarButton.interactable = state;
     }
@@ -342,7 +363,16 @@ public class CarShop : MonoBehaviour
     {
         YG2.RewardedAdvShow("Shop");
     }
+    public void OnReward(string id)
+    {
+        if (id == "Shop")
+        {
+            Storage.Instance.coins += CalculateRewardCoins();
+            Storage.Instance.Save();
+            coinsText.text = Storage.Instance.coins.ToString("N0");
 
+        }
+    }
     private void OnDestroy()
     {
         // Clean up event listeners
@@ -352,6 +382,7 @@ public class CarShop : MonoBehaviour
         rewardButton.onClick.RemoveAllListeners();
         previousCarButton.onClick.RemoveAllListeners();
         nextCarButton.onClick.RemoveAllListeners();
+        colorButton.onClick.RemoveAllListeners();
 
         foreach (var toggle in colorToggles)
         {

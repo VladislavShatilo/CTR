@@ -10,7 +10,6 @@ public class PlayerObstacleHandler : MonoBehaviour
     [SerializeField] private GameObject particlePoint;
 
     [Header("Referencies")]
-    [SerializeField] private MainManager mainManager;
 
     [SerializeField] private ArcadeManager arcadeManager;
 
@@ -26,7 +25,6 @@ public class PlayerObstacleHandler : MonoBehaviour
         ComponentValidator.CheckAndLog(immortalityParticles, nameof(immortalityParticles), this);
         ComponentValidator.CheckAndLog(crashParticles, nameof(crashParticles), this);
         ComponentValidator.CheckAndLog(particlePoint, nameof(particlePoint), this);
-        ComponentValidator.CheckAndLog(mainManager, nameof(mainManager), this);
         ComponentValidator.CheckAndLog(arcadeManager, nameof(arcadeManager), this);
     }
 
@@ -66,7 +64,7 @@ public class PlayerObstacleHandler : MonoBehaviour
 
     private IEnumerator HandleCrashCollision()
     {
-        mainManager.SaveCoinsInLevel();
+        arcadeManager.SaveCoins();
 
         Instantiate(crashParticles, particlePoint.transform);
         movement.DestroyCar();

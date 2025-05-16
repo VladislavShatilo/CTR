@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
 
 public class UIArcadeFinalWindow : UIBaseArcadeWindow
 {
@@ -26,9 +27,18 @@ public class UIArcadeFinalWindow : UIBaseArcadeWindow
         restartButton.onClick.AddListener(OnRestart);
     }
 
-    private void OnQuit() => StartCoroutine(OnQuitCor());
+    private void OnQuit()
+    {
+        YG2.InterstitialAdvShow();
 
-    private void OnRestart() => StartCoroutine(OnRestartCor());
+        StartCoroutine(OnQuitCor());
+    }
+
+    private void OnRestart()
+    {
+        YG2.InterstitialAdvShow();
+        StartCoroutine(OnRestartCor());
+    }
 
     private void OnDestroy()
     {

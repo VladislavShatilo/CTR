@@ -47,6 +47,7 @@ public class StarManager : MonoBehaviour
     {
         InitializeLevels();
         UpdateUnlcokTexts();
+        UnlockSeason();
         Storage.Instance.Save();
     }
 

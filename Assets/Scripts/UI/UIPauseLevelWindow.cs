@@ -1,5 +1,7 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
 
 public class UIPauseLevelWindow : UIBaseLevelWindow
 {
@@ -16,10 +18,24 @@ public class UIPauseLevelWindow : UIBaseLevelWindow
         ComponentValidator.CheckAndLog(restartButton, nameof(restartButton), this);
 
         resumeButton.onClick.AddListener(OnResume);
-        quitButton.onClick.AddListener(() => StartCoroutine(OnQuitCoroutine()));
-        restartButton.onClick.AddListener(() => StartCoroutine(OnRestartCoroutine()));
+        quitButton.onClick.AddListener(OnQuitPauseCoroutine);
+        restartButton.onClick.AddListener(OnRestartPauseCoroutine);
     }
+    private void OnQuitPauseCoroutine()
+    {
+        YG2.InterstitialAdvShow();
+        StartCoroutine(OnQuitCoroutine());
+        Storage.Instance.isPauseGlobal = false;
 
+    }
+    private void OnRestartPauseCoroutine()
+    {
+        YG2.InterstitialAdvShow();
+
+        StartCoroutine(OnRestartCoroutine());
+        Storage.Instance.isPauseGlobal = false;
+
+    }
     private void OnDestroy()
     {
         resumeButton.onClick.RemoveAllListeners();
@@ -31,6 +47,7 @@ public class UIPauseLevelWindow : UIBaseLevelWindow
     {
         ComponentValidator.CheckAndLog(UILevelManager.Instance.Windows, nameof(UILevelManager.Instance.Windows), this);
         UILevelManager.Instance.Windows.HideTopWindow();
+        Storage.Instance.isPauseGlobal = false;
         PlayerMove.Instance.enabled = true;
         Storage.Instance.isPauseGlobal = false;
     }

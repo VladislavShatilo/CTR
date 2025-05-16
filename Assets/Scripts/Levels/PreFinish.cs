@@ -21,6 +21,10 @@ public class PreFinish : MonoBehaviour
             float z = player.transform.position.z + speed * Time.deltaTime;
             player.transform.SetPositionAndRotation(new Vector3(x, 0, z), Quaternion.Slerp(player.transform.rotation, Quaternion.Euler(0f, 0, 0), Time.deltaTime * 10));
         }
+        else
+        {
+
+        }
     }
 
     private void OnTriggerEnter(Collider other)

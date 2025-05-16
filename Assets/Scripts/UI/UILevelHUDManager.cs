@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using YG;
 
 public class UILevelHUDManager : MonoBehaviour
 {
@@ -20,7 +21,8 @@ public class UILevelHUDManager : MonoBehaviour
     [Header("Referencies")]
     [SerializeField] private Transition transition;
 
-    private const string LEVEL_PREFIX = "Level ";
+    private const string LEVEL_PREFIX_EN = "Level ";
+    private const string LEVEL_PREFIX_RU = "Уровень ";
 
     private void Awake()
     {
@@ -60,11 +62,18 @@ public class UILevelHUDManager : MonoBehaviour
     {
         if (int.TryParse(levelName, out int levelNumber))
         {
-            levelText.text = $"{LEVEL_PREFIX}{levelNumber}";
+            if(YG2.envir.language == "ru")
+            {
+                levelText.text = $"{LEVEL_PREFIX_RU}{levelNumber}";
+            }
+            else
+            {
+                levelText.text = $"{LEVEL_PREFIX_EN}{levelNumber}";
+            }
         }
         else
         {
-            levelText.text = $"{LEVEL_PREFIX}{levelName}";
+       
             Debug.LogWarning($"Failed to parse level number from: {levelName}", this);
         }
     }

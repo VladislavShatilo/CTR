@@ -93,6 +93,10 @@ public class InputHandler : MonoBehaviour
         {
             currentMoveDirection = keyboardMoveMultiplier;
         }
+        else
+        {
+            currentMoveDirection = 0;
+        }
     }
 
     private static bool IsPointerOverUI()

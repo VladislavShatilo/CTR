@@ -7,7 +7,7 @@ public class ArcadeCameraController : MonoBehaviour
     [Header("Intro Animation")]
     [SerializeField] private bool enableIntro = true;
 
-    [SerializeField, Min(0.1f)] private readonly float introDuration = 3f;
+    [SerializeField, Min(0.1f)] private float introDuration = 3f;
     [SerializeField] private Vector3 introTargetPosition = new(0, 24, -25);
     [SerializeField] private Vector3 introTargetRotation = new Vector3(26, 0, 0);
     [SerializeField] private AnimationCurve introMovementCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);

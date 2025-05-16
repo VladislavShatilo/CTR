@@ -1,4 +1,6 @@
+using UnityEditor.VersionControl;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ArcadePlayerMovement : MonoBehaviour, IArcadeStateListener
 {
@@ -18,25 +20,26 @@ public class ArcadePlayerMovement : MonoBehaviour, IArcadeStateListener
     private Vector3 lastPos;
     private readonly float minMoveDistanceToRotate = 0.02f;
     private float rotation;
-    private Renderer carMesh;
     private Transform carTransform;
 
-    private void Awake()
-    {
-        ComponentValidator.CheckAndLog(inputHandler, nameof(inputHandler), this);
-    }
-
+   
     private void OnEnable()
     {
-        ComponentValidator.CheckAndLog(CarProvider.Instance.Cars[Storage.Instance.selectedCar],
-            nameof(gameObject), this);
 
-        if (!CarProvider.Instance.Cars[Storage.Instance.selectedCar].TryGetComponent(out carMesh))
+
+        var carProvider = CarProvider.Instance;
+
+        ComponentValidator.CheckAndLog(inputHandler, nameof(inputHandler), this);
+        ComponentValidator.CheckAndLog(CarProvider.Instance, nameof(CarProvider.Instance), this);
+        ComponentValidator.CheckAndLog(carProvider.Cars[Storage.Instance.selectedCar], nameof(gameObject), this);
+        if (!carProvider.Cars[Storage.Instance.selectedCar].TryGetComponent(out carTransform))
         {
-            Debug.LogError("ArcadePlayerMovement: Car mesh is missing!");
+            Debug.LogError("ArcadePlayerMovement: carTransform is missing!");
             enabled = false;
         }
-        carTransform = carMesh.gameObject.transform;
+
+
+
     }
 
     public void OnArcadePaused() => StopCar();
@@ -120,6 +123,6 @@ public class ArcadePlayerMovement : MonoBehaviour, IArcadeStateListener
     public void SetCarActive(bool isActive)
     {
         enabled = isActive;
-        carMesh.gameObject.SetActive(isActive);
+        carTransform.gameObject.SetActive(isActive);
     }
 }

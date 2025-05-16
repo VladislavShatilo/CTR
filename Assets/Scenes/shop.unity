@@ -132,7 +132,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7619433}
   m_Layer: 5
-  m_Name: NoMoney
+  m_Name: NoCoinsWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -330,7 +330,7 @@ GameObject:
   m_Component:
   - component: {fileID: 74988346}
   m_Layer: 5
-  m_Name: Shop
+  m_Name: ShopUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1249,7 +1249,7 @@ MonoBehaviour:
     multiplier: 1.6
     carSize: 0.032
   - carObject: {fileID: 1759358043}
-    price: 0
+    price: 123
     isSeasonCar: 1
     seasonNumber: 1
     multiplier: 2.1
@@ -1261,7 +1261,7 @@ MonoBehaviour:
     multiplier: 2.7
     carSize: 0.032
   - carObject: {fileID: 472438898}
-    price: 0
+    price: 123
     isSeasonCar: 1
     seasonNumber: 2
     multiplier: 3.5
@@ -1291,7 +1291,7 @@ MonoBehaviour:
     multiplier: 9.4
     carSize: 15
   - carObject: {fileID: 453220172}
-    price: 0
+    price: 123
     isSeasonCar: 1
     seasonNumber: 3
     multiplier: 12
@@ -1316,9 +1316,9 @@ MonoBehaviour:
   - {fileID: 2100000, guid: eaffd99a576709542b3901554efa43c8, type: 2}
   - {fileID: 2100000, guid: 2e33795e1943dbe49a35bfb7cc0deaf2, type: 2}
   priceText: {fileID: 976410847}
-  moneyText: {fileID: 1616084677}
+  coinsText: {fileID: 1616084677}
   carMultiplierText: {fileID: 937626708}
-  noMoneyText: {fileID: 2103068203}
+  noCoinsText: {fileID: 2103068203}
   noMoneyRewardText: {fileID: 310974619}
   rewardImage: {fileID: 1540049938}
   buyButton: {fileID: 1167905339}
@@ -1328,6 +1328,7 @@ MonoBehaviour:
   rewardButton: {fileID: 2082707358}
   previousCarButton: {fileID: 1410558009}
   nextCarButton: {fileID: 2085850644}
+  colorBtton: {fileID: 1582493910}
   block: {fileID: 1387066097}
   noMoneyWindow: {fileID: 7619432}
   noSeasonWindow: {fileID: 1392932283}
@@ -2656,7 +2657,7 @@ GameObject:
   - component: {fileID: 584531391}
   - component: {fileID: 584531390}
   m_Layer: 5
-  m_Name: blockImage
+  m_Name: BlockImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4557,10 +4558,9 @@ GameObject:
   - component: {fileID: 992417269}
   - component: {fileID: 992417268}
   - component: {fileID: 992417267}
-  - component: {fileID: 992417270}
   - component: {fileID: 992417271}
   m_Layer: 5
-  m_Name: BackButton
+  m_Name: QuitButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4629,16 +4629,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 992417270}
-        m_TargetAssemblyTypeName: BackToMainMenu, Assembly-CSharp
-        m_MethodName: Arcade1
-        m_Mode: 1
+      - m_Target: {fileID: 1057915587}
+        m_TargetAssemblyTypeName: Transition, Assembly-CSharp
+        m_MethodName: LoadScenebByName
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Arcade
           m_BoolArgument: 1
         m_CallState: 1
 --- !u!114 &992417268
@@ -4679,18 +4679,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 992417264}
   m_CullTransparentMesh: 1
---- !u!114 &992417270
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 992417264}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ff20bf8d6d71a24f9cb634fa842ad89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &992417271
 Animator:
   serializedVersion: 5
@@ -5066,6 +5054,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 629b137774307894a885fe72b73feb8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1057915586
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1057915588}
+  - component: {fileID: 1057915587}
+  m_Layer: 0
+  m_Name: Transition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1057915587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1057915586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee28c996ef6f8fa4c88e60659a933186, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeImage: {fileID: 1093580759}
+  fade_speed: 2
+--- !u!4 &1057915588
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1057915586}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 960, y: 135, z: -2.586}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1086268227
 GameObject:
   m_ObjectHideFlags: 0
@@ -5187,7 +5221,7 @@ GameObject:
   - component: {fileID: 1093580759}
   - component: {fileID: 1093580761}
   m_Layer: 5
-  m_Name: Transition
+  m_Name: TransitionImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5609,7 +5643,7 @@ GameObject:
   - component: {fileID: 1167845783}
   - component: {fileID: 1167845782}
   m_Layer: 5
-  m_Name: MultiplierBack
+  m_Name: MultiplierBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6415,7 +6449,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1387066098}
   m_Layer: 5
-  m_Name: block
+  m_Name: BlockPurchase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6452,7 +6486,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1392932284}
   m_Layer: 5
-  m_Name: NoSeason
+  m_Name: NoSeasonWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6493,7 +6527,7 @@ GameObject:
   - component: {fileID: 1410558009}
   - component: {fileID: 1410558012}
   m_Layer: 5
-  m_Name: Button <-
+  m_Name: PrevCarButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6561,19 +6595,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1410558010}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 278449046}
-        m_TargetAssemblyTypeName: CarShop, Assembly-CSharp
-        m_MethodName: PreviousCar
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1410558010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7740,7 +7762,7 @@ GameObject:
   - component: {fileID: 1616084675}
   - component: {fileID: 1616084677}
   m_Layer: 5
-  m_Name: MoneyText
+  m_Name: CoinsText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8421,7 +8443,6 @@ GameObject:
   - component: {fileID: 1739055913}
   - component: {fileID: 1739055912}
   - component: {fileID: 1739055911}
-  - component: {fileID: 1739055910}
   - component: {fileID: 1739055915}
   m_Layer: 5
   m_Name: SelectButton
@@ -8430,18 +8451,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1739055910
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1739055909}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ff20bf8d6d71a24f9cb634fa842ad89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1739055911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8498,16 +8507,16 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1739055910}
-        m_TargetAssemblyTypeName: BackToMainMenu, Assembly-CSharp
-        m_MethodName: Arcade1
-        m_Mode: 1
+      - m_Target: {fileID: 1057915587}
+        m_TargetAssemblyTypeName: Transition, Assembly-CSharp
+        m_MethodName: LoadScenebByName
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Arcade
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1739055912
@@ -9715,7 +9724,7 @@ GameObject:
   - component: {fileID: 2084607266}
   - component: {fileID: 2084607265}
   m_Layer: 5
-  m_Name: MoneyBackgrond
+  m_Name: CoinsBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9793,7 +9802,7 @@ GameObject:
   - component: {fileID: 2085850644}
   - component: {fileID: 2085850647}
   m_Layer: 5
-  m_Name: Button ->
+  m_Name: NextCarButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9861,19 +9870,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2085850645}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 278449046}
-        m_TargetAssemblyTypeName: CarShop, Assembly-CSharp
-        m_MethodName: NextCar
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &2085850645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10275,3 +10272,4 @@ SceneRoots:
   - {fileID: 1093093360}
   - {fileID: 278449045}
   - {fileID: 1810914788}
+  - {fileID: 1057915588}

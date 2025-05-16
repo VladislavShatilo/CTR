@@ -36,6 +36,10 @@ public class UIMenuManager : MonoBehaviour
         ComponentValidator.CheckAndLog(arcadeManager, nameof(arcadeManager), this);
         ComponentValidator.CheckAndLog(audioScript, nameof(audioScript), this);
     }
+    private void Start()
+    {
+        UpdateStatesInfo();
+    }
 
     public void Initialize()
     {
@@ -63,11 +67,14 @@ public class UIMenuManager : MonoBehaviour
 
     private void OnLevelMenuClicked()
     {
+        YG2.InterstitialAdvShow();
+
         transition.LoadScenebByName("LevelMenu");
     }
 
     private void OnArcadeClicked()
     {
+        YG2.InterstitialAdvShow();
         UIMenuCanvas.gameObject.SetActive(false);
         arcadeManager.StartArcadeFromMenu();
         audioScript.SetInGameMusicON();
@@ -75,6 +82,8 @@ public class UIMenuManager : MonoBehaviour
 
     private void OnShopClicked()
     {
+        YG2.InterstitialAdvShow();
+
         transition.LoadScenebByName("Shop");
     }
 

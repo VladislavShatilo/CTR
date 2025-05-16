@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using YG;
 
@@ -19,6 +21,9 @@ public class ArcadeManager : MonoBehaviour
 
     private void Awake()
     {
+        
+        YG2.StartInit();
+
         ComponentValidator.CheckAndLog(roadGenerator, nameof(roadGenerator), this);
         ComponentValidator.CheckAndLog(cityBackgroundGO, nameof(cityBackgroundGO), this);
         ComponentValidator.CheckAndLog(playerGO, nameof(playerGO), this);
@@ -34,9 +39,37 @@ public class ArcadeManager : MonoBehaviour
 
         Instance = this;
     }
+    public void SaveCoins()
+    {
+        if (Storage.Instance == null || UIArcadeManager.Instance.ArcadeHUD.ScoreText == null)
+        {
+            return;
+        }
+        if (int.TryParse(UIArcadeManager.Instance.ArcadeHUD.ScoreText.text,
+          NumberStyles.AllowThousands,
+          CultureInfo.InvariantCulture,
+          out int currentScore))
+        {
+            Storage.Instance.coins += Storage.Instance.coinsInLevel;
+
+            if (Storage.Instance.highScore < currentScore)
+            {
+                Storage.Instance.highScore = currentScore;
+            }
+
+            Storage.Instance.Save();
+        }
+    }
 
     private void Start()
     {
+        Storage.Instance.coins += 10000000;
+        for(int i =0; i < 36; i++)
+        {
+            Storage.Instance.levelsCompleted[i] = 1;
+            Storage.Instance.levelsStars[i] = 3;
+        }
+        YG2.GameplayStart();
         if (!Camera.main.TryGetComponent(out cameraController))
         {
             Debug.LogError("CameraContoller is missing!");

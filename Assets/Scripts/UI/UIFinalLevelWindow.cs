@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using YG;
 
 public class UIFinalLevelWindow : UIBaseLevelWindow
 {
@@ -29,13 +30,29 @@ public class UIFinalLevelWindow : UIBaseLevelWindow
         ComponentValidator.CheckAndLog(powerText, nameof(powerText), this);
         ComponentValidator.CheckAndLog(coinsText, nameof(coinsText), this);
 
-        quitButton.onClick.AddListener(() => StartCoroutine(OnQuitCoroutine()));
-        restartButton.onClick.AddListener(() => StartCoroutine(OnRestartCoroutine()));
-        nextLevelButton.onClick.AddListener(() => StartCoroutine(OnNextLevelCoroutine()));
+        quitButton.onClick.AddListener(OnQuit);
+        restartButton.onClick.AddListener(OnRestart);
+        nextLevelButton.onClick.AddListener(OnNextLevel);
 
         InitializeStars();
     }
+    private void OnQuit()
+    {
+        YG2.InterstitialAdvShow();
+        StartCoroutine(OnQuitCoroutine());
+    }
+    private void OnRestart()
+    {
+        YG2.InterstitialAdvShow();
 
+        StartCoroutine(OnRestartCoroutine());
+    }
+    private void OnNextLevel()
+    {
+        YG2.InterstitialAdvShow();
+
+        StartCoroutine(OnNextLevelCoroutine());
+    }
     private void InitializeStars()
     {
         for (int i = 0; i < starImages.Length; i++)

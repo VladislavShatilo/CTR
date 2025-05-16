@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
 
 public class UILoseLevelWindow : UIBaseLevelWindow
 {
@@ -16,10 +17,20 @@ public class UILoseLevelWindow : UIBaseLevelWindow
         ComponentValidator.CheckAndLog(restartButton, nameof(restartButton), this);
         ComponentValidator.CheckAndLog(powerText, nameof(powerText), this);
 
-        quitButton.onClick.AddListener(() => StartCoroutine(OnQuitCoroutine()));
-        restartButton.onClick.AddListener(() => StartCoroutine(OnRestartCoroutine()));
+        quitButton.onClick.AddListener(OnQuit);
+        restartButton.onClick.AddListener(OnRestart);
     }
+    private void OnQuit()
+    {
+        YG2.InterstitialAdvShow();
+        StartCoroutine(OnQuitCoroutine());
+    }
+    private void OnRestart()
+    {
+        YG2.InterstitialAdvShow();
 
+        StartCoroutine(OnRestartCoroutine());
+    }
     private void OnDestroy()
     {
         quitButton.onClick.RemoveAllListeners();
