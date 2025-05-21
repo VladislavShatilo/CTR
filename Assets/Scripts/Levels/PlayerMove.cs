@@ -99,8 +99,8 @@ public class PlayerMove : MonoBehaviour
 
         Vector3 position = rb.position;
 
-        float newX = Mathf.Lerp(position.x, targetX, Time.fixedDeltaTime * positionSmooth);
-        Vector3 newPosition = new Vector3(newX, position.y, position.z + forwardSpeed * Time.fixedDeltaTime * powerCar / 90);
+        float newX = Mathf.Lerp(position.x, targetX, Time.deltaTime * positionSmooth);
+        Vector3 newPosition = new Vector3(newX, position.y, position.z + forwardSpeed * Time.deltaTime * powerCar / 90);
 
         rb.MovePosition(newPosition);
     }

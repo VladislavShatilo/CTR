@@ -53,6 +53,7 @@ public class CarShop : MonoBehaviour
 
     private Renderer[] carRenderers;
     private int selectedCarIndex;
+    private bool isUpdatingToggles;
 
     private void Awake()
     {
@@ -62,6 +63,7 @@ public class CarShop : MonoBehaviour
         UpdateUI();
         UpdateCarDisplay();
     }
+
     private void OnEnable()
     {
         YG2.onRewardAdv += OnReward;
@@ -70,8 +72,8 @@ public class CarShop : MonoBehaviour
     private void OnDisable()
     {
         YG2.onRewardAdv -= OnReward;
-
     }
+
     private void InitializeComponents()
     {
         carRenderers = new Renderer[cars.Length];
@@ -168,20 +170,27 @@ public class CarShop : MonoBehaviour
 
     private void UpdateColorToggles()
     {
+        isUpdatingToggles = true;
         for (int i = 0; i < colorToggles.Length; i++)
         {
             colorToggles[i].isOn = (Storage.Instance.SelectedColor[selectedCarIndex] == i);
+            Debug.Log(Storage.Instance.SelectedColor[selectedCarIndex]);
         }
+        isUpdatingToggles = false;
     }
 
     private void OnColorToggleChanged(bool isOn, int colorIndex)
     {
-        if (isOn)
+        if (isUpdatingToggles || !isOn)
         {
-            SetCarColor(colorIndex);
-            Storage.Instance.SelectedColor[selectedCarIndex] = colorIndex;
-            Storage.Instance.Save();
+            return;
         }
+
+        SetCarColor(colorIndex);
+        Storage.Instance.SelectedColor[selectedCarIndex] = colorIndex;
+        Debug.Log(Storage.Instance.SelectedColor[selectedCarIndex]);
+
+        Storage.Instance.Save();
     }
 
     private void SetCarColor(int colorIndex)
@@ -198,7 +207,6 @@ public class CarShop : MonoBehaviour
         }
         carRenderers[selectedCarIndex].materials = materials;
         Storage.Instance.Save();
-
     }
 
     public void BuyCar()
@@ -265,15 +273,12 @@ public class CarShop : MonoBehaviour
     {
         int newIndex = (selectedCarIndex - 1 + cars.Length) % cars.Length;
         SwitchCarWithAnimation(newIndex);
-       
     }
 
     public void NextCar()
     {
         int newIndex = (selectedCarIndex + 1) % cars.Length;
-
         SwitchCarWithAnimation(newIndex);
-       
     }
 
     private void SwitchCarWithAnimation(int newIndex)
@@ -296,12 +301,14 @@ public class CarShop : MonoBehaviour
                     .OnComplete(OnAnimationComplete);
             });
     }
+
     private void OnAnimationComplete()
     {
         SetButtonsInteractable(true);
-       
+
         UpdateUI();
     }
+
     private void SetButtonsInteractable(bool state)
     {
         buyButton.interactable = state;
@@ -362,6 +369,7 @@ public class CarShop : MonoBehaviour
     {
         YG2.RewardedAdvShow("Shop");
     }
+
     public void OnReward(string id)
     {
         if (id == "Shop")
@@ -369,9 +377,9 @@ public class CarShop : MonoBehaviour
             Storage.Instance.coins += CalculateRewardCoins();
             Storage.Instance.Save();
             coinsText.text = Storage.Instance.coins.ToString("N0");
-
         }
     }
+
     private void OnDestroy()
     {
         // Clean up event listeners

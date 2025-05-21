@@ -63,12 +63,7 @@ public class ArcadeManager : MonoBehaviour
 
     private void Start()
     {
-        Storage.Instance.coins += 10000000;
-        for(int i =0; i < 36; i++)
-        {
-            Storage.Instance.levelsCompleted[i] = 1;
-            Storage.Instance.levelsStars[i] = 3;
-        }
+      
         YG2.GameplayStart();
         if (!Camera.main.TryGetComponent(out cameraController))
         {

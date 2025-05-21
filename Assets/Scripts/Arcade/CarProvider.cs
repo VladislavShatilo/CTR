@@ -53,7 +53,6 @@ public class CarProvider : MonoBehaviour
         Material[] materials = carRenderer[Storage.Instance.selectedCar].materials;
         for (int i = 0; i < materials.Length; i++)
         {
-            Debug.Log(materials[i].name);
             if (materials[i].name.StartsWith("!"))
             {
                 materials[i] = carsMaterisls[Storage.Instance.SelectedColor[Storage.Instance.selectedCar]];
