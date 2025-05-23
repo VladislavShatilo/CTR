@@ -63,7 +63,7 @@ public class ArcadeManager : MonoBehaviour
 
     private void Start()
     {
-      
+     
         YG2.GameplayStart();
         if (!Camera.main.TryGetComponent(out cameraController))
         {

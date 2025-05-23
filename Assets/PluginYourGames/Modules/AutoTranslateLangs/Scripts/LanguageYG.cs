@@ -47,6 +47,7 @@ namespace YG.LanguageLegacy
         [ContextMenu("Reserialize")]
         public void Serialize()
         {
+            info = YG2.infoYG.AutoTranslateLangs;
             textLComponent = GetComponent<Text>();
 #if TMP_YG2
             textMPComponent = GetComponent<TMP_Text>();

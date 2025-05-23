@@ -14,7 +14,7 @@ public class InputHandler : MonoBehaviour
     private float currentMoveDirection;
     private float input;
 
-    private void Awake()
+    private void Start()
     {
         isMobile = YG2.envir.isMobile;
     }
@@ -41,6 +41,7 @@ public class InputHandler : MonoBehaviour
         }
         else
         {
+
             HandleDesktopInputLevel();
         }
         return input;
@@ -70,16 +71,20 @@ public class InputHandler : MonoBehaviour
 
     private void HandleMobileInputArcade()
     {
-        if (Input.GetMouseButton(0) && !IsPointerOverUI())
+        if (Input.GetMouseButton(0)) 
         {
             if (Input.mousePosition.x < Screen.width / 2)
             {
                 currentMoveDirection = -mobileMoveMultiplier;
             }
-            else
+            else if (Input.mousePosition.x > Screen.width / 2)
             {
                 currentMoveDirection = mobileMoveMultiplier;
             }
+        }
+        else
+        {
+            currentMoveDirection = 0f;
         }
     }
 
@@ -99,8 +104,4 @@ public class InputHandler : MonoBehaviour
         }
     }
 
-    private static bool IsPointerOverUI()
-    {
-        return EventSystem.current.IsPointerOverGameObject();
-    }
 }

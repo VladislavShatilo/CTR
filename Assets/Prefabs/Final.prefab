@@ -188,7 +188,7 @@ MonoBehaviour:
   filledStarSprite: {fileID: 21300000, guid: 719ad6105f13e1843b3791a31526471b, type: 3}
   levelsPerSeason: 12
   seasonStarsThresholds: 1900000034000000
-  seasonRewards: 64000000c80000002c010000
+  seasonRewards: c8000000f4010000d0070000
 --- !u!1 &3629988313834049461
 GameObject:
   m_ObjectHideFlags: 0

@@ -71,3 +71,23 @@ namespace YG
         }
     }
 }
+
+namespace YG.Insides
+{
+    public static partial class YGInsides
+    {
+        public static void LoggedIn()
+        {
+#if Storage_yg
+            LoadProgress();
+#else
+            YG2.GetDataInvoke();
+#endif
+        }
+    }
+
+    public partial class YGSendMessage
+    {
+        public void LoggedIn() => YGInsides.LoggedIn();
+    }
+}

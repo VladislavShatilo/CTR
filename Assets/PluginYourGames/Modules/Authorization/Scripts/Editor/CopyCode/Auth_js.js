@@ -71,7 +71,7 @@ function OpenAuthDialog() {
             ysdk.auth.openAuthDialog().then(() => {
                 InitPlayer(true)
                     .then(() => {
-                        YG2Instance('GetDataInvoke');
+                        YG2Instance('LoggedIn');
                     });
             });
         }

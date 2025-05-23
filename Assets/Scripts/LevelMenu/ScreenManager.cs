@@ -13,7 +13,7 @@ public class ScreenManager : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float aspectRatioThreshold = 1f;
 
-    private void Start()
+    private void Awake()
     {
         ValidateReferences();
         UpdateLayout();

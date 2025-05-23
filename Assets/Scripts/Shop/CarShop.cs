@@ -67,6 +67,11 @@ public class CarShop : MonoBehaviour
     private void OnEnable()
     {
         YG2.onRewardAdv += OnReward;
+        float size = GetCarSize();
+        cars[selectedCarIndex].carObject.transform.localScale = new(size, size, size);
+        
+      
+
     }
 
     private void OnDisable()
@@ -296,12 +301,22 @@ public class CarShop : MonoBehaviour
                 SetCarColor(Storage.Instance.SelectedColor[selectedCarIndex]);
                 cars[selectedCarIndex].carObject.SetActive(true);
                 cars[selectedCarIndex].carObject.transform.localScale = Vector3.zero;
-                cars[selectedCarIndex].carObject.transform.DOScale(cars[selectedCarIndex].carSize, 0.3f)
+                cars[selectedCarIndex].carObject.transform.DOScale(GetCarSize(), 0.3f)
                     .SetEase(Ease.OutBack)
                     .OnComplete(OnAnimationComplete);
             });
     }
-
+    private float  GetCarSize()
+    {
+        if((float)Screen.width / Screen.height > 1)
+        {
+            return cars[selectedCarIndex].carSize * 1.3f;
+        }
+        else
+        {
+            return cars[selectedCarIndex].carSize / 1.3f;
+        }
+    }
     private void OnAnimationComplete()
     {
         SetButtonsInteractable(true);

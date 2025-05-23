@@ -18,7 +18,6 @@ public class PlayerObstacleHandler : MonoBehaviour
 
     private BuffManager buffManager;
     private ArcadePlayerMovement movement;
-    private CameraShakeEffect cameraShake;
 
     private void Awake()
     {
@@ -30,11 +29,9 @@ public class PlayerObstacleHandler : MonoBehaviour
 
     private void Start()
     {
-        cameraShake = Camera.main.GetComponent<CameraShakeEffect>();
         buffManager = GetComponent<BuffManager>();
         movement = GetComponent<ArcadePlayerMovement>();
 
-        ComponentValidator.CheckAndLog(cameraShake, nameof(cameraShake), this);
         ComponentValidator.CheckAndLog(buffManager, nameof(buffManager), this);
         ComponentValidator.CheckAndLog(movement, nameof(movement), this);
     }
@@ -45,7 +42,6 @@ public class PlayerObstacleHandler : MonoBehaviour
         {
             return;
         }
-        cameraShake.TriggerShake();
         if (buffManager.IsBuffActive(BuffType.Immortality))
         {
             HandleImmortalCollision();
@@ -53,6 +49,7 @@ public class PlayerObstacleHandler : MonoBehaviour
         }
         else
         {
+
             StartCoroutine(HandleCrashCollision());
         }
     }

@@ -1,4 +1,3 @@
-using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -25,8 +24,6 @@ public class ArcadePlayerMovement : MonoBehaviour, IArcadeStateListener
    
     private void OnEnable()
     {
-
-
         var carProvider = CarProvider.Instance;
 
         ComponentValidator.CheckAndLog(inputHandler, nameof(inputHandler), this);

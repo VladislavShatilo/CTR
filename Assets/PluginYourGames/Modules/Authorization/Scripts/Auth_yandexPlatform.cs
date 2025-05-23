@@ -28,17 +28,23 @@ namespace YG
 
         public void OpenAuthDialog()
         {
-            if (YG2.player.auth)
+            if (!YG2.player.auth)
+            {
                 YG2.Message("Open Auth Dialog");
+            }
             else
+            {
 #if RU_YG2
                 YG2.Message("SDK Яндекс Игр предлагает войти в аккаунт только тем пользователям, которые ещё не вошли.");
 #else
                 YG2.Message("The Yandex Games SDK offers to log in to your account only to those users who have not logged in yet.");
 #endif
-
+            }
 #if !UNITY_EDITOR
             OpenAuthDialog_js();
+#else
+            YG2.player.auth = true;
+            Insides.YGInsides.LoggedIn();
 #endif
         }
 

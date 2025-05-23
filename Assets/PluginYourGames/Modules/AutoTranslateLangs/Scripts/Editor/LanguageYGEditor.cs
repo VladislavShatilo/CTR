@@ -2,11 +2,8 @@
 using UnityEditor;
 using UnityEngine.UI;
 using UnityEditor.SceneManagement;
-
 #if TMP_YG2
-
 using TMPro;
-
 #endif
 
 namespace YG.LanguageLegacy
@@ -14,12 +11,12 @@ namespace YG.LanguageLegacy
     [CustomEditor(typeof(LanguageYG))]
     public class LanguageYGEditor : Editor
     {
-        private LanguageYG scr;
+        LanguageYG scr;
 
-        private GUIStyle red;
-        private GUIStyle green;
+        GUIStyle red;
+        GUIStyle green;
 
-        private int processTranslateLabel;
+        int processTranslateLabel;
 
         private void OnEnable()
         {
@@ -64,6 +61,7 @@ namespace YG.LanguageLegacy
 #endif
                 return;
             }
+
 
             GUILayout.BeginVertical("HelpBox");
 
@@ -192,12 +190,10 @@ namespace YG.LanguageLegacy
                 }
                 catch
                 {
-                    Debug.LogError("Error");
                 }
-               
             }
 
-            if (labelProcess)
+            if (labelProcess == false)
                 GUILayout.Label(processTranslateLabel + " Languages", GUILayout.Height(20));
 
             GUILayout.EndHorizontal();
@@ -232,6 +228,7 @@ namespace YG.LanguageLegacy
             if (scr.additionalText != null)
                 scr.additionalText = (LangYGAdditionalText)EditorGUILayout.ObjectField("Additional Text", scr.additionalText, typeof(LangYGAdditionalText), false);
 
+
             if (GUI.changed)
             {
                 EditorUtility.SetDirty(scr.gameObject);
@@ -239,9 +236,9 @@ namespace YG.LanguageLegacy
             }
         }
 
-        private readonly string buttonText_ReplaseFont = "Replace the font with the standard one";
+        readonly string buttonText_ReplaseFont = "Replace the font with the standard one";
 
-        private void FontSettingsDraw()
+        void FontSettingsDraw()
         {
             if (scr.info.fonts.defaultFont.Length == 0)
                 return;
@@ -261,8 +258,7 @@ namespace YG.LanguageLegacy
         }
 
 #if TMP_YG2
-
-        private void FontTMPSettingsDraw()
+        void FontTMPSettingsDraw()
         {
             if (scr.info.fontsTMP.defaultFont.Length == 0)
                 return;
@@ -280,16 +276,14 @@ namespace YG.LanguageLegacy
                 scr.textMPComponent.font = scr.info.fontsTMP.defaultFont[scr.fontNumber];
             }
         }
-
 #endif
-
-        private void TranslateButton()
+        void TranslateButton()
         {
             scr.processTranslateLabel = "";
             scr.Translate(processTranslateLabel);
         }
 
-        private void UpdateLanguages(bool CSVFile)
+        void UpdateLanguages(bool CSVFile)
         {
             processTranslateLabel = 0;
             bool[] langArr = UtilsLang.LangIsActive();

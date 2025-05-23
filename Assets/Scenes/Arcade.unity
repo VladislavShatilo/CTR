@@ -3211,7 +3211,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1182989690}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: WindowAnimation, Assembly-CSharp
         m_MethodName: TogglePauseMenuOff
         m_Mode: 3
@@ -3452,7 +3452,6 @@ GameObject:
   - component: {fileID: 304022698}
   - component: {fileID: 304022703}
   - component: {fileID: 304022705}
-  - component: {fileID: 304022704}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3592,20 +3591,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &304022704
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 304022697}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a8dce289dd02db41aea6c9ae5dbae24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shakeIntensity: 0.1
-  shakeDuration: 0.3
 --- !u!114 &304022705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10283,50 +10268,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1182755728}
   m_CullTransparentMesh: 1
---- !u!1 &1182989689
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1182989691}
-  - component: {fileID: 1182989690}
-  m_Layer: 0
-  m_Name: WindowAnimation
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1182989690
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1182989689}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11f29f6c78a6b2540aa43756e0797722, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1182989691
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1182989689}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 982.16785, y: 556.291, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1191483822
 GameObject:
   m_ObjectHideFlags: 0
@@ -12140,7 +12081,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1182989690}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: WindowAnimation, Assembly-CSharp
         m_MethodName: TogglePauseMenuOff
         m_Mode: 3
@@ -15911,15 +15852,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6686fb4f31f06f40a8137ab5d509f70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  carMaterials:
-  - {fileID: 2100000, guid: bc8576f12d9a5e24b8aa889e0a419b0a, type: 2}
-  - {fileID: 2100000, guid: 139d5d8dfb9c71e48882f1b527ee09ca, type: 2}
-  - {fileID: 2100000, guid: a48932ae16d626742ae32023e09058e0, type: 2}
-  - {fileID: 2100000, guid: 9bd058681f5ebab41b4b7f3355b6826b, type: 2}
-  - {fileID: 2100000, guid: eaffd99a576709542b3901554efa43c8, type: 2}
-  - {fileID: 2100000, guid: 2e33795e1943dbe49a35bfb7cc0deaf2, type: 2}
-  carProvider: {fileID: 1392105149}
-  targetFrameRate: 60
 --- !u!4 &1994829300
 Transform:
   m_ObjectHideFlags: 0
@@ -16879,7 +16811,6 @@ SceneRoots:
   - {fileID: 1829388819}
   - {fileID: 2021489192}
   - {fileID: 1143940382}
-  - {fileID: 1182989691}
   - {fileID: 1679429373}
   - {fileID: 1097451601}
   - {fileID: 2075442077}

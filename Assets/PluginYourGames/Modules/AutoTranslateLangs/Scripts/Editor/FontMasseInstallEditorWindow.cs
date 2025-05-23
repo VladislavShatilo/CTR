@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using UnityEngine;
 using UnityEditor;
-using UnityEngine;
-
+using System.Collections.Generic;
 #if TMP_YG2
+using TMPro;
 #endif
 
 namespace YG.LanguageLegacy
@@ -15,8 +15,8 @@ namespace YG.LanguageLegacy
             GetWindow<FontMasseInstallEditorWindow>("Font Default Masse");
         }
 
-        private Vector2 scrollPosition = Vector2.zero;
-        private List<GameObject> objectsTranlate = new List<GameObject>();
+        Vector2 scrollPosition = Vector2.zero;
+        List<GameObject> objectsTranlate = new List<GameObject>();
 
         private void OnGUI()
         {

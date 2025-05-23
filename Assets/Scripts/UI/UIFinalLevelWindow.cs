@@ -100,6 +100,7 @@ public class UIFinalLevelWindow : UIBaseLevelWindow
         colors.disabledColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
         nextLevelButton.colors = colors;
     }
+   
 
     public IEnumerator ShowStars(int starsEarned, Sprite starSprite)
     {
