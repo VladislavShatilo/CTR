@@ -317,7 +317,7 @@ MonoBehaviour:
     simulationLoadScene: 0
   Simulation:
     device: 0
-    language: ru
+    language: en
     advIntervalSimulation: 60
     durationAdv: 1
     loadAdv: 0

@@ -27,7 +27,7 @@ public class InputHandler : MonoBehaviour
         }
         else
         {
-            HandleDesktopInputArcade();
+            HandleMobileInputArcade();
         }
 
         return currentMoveDirection;
