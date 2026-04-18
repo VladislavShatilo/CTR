@@ -1,3 +1,3 @@
-Build path: C:/xampp/htdocs/GameCTR
-Build number: 32
-PluginYG version: 2.0032
+﻿Build path: C:/xampp/htdocs/GameCTR
+Build number: 2
+PluginYG version: 2.009

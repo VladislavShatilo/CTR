@@ -40,6 +40,29 @@ public class UIMenuManager : MonoBehaviour
     {
         UpdateStatesInfo();
     }
+    private void OnEnable()
+    {
+        YG2.onOpenAnyAdv += PauseGameAdv;
+        YG2.onCloseAnyAdv += ResumeGameAdv;
+    }
+    private void OnDisable()
+    {
+        YG2.onOpenAnyAdv -= PauseGameAdv;
+        YG2.onCloseAnyAdv -= ResumeGameAdv;
+    }
+
+    private void PauseGameAdv()
+    {
+        Time.timeScale = 0f;
+        AudioListener.volume = 0f;
+
+    }
+    private void ResumeGameAdv()
+    {
+        Time.timeScale = 1f;
+        AudioListener.volume = Storage.Instance.volume;
+
+    }
 
     public void Initialize()
     {

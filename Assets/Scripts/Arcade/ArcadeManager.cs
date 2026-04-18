@@ -22,8 +22,6 @@ public class ArcadeManager : MonoBehaviour
     private void Awake()
     {
         
-        YG2.StartInit();
-
         ComponentValidator.CheckAndLog(roadGenerator, nameof(roadGenerator), this);
         ComponentValidator.CheckAndLog(cityBackgroundGO, nameof(cityBackgroundGO), this);
         ComponentValidator.CheckAndLog(playerGO, nameof(playerGO), this);
@@ -39,6 +37,7 @@ public class ArcadeManager : MonoBehaviour
 
         Instance = this;
     }
+   
     public void SaveCoins()
     {
         if (Storage.Instance == null || UIArcadeManager.Instance.ArcadeHUD.ScoreText == null)
@@ -64,7 +63,6 @@ public class ArcadeManager : MonoBehaviour
     private void Start()
     {
      
-        YG2.GameplayStart();
         if (!Camera.main.TryGetComponent(out cameraController))
         {
             Debug.LogError("CameraContoller is missing!");
@@ -111,7 +109,6 @@ public class ArcadeManager : MonoBehaviour
 
     private IEnumerator StartArcadeFromMenuCor()
     {
-        YG2.InterstitialAdvShow();
         yield return new WaitForSeconds(0.1f);
 
         cameraController.PlayIntroAnimation(playerGO.transform);
